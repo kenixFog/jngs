@@ -1,0 +1,19 @@
+/*按钮图标
+新增：fa fa-plus fa-lg
+查看：fa fa-eye fa-lg
+编辑：fa fa-pencil fa-lg
+删除：fa fa-trash-o fa-lg
+保存：fa fa-floppy-o fa-lg
+关闭：fa fa-times-circle fa-lg
+导入：fa fa-upload fa-lg
+导出：fa fa-download fa-lg
+计算：fa fa-calculator fa-lg
+确认：fa fa-check fa-lg
+取消：fa fa-ban fa-lg
+*/
+
+
+/*工具栏背景色*/
+.whjn-tbar{
+   background-color:#D0DFEF  /*B9D9F0*/
+}
