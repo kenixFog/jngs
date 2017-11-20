@@ -383,8 +383,8 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 					}
 				}
 				criteria.setProjection(null);
-				criteria.setMaxResults(BaseParameter.PAGESIZE);
-				criteria.setFirstResult(BaseParameter.FIRSTRESULT);
+				criteria.setMaxResults(param.getPageSize());
+				criteria.setFirstResult(param.getFirstResult());
 				qr.setResultList(criteria.list());
 			} else {
 				qr.setResultList(new ArrayList<E>());
