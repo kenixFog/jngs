@@ -23,25 +23,24 @@ whjn.openModule=function(newMainPanelFn,initModuleDataFn,mdlCfg){
 	}
 	if (!whjn.openModule_chkCfg(mdlCfg)) return;
 	var entryFnTmp=function(){
-//		var paramTmp={reqData:Ext.JSON.encode(mdlCfg)};
-//		Ext.Ajax.request({
-//			url: webContextRoot+'/sys/comcode/getComCode',
-//			method : 'POST',
-//			async: false,
-//			params : paramTmp,
-//			success : function(response, options) {
-//				var obj = eval("(" + response.responseText + ")");
-//				var data=obj.result;//data=test
-//				alert("openModule");
-//				//设置公共代码的值
-//				whjn.openModule_SetCfgInitData(mdlCfg,data);
+		var paramTmp={reqData:Ext.JSON.encode(mdlCfg)};
+		Ext.Ajax.request({
+			url: webContextRoot+'/sys/comCode/getComCode',
+			method : 'POST',
+			async: false,
+			params : paramTmp,
+			success : function(response, options) {
+				var res = Ext.JSON.decode(response.responseText);
+				var data=res.data;
+				//设置公共代码的值
+				whjn.openModule_SetCfgInitData(mdlCfg,data);
 				//打开面板
 				whjn.openModule_Impl(newMainPanelFn,initModuleDataFn,mdlCfg);
-//			},
-//			failure : function() {
-//				alert("公共代码获取错误！")
-//			}
-//		});
+			},
+			failure : function() {
+				whjn.dlg.errTip("公共代码获取错误！")
+			}
+		});
 	}
 	
 };
@@ -228,6 +227,7 @@ whjn.openModule_GetPnl=function(newMainPanelFn,mdlCfg,returnPanel){
 	return null;
 }
 
+
 /**
  * 对公用代码和常量消息进行赋值
  * @param {} mdlCfg
@@ -239,10 +239,12 @@ whjn.openModule_SetCfgInitData=function(mdlCfg,data){
 		var codeSign=mdlCfg.getCodeCfg.groupId || mdlCfg.getCodeCfg.groupCode;
 		var script="";
 		for (var i=0;i<codeVar.length;i++){
-			script+=codeVar[i]+'='+Ext.util.JSON.encode(data.codeData["comCode_"+codeSign[i]])+";";
+			alert(Ext.JSON.decode(data).codeData["comCode_"+codeSign[i]]);
+			script+=codeVar[i]+'='+Ext.JSON.encode(data.codeData["comCode_"+codeSign[i]])+";";
 		}
 		if (script) eval(script);
 	}
+	
 };
 
 
@@ -336,6 +338,7 @@ whjn.downAccData=function(tabName,accId,fileName){
 	return false;
 }
 
+
 whjn.alertErrorInfo=function(e,strMsg){
 	var descTmp=e.description;
 	if (!descTmp) descTmp=e.toString();
@@ -414,3 +417,39 @@ whjn.validateForm=function(formPanel){
 	if (str.length>0) return "有如下字段:"+str.toString()+";\n数据不合法,请查看提示，重新填写！";
 	return "";        
 };
+
+
+//刷新树面板，展开至选中节点
+//whjn.refreshTreePnl = function(treePnl, node){
+//	var nodeId = node.raw.id;
+//	var path = treePnl.getPath(nodeId);
+//	alert(path);
+////	selectNode.reload();
+//	treePnl.getLoader().load(treePnl.getRootNode(),  
+//	function(treeNode) {  
+//		treePnl.expandPath(path, 'id', function(bSucess, oLastNode) {  
+//			treePnl.getSelectionModel().select(oLastNode);  
+//		});
+//	}, this);    
+//}
+
+/** 
+ * 刷新树 刷新当前节点，展开或不展开当前节点，选中当前节点 
+ * @param treePanel  
+ * @param currentNodeId 当前节点id 
+ */  
+whjn.refreshTreePnl = function refreshNode(treePanel, currentNodeId){  
+	var currentNode = treePanel.getStore().getNodeById(currentNodeId); //当前节点删除了就不存在了  
+    var path = currentNode.getPath('id'); 
+    //刷新节点，展开节点，选中节点  
+    treePanel.getStore().load({  
+            node : currentNode,   
+            callback:function(){  
+                if(currentNode && currentNode.data.expanded){  
+                    //之前展开的还是展开  
+                    treePanel.expandPath(path);  
+                }  
+                treePanel.selectPath(path);  
+            }  
+        });  
+}  

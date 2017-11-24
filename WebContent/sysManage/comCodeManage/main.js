@@ -1,6 +1,7 @@
 Ext.namespace("sysManage.comCodeManage.main");
 
 sysManage.comCodeManage.main.initMainPanel = function(){  
+	alert(sysManage.comCodeManage.typeArray);
 	//定义面板
 	var mainPanel = Ext.create('Ext.Panel',{
 		layout : 'border',                //布局类型 
@@ -47,12 +48,17 @@ sysManage.comCodeManage.main.initMainPanel = function(){
 	return mainPanel;
 }	
 					
-
+/**
+ * 新增
+ */
 sysManage.comCodeManage.main.add = function(){
+	sysManage.comCodeManage.entry.currObjId=-1;
 	sysManage.comCodeManage.entry.showWin("新增");
 }
 
-
+/**
+ * 编辑
+ */
 sysManage.comCodeManage.main.edit = function(){
 	//菜单面板
 	var comCodeGridPnl = sysManage.comCodeManage.panel.comCodeGridPnl;
@@ -72,56 +78,59 @@ sysManage.comCodeManage.main.edit = function(){
 	}
 }
 
+/**
+ * 删除
+ */
 sysManage.comCodeManage.main.del = function(){
-//	//定义命名空间
-//	var className = sysManage.comCodeManage.panel.comCodeGridPnl;
-//	//判断菜单信息是否被选中
-//	if (className.getSelectionModel().getCount() == 0) {//如果没有选中
-//		Ext.MessageBox.alert('提示', "请选择需要删除的记录!");
-//		return false;
-//	} else {//记录被选中
-//		var delURL = atom.webContextRoot+ '/treeAndPanelsAction.do?method=delStuRecord';
-//		Ext.MessageBox.confirm('确认', '您确定要删除选择的这些菜单吗？',
-//			//回调函数
-//			function(btn) {
-//		        //根据选择不同按钮进行操作
-//				if (btn == 'yes') {//点击确定
-//					//用来保存删除的菜单ID
-//					var delDataId = '';
-//					//循环遍历，拼接学生ID字符串
-//					for ( var i = 0; i < className.sm.getCount(); i++) {
-//						if (i == 0)//第一个只需要直接存入
-//							delDataId = className.sm.getSelections()[i].data.id;
-//						else//第二个之后，拼装逗号
-//							delDataId += ","+ className.sm.getSelections()[i].data.id;
-//					}
-//					// 通过Action提交请求
-//					atom.getHiddenMainForm().submit({
-//						url : delURL,	//请求路径
-//						params : {      //传入后台的参数
-//							delIds : delDataId  //学生ID  
-//						},
-//						waitTitle : '提示',
-//						waitMsg : '正在向服务器提交数据...',
-//						reset : false,
-//						success : function(form, action) { //返回成功进行的操作
-//							//提示
-//							atom.dlg.showMomentDlg("操作成功");
-//							//清空家长信息面板中学生学号
-//							templates.stuMaintain.familyPanel.qryPnl.find("name", "stuId")[0].setValue("");
-//							//定义命名空间
-//							var className = templates.stuMaintain.stuPanel;
-//							//重新加载数据，刷新学生面板
-//							className.mainGrid.getStore().reload({
-//								params : {
-//									start : 0
-//								}
-//							});
-//						}
-//					});
-//				}
-//		});
-//	}
+	var className = sysManage.comCodeManage.panel;
+	var sm = className.comCodeGridPnl.getSelectionModel();
+	if (sm.getCount() == 0) {//如果没有选中
+		whjn.dlg.infoTip("请选择需要删除的记录!");
+		return false;
+	} else {
+		var delURL = webContextRoot + '/sys/comCode/delComCodeByIds';
+		Ext.MessageBox.confirm('确认', '您确定要删除选择的这些菜单吗？',
+			//回调函数
+			function(btn) {
+		        //根据选择不同按钮进行操作
+				if (btn == 'yes') {//点击确定
+					//用来保存需要删除数据的ID
+					var ids = [];
+					var sel = sm.getSelection();
+					for (var i = 0, r; r = sel[i]; i++) {
+						ids.push(r.get("id"));
+					}
+					Ext.Ajax.request({
+						url : delURL,
+						params : {
+							ids : ids.join(',')
+						},
+						success : function(response) {
+							if (response.responseText != '') {
+								var res = Ext.JSON.decode(response.responseText);
+								if (res.success) {
+									whjn.dlg.showMomentDlg("删除成功!");
+									//获取数据列表窗口
+									var className = sysManage.comCodeManage.panel;
+									//重新加载列表数据
+									className.loadRecord();
+									//树面板
+									var treePnl = sysManage.comCodeManage.tree.comCodeTree;
+									//点前选中的树节点
+									var node = sysManage.comCodeManage.tree.node;
+									//设置需要加载的树节点Id
+									treePnl.getStore().proxy.extraParams.parentId = node.data.id;
+									//刷新当前的树节点
+									whjn.refreshTreePnl(treePnl, node.data.id);
+								} else {
+									whjn.dlg.errTip(res.message);
+								}
+							}
+						}
+					});
+				}
+		});
+	}
 }
 
 sysManage.comCodeManage.main.test = function(){

@@ -2,7 +2,7 @@
 
 //弹出二级窗口
 sysManage.comCodeManage.entry.win = null;
-//标识是新增还是(编辑和查看）
+//标识是新增还是(编辑和查看）-1是新增
 sysManage.comCodeManage.entry.currObjId = null;	
 //父节点Id
 sysManage.comCodeManage.entry.parentId = null;	
@@ -22,20 +22,15 @@ sysManage.comCodeManage.entry.showWin = function(titleText) {
 	} else {
 		alert("！leaf"+node.raw.id);
 	}
-	if(className.win){
-		
-	} else {
-		//获取二级弹出窗口
-		className.win = className.createWin(titleText);
-	}
+	className.win = className.createWin(titleText);
 	
-	//显示二级窗体
+	//根据条件控制工具栏按钮
 	className.setwinToolBar(titleText);
 	//根据条件对窗体中表单进行数据加载
 	className.setwinForm(titleText);
+	//显示二级窗体
 	className.win.show();
-	//根据条件控制工具栏按钮
-	return className.win;
+//	return className.win;
 }
 
 /**
@@ -50,7 +45,7 @@ sysManage.comCodeManage.entry.createWin = function(titleText) {
 		title : '公共代码'+'-'+titleText,
 		resizable : false,	 // 不允许用户允许拖动窗体边角来控制窗口大小
 		autoScroll : true,   // 自动显示滚动条
-		closeAction : 'hide',// 关闭时为隐藏操作
+		closeAction : 'destroy',// 关闭时为销毁操作，hide为隐藏操作
 		modal : true,		 // 模态化显示：后方的区域不能点击和编辑
 		tbar :{
 			cls:'whjn-tbar',
@@ -89,9 +84,10 @@ sysManage.comCodeManage.entry.initInfoArea = function() {
 			anchor : '100%'
 		},
 		items : [{
-			id : 'ID',
+			id : 'Id',
 			xtype : 'hidden',
-			name : 'ID'
+			name : 'Id',
+			value : sysManage.comCodeManage.entry.currObjId
 		},{
 			id:'parentId',
 			xtype : 'hidden',
@@ -118,14 +114,16 @@ sysManage.comCodeManage.entry.initInfoArea = function() {
 			fieldLabel : '类型',
 			style: 'margin-top:10px',
 			emptyText : '请选择...',
+//			editable : false,
 			allowBlank : false
 		},{
+//			xtype : 'datefield',
 			xtype : 'combobox',
 			name : 'isLeaf',
 			fieldLabel : '是否叶结点',
 			style: 'margin-top:10px',
 			emptyText : '请选择...',
-			disabled : true,
+//			editable : false,
 			allowBlank : false
 		},{
 			xtype : 'combobox',
@@ -133,6 +131,7 @@ sysManage.comCodeManage.entry.initInfoArea = function() {
 			fieldLabel : '菜单状态',
 			emptyText : '请选择...',
 			allowBlank : false,
+//			editable : false,
 			style: 'margin-top:10px'
 		},{
 			xtype : 'textareafield',
@@ -174,9 +173,8 @@ sysManage.comCodeManage.entry.setwinForm = function(titleText) {
 	var className = sysManage.comCodeManage.entry;
 	var formPnl = className.formPnl;
 	if ("编辑" == titleText) {
-		var url = webContextRoot + '/sys/comCode/getComCodeInfo';
 		formPnl.getForm().load({
-			url : url,
+			url : webContextRoot + '/sys/comCode/getComCodeInfo',
 			method : "post",
 			params : {
 				// 菜单Id
@@ -188,12 +186,13 @@ sysManage.comCodeManage.entry.setwinForm = function(titleText) {
 				className.win.hide();
 			},
 			success : function(form, action) {
-				Ext.getCmp("ID").setValue(action.result.data.ID);
+				Ext.getCmp("Id").setValue(action.result.data.ID);
 				Ext.getCmp("parentId").setValue(action.result.data.parentId);
 			}
 		});
 	} else { //新增
 		//树节点
+		alert(formPnl.getForm().findField("Id").getValue())
 		var parentNode = sysManage.comCodeManage.tree.node;
 		formPnl.getForm().findField("parentId").setValue(parentNode.raw.id);
 	}
@@ -210,8 +209,8 @@ sysManage.comCodeManage.entry.saveHandler = function() {
 	var str = whjn.validateForm(className.formPnl);
 	if (str == "") { //如果校验通过
 		var params = {};
-		var qryNames = [ "ID", "parentId", "code", "name", 
-			"type","isLeaf", "comments", "createTime", "lastEditTime", "statue"];
+		var qryNames = [ "Id", "parentId", "code", "name", 
+			"type","isLeaf", "comments", "statue"];
 		//循环遍历，获取表单信息
 		for ( var i = 0; i < qryNames.length; i++) {
 			var objTmp = className.formPnl.getForm().findField(qryNames[i]);
@@ -222,29 +221,31 @@ sysManage.comCodeManage.entry.saveHandler = function() {
 					params[qryNames[i]] = objTmp.getValue();
 				}
 			}
-			alert(qryNames[i]+":"+objTmp.getValue());
 		}
-//		//操作类型，0 代表新增，非0代表编辑或删除
-//		params["currObjId"] = className.currObjId;
-//		//当前节点ID
-//		params["nodeId"] = sysManage.comCodeManage.tree.curTreeNode.attributes["nodeId"];
-//		className.formPnl.getForm().submit(
-//				{
-//					url : atom.webContextRoot
-//							+ '/treeAndPanelsAction.do?method=saveStuInfo',
-//					method : "post",
-//					params : params,
-//					waitTitle : "提示",
-//					waitMsg : "正在从服务器提取数据...",
-//					success : function(form, action) {
-//						parent.Appframe.viewinfdlg.show("数据保存成功!");
-//						//重新加载学生列表信息
-//						sysManage.comCodeManage.stuPanel.mainGrid.getStore()
-//								.load();
-//						//调用关闭按钮
-//						sysManage.comCodeManage.entry.closeHandler();
-//					}
-//				});
+		Ext.Ajax.request({
+			url : webContextRoot + '/sys/comCode/saveComCodeInfo',
+			params : params,
+			method : "POST",
+			success : function(response) {
+				if (response.responseText != '') {
+					var res = Ext.JSON.decode(response.responseText);
+					if (res.success) {
+						whjn.dlg.showMomentDlg("保存成功!");
+						sysManage.comCodeManage.entry.closeHandler();
+						//获取数据列表窗口
+						var className = sysManage.comCodeManage.panel;
+						var store = className.comCodeGridPnl.getStore();
+						//重新加载列表数据
+						store.reload();
+					} else {
+						whjn.dlg.errTip(res.message);
+					}
+				}
+			},
+			failure : function(response) {
+				whjn.dlg.errTip('操作失败！');
+			}
+		});
 	} else {
 		Ext.MessageBox.alert("提示", str);
 	}
