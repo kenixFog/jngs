@@ -52,17 +52,32 @@ public interface SysComCodeDao extends BaseDao<SysComCode> {
 	*/
 	List<SysComCode> getComCodeInfo(Integer ComCodeId);
 
+
 	/** 
-	* @Title: getComCodeList1 
+	* @Title: getComCodeListById 
 	* @Description: 
-	* @param @param param
-	* @param @param nodeId
+	* @param @param decode
+	* @param @param includeDisabled
 	* @param @return  
 	* @return List<SysComCode>    
-	* @author kenix
+	* @author Chen Cai
 	* @throws
-	* @date 2017年11月10日 下午3:10:00 
+	* @date 2017年11月24日 下午5:37:46 
 	* @version V1.0   
 	*/
-	List<SysComCode> getComCodeList1(BaseParameter param, Integer nodeId);
+	List<SysComCode> getComCodeListByParentId(Long decode, boolean includeDisabled);
+
+	/** 
+	* @Title: getComCodeListByCode 
+	* @Description: 
+	* @param @param string
+	* @param @param includeDisabled
+	* @param @return  
+	* @return List<SysComCode>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月24日 下午5:47:33 
+	* @version V1.0   
+	*/
+	List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled);
 }

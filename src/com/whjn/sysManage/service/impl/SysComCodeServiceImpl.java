@@ -79,40 +79,6 @@ public class SysComCodeServiceImpl extends BaseServiceImpl<SysComCode> implement
 		return ComCodeList;
 	}
 
-	
-	
-	/**
-	 * @Title: getComCodeTreeByParentId
-	 * @Description: 根据父节点id获取对应子公共代码树
-	 * @param parentId 父节点ID
-	 * @return List<SysComCode>
-	 * @author kenix
-	 * @date 2017年9月8日 下午4:56:51
-	 * @version V1.0
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<SysComCode> getComCodeList1(BaseParameter param,  Integer nodeId) {
-		List<SysComCode> comCodeList = sysComCodeDao.getComCodeList1(param, nodeId);
-		List resultList = new ArrayList();
-		for (int i = 0; i < comCodeList.size(); i++) {
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("id", comCodeList.get(i).getId());
-			jsonObject.put("code", comCodeList.get(i).getCode());
-			jsonObject.put("name", comCodeList.get(i).getName());
-			jsonObject.put("parentId", comCodeList.get(i).getParentId());
-			jsonObject.put("statue", comCodeList.get(i).getStatue());
-			jsonObject.put("leaf", comCodeList.get(i).getIsLeaf());
-			jsonObject.put("type", comCodeList.get(i).getType());
-			jsonObject.put("createTime", comCodeList.get(i).getCreateTime());
-			jsonObject.put("lastEditTime", comCodeList.get(i).getLastEditTime());
-			jsonObject.put("comments", comCodeList.get(i).getComments());
-			resultList.add(jsonObject);
-		}
-		return resultList;
-	}
-	
-	
 	/* (非 Javadoc) 
 	* <p>Title: getSysComCodeInfo</p> 
 	* <p>Description: </p> 
@@ -125,30 +91,83 @@ public class SysComCodeServiceImpl extends BaseServiceImpl<SysComCode> implement
 		return sysComCodeDao.getComCodeInfo(ComCodeId);
 	}
 
+
 	/* (非 Javadoc) 
-	* <p>Title: getList</p> 
-	* <p>Description: </p> 
-	* @param resultList
-	* @return 
-	* @see com.whjn.common.service.SysComCodeService#getList(java.util.List) 
+	* @Title: delComCodeByIds
+	* @Description:
+	* @param @param entity
+	* @param @param ids
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysComCodeService#delComCodeByIds(com.whjn.sysManage.model.SysComCode, java.lang.Long[]) 
 	*/
 	@Override
-	public List<SysComCode> getList(List<SysComCode> resultList) {
-		List<SysComCode> sysUserList = new ArrayList<SysComCode>();
-		for (SysComCode entity : resultList) {
-			SysComCode sysComCode = new SysComCode();
-			sysComCode.setId(entity.getId());
-			sysComCode.setCode(entity.getCode());
-			sysComCode.setName(entity.getName());
-			sysComCode.setCreateTime(entity.getCreateTime());
-			sysComCode.setLastEditTime(entity.getLastEditTime());
-			sysComCode.setComments(entity.getComments());
-			sysComCode.setIsLeaf(entity.getIsLeaf());
-			sysComCode.setStatue(entity.getStatue());
-			sysComCode.setType(entity.getType());
-			sysComCode.setParentId(entity.getParentId());
-			sysUserList.add(sysComCode);
+	@Transactional
+	public void delComCodeByIds(SysComCode entity, Long[] ids) {
+		boolean result = false;
+		for (int i = 0; i < ids.length; i++) {
+			List<SysComCode> list = (List<SysComCode>) queryByProerties("parentId", ids[i]);
+			if(list.size()>0) {
+				entity.setMessage("删除失败，所选节点中，存在子节点！");
+				break;
+			} else {
+				result = deleteByPK(ids[i]);
+			}
 		}
-		return sysUserList;
+		entity.setSuccess(result);
 	}
+
+
+	/* (非 Javadoc) 
+	* @Title: getComCodeListById
+	* @Description:
+	* @param @param decode
+	* @param @param includeDisabled
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysComCodeService#getComCodeListById(java.lang.Long, boolean) 
+	*/
+	@Override
+	public List<SysComCode> getComCodeListByParentId(Long decode, boolean includeDisabled) {
+		return sysComCodeDao.getComCodeListByParentId(decode, includeDisabled);
+	}
+
+
+	/* (非 Javadoc) 
+	* @Title: getComCodeListByCode
+	* @Description:
+	* @param @param string
+	* @param @param includeDisabled
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysComCodeService#getComCodeListByCode(java.lang.String, boolean) 
+	*/
+	@Override
+	public List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled) {
+		return sysComCodeDao.getComCodeListByCode(string, includeDisabled);
+	}
+
+
+	
+	/** 
+	* @Title: delComCodeByIds 
+	* @Description: 级联删除父子节点
+	* @param @param list  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月23日 下午4:21:53 
+	* @version V1.0   
+	*/
+//	private boolean delComCodeByIds(List<SysComCode> list) {
+//		boolean result = false;
+//		for (int i = 0; i < list.size(); i++) {
+//			long id = list.get(i).getId();
+//			List<SysComCode> childList = (List<SysComCode>)queryByProerties("parentId", id);
+//			if(childList.size()>0) {
+//				break;
+//			} else {
+//				result = deleteByPK(id);
+//			}
+//		}
+//		return result;
+//	}
+
 }

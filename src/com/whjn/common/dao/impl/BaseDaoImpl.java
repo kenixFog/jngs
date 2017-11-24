@@ -31,7 +31,6 @@ import com.whjn.common.dao.BaseDao;
 import com.whjn.common.util.BeanUtil;
 import com.whjn.common.util.PageUtil;
 
-
 public class BaseDaoImpl<E> implements BaseDao<E> {
 
 	protected final Logger log = Logger.getLogger(BaseDaoImpl.class);
@@ -63,15 +62,34 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		this.entityClass = entityClass;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * 
+	 * @Title: persist
+	 * 
+	 * @Description:保存实体
+	 * 
+	 * @param @param entity
+	 * 
+	 * @see com.whjn.common.dao.BaseDao#persist(java.lang.Object)
+	 */
 	public void persist(E entity) {
 		getSession().save(entity);
 	}
 
-	
-	
-	
-	
-	
+	/*
+	 * (非 Javadoc)
+	 * 
+	 * @Title: deleteByPK
+	 * 
+	 * @Description:根据id删除实体
+	 * 
+	 * @param @param id主建数组对象
+	 * 
+	 * @param @return
+	 * 
+	 * @see com.whjn.common.dao.BaseDao#deleteByPK(java.io.Serializable[])
+	 */
 	public boolean deleteByPK(Serializable... id) {
 		boolean result = false;
 		if (id != null && id.length > 0) {
@@ -86,8 +104,44 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		return result;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * 
+	 * @Title: delete
+	 * 
+	 * @Description:删除实体类
+	 * 
+	 * @param @param entity
+	 * 
+	 * @see com.whjn.common.dao.BaseDao#delete(java.lang.Object)
+	 */
+	public void delete(E entity) {
+		getSession().delete(entity);
+	}
+
+	/*
+	 * (非 Javadoc) 
+	* @Title: deleteByProperties
+	* @Description:根据属性名和属性值删除实体
+	* @param @param propName 属性名
+	* @param @param propValue 属性值
+	* @see com.whjn.common.dao.BaseDao#deleteByProperties(java.lang.String, java.lang.Object)
+	 */
+	public void deleteByProperties(String propName, Object propValue) {
+		deleteByProperties(new String[] { propName }, new Object[] { propValue });
+	}
+	
+	/*
+	 * (非 Javadoc) 
+	* @Title: deleteByProperties
+	* @Description:根据属性名和属性值批量删除实体
+	* @param @param propName 属性名数组
+	* @param @param propValue 属性值数组
+	* @see com.whjn.common.dao.BaseDao#deleteByProperties(java.lang.String[], java.lang.Object[])
+	 */
 	public void deleteByProperties(String[] propName, Object[] propValue) {
-		if (propName != null && propName.length > 0 && propValue != null && propValue.length > 0 && propValue.length == propName.length) {
+		if (propName != null && propName.length > 0 && propValue != null && propValue.length > 0
+				&& propValue.length == propName.length) {
 			StringBuffer sb = new StringBuffer("delete from " + entityClass.getName() + " o where 1=1 ");
 			appendQL(sb, propName, propValue);
 			Query query = getSession().createQuery(sb.toString());
@@ -96,16 +150,32 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		}
 	}
 
-	public void delete(E entity) {
-		getSession().delete(entity);
+	/*
+	 * (非 Javadoc) 
+	* @Title: update
+	* @Description:更新实体
+	* @param @param entity 实体
+	* @see com.whjn.common.service.BaseDao#update(java.lang.Object)
+	 */
+	public void update(E entity) {
+		getSession().update(entity);
 	}
 
-	public void deleteByProperties(String propName, Object propValue) {
-		deleteByProperties(new String[] { propName }, new Object[] { propValue });
-	}
-
-	public void updateByProperties(String[] conditionName, Object[] conditionValue, String[] propertyName, Object[] propertyValue) {
-		if (propertyName != null && propertyName.length > 0 && propertyValue != null && propertyValue.length > 0 && propertyName.length == propertyValue.length && conditionValue != null && conditionValue.length > 0) {
+	
+	/*
+	 * (非 Javadoc) 
+	* @Title: updateByProperties
+	* @Description:根据条件，属性值更新数据
+	* @param @param conditionName 条件名
+	* @param @param conditionValue 条件值
+	* @param @param propertyName 属性名
+	* @param @param propertyValue  属性值
+	* @see com.whjn.common.dao.BaseDao#updateByProperties(...)
+	 */
+	public void updateByProperties(String[] conditionName, Object[] conditionValue, String[] propertyName,
+			Object[] propertyValue) {
+		if (propertyName != null && propertyName.length > 0 && propertyValue != null && propertyValue.length > 0
+				&& propertyName.length == propertyValue.length && conditionValue != null && conditionValue.length > 0) {
 			StringBuffer sb = new StringBuffer();
 			sb.append("update " + entityClass.getName() + " o set ");
 			for (int i = 0; i < propertyName.length; i++) {
@@ -125,45 +195,97 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		}
 	}
 
-	public void updateByProperties(String[] conditionName, Object[] conditionValue, String propertyName, Object propertyValue) {
-		updateByProperties(conditionName, conditionValue, new String[] { propertyName }, new Object[] { propertyValue });
+	public void updateByProperties(String[] conditionName, Object[] conditionValue, String propertyName,
+			Object propertyValue) {
+		updateByProperties(conditionName, conditionValue, new String[] { propertyName },
+				new Object[] { propertyValue });
 	}
 
-	public void updateByProperties(String conditionName, Object conditionValue, String[] propertyName, Object[] propertyValue) {
-		updateByProperties(new String[] { conditionName }, new Object[] { conditionValue }, propertyName, propertyValue);
+	public void updateByProperties(String conditionName, Object conditionValue, String[] propertyName,
+			Object[] propertyValue) {
+		updateByProperties(new String[] { conditionName }, new Object[] { conditionValue }, propertyName,
+				propertyValue);
 	}
 
-	public void updateByProperties(String conditionName, Object conditionValue, String propertyName, Object propertyValue) {
-		updateByProperties(new String[] { conditionName }, new Object[] { conditionValue }, new String[] { propertyName }, new Object[] { propertyValue });
+	public void updateByProperties(String conditionName, Object conditionValue, String propertyName,
+			Object propertyValue) {
+		updateByProperties(new String[] { conditionName }, new Object[] { conditionValue },
+				new String[] { propertyName }, new Object[] { propertyValue });
 	}
 
-	public void update(E entity) {
-		getSession().update(entity);
-	}
-
-	public void update(E entity, Serializable oldId) {
-		deleteByPK(oldId);
-		persist(entity);
-	}
-
+	/*
+	 * (非 Javadoc) 
+	* @Title: merge
+	* @Description:更新实体（与之前实体属性合并，有更新的更新，没有跟新的保留）
+	* @param @param entity 实体
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#merge(java.lang.Object)
+	 */
 	public E merge(E entity) {
 		return (E) getSession().merge(entity);
 	}
 
-	/** 
-	* @Title: getByProerties 
-	* @Description: 根据属性名称以及属性值获取实体对象
-	* @param @param propName[] 属性名称数组
-	* @param @param propValue[] 属性值数组
+	/*
+	 * (非 Javadoc) 
+	* @Title: get
+	* @Description: 根据Id获取对象(后台数据层立即执行查询数据库操作)
+	* @param @param id
+	* @param @return 
+	* @see com.whjn.common.service.BaseDao#get(java.io.Serializable)
+	 */
+	public E get(Serializable id) {
+		return (E) getSession().get(entityClass, id);
+	}
+
+	/*
+	 * (非 Javadoc) 
+	* @Title: load
+	* @Description: 根据Id获取对象(a、首先通过id在session缓存中查找对象，如果存在此id的对象，直接将其返回
+	*                           b、在二级缓存中查找，找到后将 其返回。
+	*                           c、：如果在session缓存和二级缓存中都找不到此对象，则从数据库中加载有此ID的对象)
+	* @param @param id
+	* @param @return 
+	* @see com.whjn.common.service.BaseDao#load(java.io.Serializable)
+	 */
+	public E load(Serializable id) {
+		return (E) getSession().load(entityClass, id);
+	}
+	
+	/*
+	 * (非 Javadoc) 
+	* @Title: clear
+	* @Description:清除Session所有缓存，不包括当前使用的对象
+	* @param  
+	* @see com.whjn.common.dao.BaseDao#clear()
+	 */
+	public void clear() {
+		getSession().clear();
+	}
+
+	/*
+	 * (非 Javadoc) 
+	* @Title: evict
+	* @Description:清除指定的缓存对象
+	* @param @param entity 
+	* @see com.whjn.common.dao.BaseDao#evict(java.lang.Object)
+	 */
+	public void evict(E entity) {
+		getSession().evict(entity);
+	}
+	
+	/*
+	 * (非 Javadoc) 
+	* @Title: getByProerties
+	* @Description: 获取满足条件的唯一对象
+	* @param @param propName 属性名
+	* @param @param propValue 属性值
 	* @param @param sortedCondition 排序条件
-	* @return E    实体对象
-	* @author kenix
-	* @throws
-	* @date 2017年8月18日 上午11:11:19 
-	* @version V1.0   
-	*/
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#getByProerties(java.lang.String[], java.lang.Object[], java.util.Map)
+	 */
 	public E getByProerties(String[] propName, Object[] propValue, Map<String, String> sortedCondition) {
-		if (propName != null && propName.length > 0 && propValue != null && propValue.length > 0 && propValue.length == propName.length) {
+		if (propName != null && propName.length > 0 && propValue != null && propValue.length > 0
+				&& propValue.length == propName.length) {
 			StringBuffer sb = new StringBuffer("select o from " + entityClass.getName() + " o where 1=1 ");
 			appendQL(sb, propName, propValue);
 			if (sortedCondition != null && sortedCondition.size() > 0) {
@@ -182,49 +304,31 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		return null;
 	}
 
-	public E get(Serializable id) {
-		return (E) getSession().get(entityClass, id);
-	}
-
-	public E load(Serializable id) {
-		return (E) getSession().load(entityClass, id);
-	}
-
-	/** 
-	* @Title: getByProerties 
-	* @Description: 根据属性名称以及属性值获取实体对象
-	* @param @param propName[] 属性名称数组
-	* @param @param propValue[] 属性值数组
-	* @return E    实体对象
-	* @author kenix
-	* @throws
-	* @date 2017年8月18日 上午11:11:19 
-	* @version V1.0   
-	*/
 	public E getByProerties(String[] propName, Object[] propValue) {
 		return getByProerties(propName, propValue, null);
-	}
-
-	/** 
-	* @Title: getByProerties 
-	* @Description: 根据属性名称以及属性值获取实体对象
-	* @param @param propName 属性名称
-	* @param @param propValue 属性值
-	* @return E    实体对象
-	* @author kenix
-	* @throws
-	* @date 2017年8月18日 上午11:11:19 
-	* @version V1.0   
-	*/
-	public E getByProerties(String propName, Object propValue) {
-		return getByProerties(new String[] { propName }, new Object[] { propValue });
 	}
 
 	public E getByProerties(String propName, Object propValue, Map<String, String> sortedCondition) {
 		return getByProerties(new String[] { propName }, new Object[] { propValue }, sortedCondition);
 	}
+	
+	public E getByProerties(String propName, Object propValue) {
+		return getByProerties(new String[] { propName }, new Object[] { propValue });
+	}
 
-	public List<E> queryByProerties(String[] propName, Object[] propValue, Map<String, String> sortedCondition, Integer top) {
+	/*
+	 * (非 Javadoc) 
+	* @Title: queryByProerties
+	* @Description: 获取满足条件的对象列表
+	* @param @param propName 属性名
+	* @param @param propValue 属性值
+	* @param @param sortedCondition 排序条件
+	* @param @param top 获取条目数
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#queryByProerties(...)
+	 */
+	public List<E> queryByProerties(String[] propName, Object[] propValue, Map<String, String> sortedCondition,
+			Integer top) {
 		if (propName != null && propValue != null && propValue.length == propName.length) {
 			StringBuffer sb = new StringBuffer("select o from " + entityClass.getName() + " o where 1=1 ");
 			appendQL(sb, propName, propValue);
@@ -246,15 +350,20 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		return null;
 	}
 
+	public List<E> queryByProerties(String[] propName, Object[] propValue, Map<String, String> sortedCondition) {
+		return queryByProerties(propName, propValue, sortedCondition, null);
+	}
+	
 	public List<E> queryByProerties(String[] propName, Object[] propValue, Integer top) {
 		return queryByProerties(propName, propValue, null, top);
 	}
 
-	public List<E> queryByProerties(String[] propName, Object[] propValue, Map<String, String> sortedCondition) {
-		return queryByProerties(propName, propValue, sortedCondition, null);
+	public List<E> queryByProerties(String[] propName, Object[] propValue) {
+		return queryByProerties(propName, propValue, null, null);
 	}
-
-	public List<E> queryByProerties(String propName, Object propValue, Map<String, String> sortedCondition, Integer top) {
+	
+	public List<E> queryByProerties(String propName, Object propValue, Map<String, String> sortedCondition,
+			Integer top) {
 		return queryByProerties(new String[] { propName }, new Object[] { propValue }, sortedCondition, top);
 	}
 
@@ -266,27 +375,52 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		return queryByProerties(new String[] { propName }, new Object[] { propValue }, null, top);
 	}
 
-	public List<E> queryByProerties(String[] propName, Object[] propValue) {
-		return queryByProerties(propName, propValue, null, null);
-	}
-
 	public List<E> queryByProerties(String propName, Object propValue) {
 		return queryByProerties(new String[] { propName }, new Object[] { propValue }, null, null);
 	}
-
+	
+	/*
+	 * (非 Javadoc) 
+	* @Title: countAll
+	* @Description: 获取数据库数据条目数
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#countAll()
+	 */
 	public Long countAll() {
 		return (Long) getSession().createQuery("select count(*) from " + entityClass.getName()).uniqueResult();
 	}
 
-	public void clear() {
-		getSession().clear();
+	/*
+	 * (非 Javadoc) 
+	* @Title: doCount
+	* @Description:=====================================================================
+	* @param @param param
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#doCount(com.whjn.common.base.BaseParameter)
+	 */
+	public Long doCount(BaseParameter param) {
+		if (param == null)
+			return null;
+		Criteria criteria = getSession().createCriteria(entityClass);
+		processQuery(criteria, param);
+		try {
+			criteria.setProjection(Projections.rowCount());
+			return ((Number) criteria.uniqueResult()).longValue();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-
-	public void evict(E entity) {
-		getSession().evict(entity);
-	}
-
 	
+	/*
+	 * (非 Javadoc) 
+	* @Title: doQueryAll
+	* @Description: 根据排序条件查询全部数据列表
+	* @param @param sortedCondition 排序条件
+	* @param @param top 需要获取的条目数
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#doQueryAll()
+	 */
 	public List<E> doQueryAll(Map<String, String> sortedCondition, Integer top) {
 		Criteria criteria = getSession().createCriteria(entityClass);
 		if (sortedCondition != null && sortedCondition.size() > 0) {
@@ -306,34 +440,29 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		return criteria.list();
 	}
 
-	public List<E> doQueryAll() {
-		return doQueryAll(null, null);
-	}
-
 	public List<E> doQueryAll(Integer top) {
 		return doQueryAll(null, top);
 	}
-
-	public Long doCount(BaseParameter param) {
-		if (param == null)
-			return null;
-		Criteria criteria = getSession().createCriteria(entityClass);
-		processQuery(criteria, param);
-		try {
-			criteria.setProjection(Projections.rowCount());
-			return ((Number) criteria.uniqueResult()).longValue();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	
+	public List<E> doQueryAll() {
+		return doQueryAll(null, null);
 	}
-
+	
+	/*
+	 * (非 Javadoc) 
+	* @Title: doQuery
+	* @Description: 查询实体列表
+	* @param @param param 实体
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#doQuery(com.whjn.common.base.BaseParameter)
+	 */
 	public List<E> doQuery(BaseParameter param) {
 		if (param == null)
 			return null;
 		Criteria criteria = getSession().createCriteria(entityClass);
 		processQuery(criteria, param);
 		try {
+			//增加排序条件
 			if (param.getSortedConditions() != null && param.getSortedConditions().size() > 0) {
 				Map<String, String> map = param.getSortedConditions();
 				for (Iterator<String> it = param.getSortedConditions().keySet().iterator(); it.hasNext();) {
@@ -352,20 +481,23 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		return null;
 	}
 
-	public QueryResult<E> doPaginationQuery(BaseParameter param) {
-		return doPaginationQuery(param, true);
-	}
-
+	/*
+	 * (非 Javadoc) 
+	* @Title: doPaginationQuery
+	* @Description:
+	* @param @param param
+	* @param @param bool
+	* @param @return 
+	* @see com.whjn.common.dao.BaseDao#doPaginationQuery(com.whjn.common.base.BaseParameter, boolean)
+	 */
 	public QueryResult<E> doPaginationQuery(BaseParameter param, boolean bool) {
 		if (param == null)
 			return null;
 		Criteria criteria = getSession().createCriteria(entityClass);
-
 		if (bool)
 			processQuery(criteria, param);
 		else
 			extendprocessQuery(criteria, param);
-
 		try {
 			QueryResult<E> qr = new QueryResult<E>();
 			criteria.setProjection(Projections.rowCount());
@@ -395,7 +527,24 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		}
 		return null;
 	}
+	
+	public QueryResult<E> doPaginationQuery(BaseParameter param) {
+		return doPaginationQuery(param, true);
+	}
 
+
+	/**
+	* @Title: appendQL 
+	* @Description: 根据属性名称和属性值组装sql
+	* @param @param sb SQL语句
+	* @param @param propName 属性名称
+	* @param @param propValue  属性值
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月23日 上午11:49:58 
+	* @version V1.0
+	 */
 	private void appendQL(StringBuffer sb, String[] propName, Object[] propValue) {
 		for (int i = 0; i < propName.length; i++) {
 			String name = propName[i];
@@ -415,6 +564,18 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		}
 	}
 
+	/**
+	* @Title: setParameter 
+	* @Description: 设置预编译参数值
+	* @param @param query 查询语句
+	* @param @param propName 参数名
+	* @param @param propValue  参数值
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月23日 下午12:22:26 
+	* @version V1.0
+	 */
 	private void setParameter(Query query, String[] propName, Object[] propValue) {
 		for (int i = 0; i < propName.length; i++) {
 			String name = propName[i];
@@ -429,46 +590,6 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 				}
 			}
 		}
-	}
-
-	protected void buildSorted(BaseParameter param, StringBuffer hql) {
-		if (param.getSortedConditions() != null && param.getSortedConditions().size() > 0) {
-			hql.append(" order by ");
-			Map<String, String> sorted = param.getSortedConditions();
-			for (Iterator<String> it = sorted.keySet().iterator(); it.hasNext();) {
-				String col = it.next();
-				hql.append(col + " " + sorted.get(col) + ",");
-			}
-			hql.deleteCharAt(hql.length() - 1);
-		}
-	}
-
-	private String transferColumn(String queryCondition) {
-		return queryCondition.substring(queryCondition.indexOf('_', 1) + 1);
-	}
-
-	protected void setParameter(Map<String, Object> mapParameter, Query query) {
-		for (Iterator<String> it = mapParameter.keySet().iterator(); it.hasNext();) {
-			String parameterName = (String) it.next();
-			Object value = mapParameter.get(parameterName);
-			query.setParameter(parameterName, value);
-		}
-	}
-
-	protected Map handlerConditions(BaseParameter param) throws Exception {
-		Map staticConditions = BeanUtil.describe(param);
-		Map<String, Object> dynamicConditions = param.getQueryDynamicConditions();
-		if (dynamicConditions.size() > 0) {
-			for (Iterator it = staticConditions.keySet().iterator(); it.hasNext();) {
-				String key = (String) it.next();
-				Object value = staticConditions.get(key);
-				if (key.startsWith("$") && value != null && !"".equals(value)) {
-					dynamicConditions.put(key, value);
-				}
-			}
-			staticConditions = dynamicConditions;
-		}
-		return staticConditions;
 	}
 
 	/** ************ for QBC ********** */
@@ -529,6 +650,17 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		return value.substring(value.indexOf('_', 1) + 1);
 	}
 
+	/**
+	* @Title: processQuery 
+	* @Description: 处理Criteria根据相应的参数设置相应的查询条件
+	* @param @param criteria 容器
+	* @param @param param 实体
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月23日 下午3:04:37 
+	* @version V1.0
+	 */
 	private void processQuery(Criteria criteria, BaseParameter param) {
 		try {
 			Map<String, Object> staticConditionMap = BeanUtil.describeAvailableParameter(param);
@@ -541,7 +673,8 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 						String methodName = getOpt(e.getKey());
 						Method m = getMethod(methodName);
 						if ("like".equals(methodName)) {
-							criteria.add((Criterion) m.invoke(Restrictions.class, new Object[] { prop, value, MatchMode.ANYWHERE }));
+							criteria.add((Criterion) m.invoke(Restrictions.class,
+									new Object[] { prop, value, MatchMode.ANYWHERE }));
 						} else if ("isNull".equals(methodName) && value instanceof Boolean) {
 							if ((Boolean) value) {
 								criteria.add(Restrictions.isNull(prop));
@@ -570,7 +703,8 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 
 					if (value != null && !(value instanceof String && "".equals((String) value))) {
 						if ("like".equals(methodName)) {
-							criteria.add((Criterion) m.invoke(Restrictions.class, new Object[] { prop, value, MatchMode.ANYWHERE }));
+							criteria.add((Criterion) m.invoke(Restrictions.class,
+									new Object[] { prop, value, MatchMode.ANYWHERE }));
 						} else if ("isNull".equals(methodName) && value instanceof Boolean) {
 							if ((Boolean) value) {
 								criteria.add(Restrictions.isNull(prop));
@@ -588,6 +722,17 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 		}
 	}
 
+	/**
+	* @Title: extendprocessQuery 
+	* @Description: 
+	* @param @param criteria
+	* @param @param param  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月23日 下午3:43:40 
+	* @version V1.0
+	 */
 	private void extendprocessQuery(Criteria criteria, BaseParameter param) {
 		try {
 			Map<String, Object> staticConditionMap = BeanUtil.describeAvailableParameter(param);
@@ -600,7 +745,8 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 						String methodName = getOpt(e.getKey());
 						Method m = getExtendMethod(methodName);
 						if ("like".equals(methodName)) {
-							criteria.add((Criterion) m.invoke(Restrictions.class, new Object[] { prop, value, MatchMode.ANYWHERE }));
+							criteria.add((Criterion) m.invoke(Restrictions.class,
+									new Object[] { prop, value, MatchMode.ANYWHERE }));
 						} else if ("isNull".equals(methodName) && value instanceof Boolean) {
 							if ((Boolean) value) {
 								criteria.add(Restrictions.isNull(prop));
@@ -611,7 +757,8 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 							if (value != null && value instanceof Object[] && "IN".equals(methodName.toUpperCase())) {
 								Object[] obj = (Object[]) value;
 								criteria.add(Restrictions.in(prop, obj));
-								// criteria.add((Criterion) m.invoke(Restrictions.class, new Object[] { prop, obj }));
+								// criteria.add((Criterion) m.invoke(Restrictions.class, new Object[] { prop,
+								// obj }));
 							} else {
 								criteria.add((Criterion) m.invoke(Restrictions.class, new Object[] { prop, value }));
 							}
@@ -636,7 +783,8 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 
 					if (value != null && !(value instanceof String && "".equals((String) value))) {
 						if ("like".equals(methodName)) {
-							criteria.add((Criterion) m.invoke(Restrictions.class, new Object[] { prop, value, MatchMode.ANYWHERE }));
+							criteria.add((Criterion) m.invoke(Restrictions.class,
+									new Object[] { prop, value, MatchMode.ANYWHERE }));
 						} else if ("isNull".equals(methodName) && value instanceof Boolean) {
 							if ((Boolean) value) {
 								criteria.add(Restrictions.isNull(prop));
@@ -653,59 +801,4 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 			e.printStackTrace();
 		}
 	}
- 
-    /**
-     * 根据SQL分页查询
-     * 
-     * @param hql
-     * @param pageUtil
-     */
-    public void getListByPage(String hql, PageUtil<E> pageUtil) {
-        if (null == hql) {
-            return;
-        }
-        try {
-            Query query = getSession().createQuery(hql);
-            query.setFirstResult(pageUtil.getFirstRec());
-            query.setMaxResults(pageUtil.getPageSize());
-            pageUtil.setList(query.list());
- 
-            String queryString = "";
-            if (hql.toUpperCase().indexOf("SELECT") != -1) {
-                int i = query.getQueryString().toUpperCase().indexOf("FROM");
-                queryString = "Select count(*) "
-                        + hql.substring(i, hql.length());
-            } else {
-                queryString = "Select count(*) " + hql;
-            }
-            // 去掉ORDER BY 的部分
-            int j = queryString.toUpperCase().lastIndexOf("ORDER");
-            if (j != -1) {
-                queryString = queryString.substring(0, j);
-            }
-            Query cquery = getSession().createQuery(queryString);
-            cquery.setCacheable(true);
-            int recTotal = ((Integer) cquery.iterate().next()).intValue();
-            pageUtil.setRecTotal(recTotal);
-        } finally {
-            if (getSession() != null) {
-            	getSession().close();
-            }
-        }
-    }
-
-	@Override
-	public List<E> queryForPage(String hql, int firstResult, int pagSize) {
-		 Query q = getSession().createQuery(hql);
-		 q.setFirstResult(firstResult);
-		 q.setMaxResults(pagSize);
-		 return q.list();
-	}
-	
-	//获取总记录数
-	public int getCount(String hql) {
-		Query q = getSession().createQuery(hql);
-		return Integer.parseInt(q.list().get(0).toString());
-	}
-
 }

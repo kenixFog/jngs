@@ -21,7 +21,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @系统用户实体类
  */
 @Entity
-@Table(name = "sys_code")
+@Table(name = "sys_com_code")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class SysComCode extends BaseParameter {
 
@@ -45,7 +45,7 @@ public class SysComCode extends BaseParameter {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastEditTime; // 最后一次修改时间
 	@Column(name = "isLeaf")
-	private short isLeaf; // 类型：0、非叶子节点；1、叶子结点； 2、数据
+	private short isLeaf; // 类型：0、非叶子节点；1、叶子结点；2、数据
 	@Column(name = "type")
 	private short type; // 类型：0、分层； 1、代码；2、数据
 	@Column(name = "statue")

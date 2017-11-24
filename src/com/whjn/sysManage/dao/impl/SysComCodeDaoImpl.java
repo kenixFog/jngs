@@ -74,36 +74,6 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	}
 	
 	
-	/**
-	 * @Title: getComCodeList
-	 * @Description:
-	 * @param @param
-	 *            param
-	 * @param @param
-	 *            nodeId
-	 * @param @return
-	 * @return QueryResult<SysComCode>
-	 * @author kenix
-	 * @throws @date
-	 *             2017年9月15日 下午5:42:38
-	 * @version V1.0
-	 */
-	@Override
-	public List<SysComCode> getComCodeList1(BaseParameter param, Integer nodeId) {
-		QueryResult<SysComCode> qr = new QueryResult<SysComCode>();
-		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.comments, c.createTime, ");
-		sb.append("c.lastEditTime, c.type, c.statue FROM sys_Com_Code c WHERE c.parent_Id=? ");
-		SQLQuery query = getSession().createSQLQuery(sb.toString());
-		query.setParameter(0, nodeId);
-		query.addEntity(SysComCode.class);
-		List<SysComCode> ComCodeList =  query.list();
-		query.setMaxResults(param.getPageSize());
-		query.setFirstResult(param.getFirstResult());
-		return query.list();
-	}
-
-
 	/* (非 Javadoc) 
 	* <p>Title: getComCodeInfo</p> 
 	* <p>Description: </p> 
@@ -114,11 +84,56 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeInfo(Integer ComCodeId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.comments,");
-		sql.append(" c.type, c.statue FROM sys_Com_Code c WHERE c.id=? ");
+		sql.append("SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.createTime,");
+		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c WHERE c.id=? ");
 		SQLQuery query = getSession().createSQLQuery(sql.toString());
 		query.setParameter(0, ComCodeId);
-//		query.addEntity(SysComCode.class);
+		return query.list();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getComCodeListById
+	* @Description:
+	* @param @param decode
+	* @param @param includeDisabled
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysComCodeDao#getComCodeListById(java.lang.Long, boolean) 
+	*/
+	@Override
+	public List<SysComCode> getComCodeListByParentId(Long decode, boolean includeDisabled) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.createTime,");
+		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c ");
+		sql.append(" WHERE c.parent_Id = ? ");
+		if (!includeDisabled) {
+			sql.append(" AND c.statue = 1 ");
+		}
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, decode);
+		query.addEntity(SysComCode.class);
+		return query.list();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getComCodeListByCode
+	* @Description:
+	* @param @param string
+	* @param @param includeDisabled
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysComCodeDao#getComCodeListByCode(java.lang.String, boolean) 
+	*/
+	@Override
+	public List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.createTime,");
+		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c ");
+		sql.append(" WHERE c.parent_Id = ( SELECT id FROM sys_Com_Code WHERE CODE = ? ) ");
+		if (!includeDisabled) {
+			sql.append(" AND c.statue = 1 ");
+		}
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, string);
+		query.addEntity(SysComCode.class);
 		return query.list();
 	}
 }

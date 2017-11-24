@@ -51,29 +51,46 @@ public interface SysComCodeService extends BaseService<SysComCode> {
 	List<SysComCode> getComCodeInfo(Integer ComCodeId);
 
 	/** 
-	* @Title: getList 
+	* @Title: delComCodeByIds 
 	* @Description: 
-	* @param @param resultList
+	* @param @param entity
+	* @param @param ids
 	* @param @return  
-	* @return List<SysComCode>    
-	* @author kenix
+	* @return boolean    
+	* @author Chen Cai
 	* @throws
-	* @date 2017年11月10日 上午9:55:23 
+	* @date 2017年11月23日 下午5:32:11 
 	* @version V1.0   
 	*/
-	List<SysComCode> getList(List<SysComCode> resultList);
+	void delComCodeByIds(SysComCode entity, Long[] ids);
 
 	/** 
-	* @Title: getComCodeList1 
+	* @Title: getComCodeListByParentId 
 	* @Description: 
-	* @param @param param
-	* @param @param nodeId
+	* @param @param decode
+	* @param @param includeDisabled
 	* @param @return  
 	* @return List<SysComCode>    
-	* @author kenix
+	* @author Chen Cai
 	* @throws
-	* @date 2017年11月10日 下午3:11:19 
+	* @date 2017年11月24日 下午5:12:37 
 	* @version V1.0   
 	*/
-	List<SysComCode> getComCodeList1(BaseParameter param, Integer nodeId);
+	List<SysComCode> getComCodeListByParentId(Long decode, boolean includeDisabled);
+
+	/** 
+	* @Title: getComCodeListByCode 
+	* @Description: 
+	* @param @param string
+	* @param @param includeDisabled
+	* @param @return  
+	* @return List<SysComCode>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月24日 下午5:12:48 
+	* @version V1.0   
+	*/
+	List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled);
+
+
 }
