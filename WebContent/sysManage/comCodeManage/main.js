@@ -1,7 +1,6 @@
 Ext.namespace("sysManage.comCodeManage.main");
 
 sysManage.comCodeManage.main.initMainPanel = function(){  
-	alert(sysManage.comCodeManage.typeArray);
 	//定义面板
 	var mainPanel = Ext.create('Ext.Panel',{
 		layout : 'border',                //布局类型 

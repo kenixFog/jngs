@@ -52,8 +52,7 @@ public class SysComCodeServiceImpl extends BaseServiceImpl<SysComCode> implement
 			jsonObject.put("text", mainComCodeList.get(i).getName());
 			jsonObject.put("parentId", mainComCodeList.get(i).getParentId());
 			jsonObject.put("statue", mainComCodeList.get(i).getStatue());
-			jsonObject.put("leaf", mainComCodeList.get(i).getIsLeaf());
-			jsonObject.put("type", mainComCodeList.get(i).getType());
+			jsonObject.put("leaf", mainComCodeList.get(i).getType());
 			jsonObject.put("createTime", mainComCodeList.get(i).getCreateTime());
 			jsonObject.put("lastEditTime", mainComCodeList.get(i).getLastEditTime());
 			jsonObject.put("comments", mainComCodeList.get(i).getComments());

@@ -32,11 +32,13 @@ public class SysComCode extends BaseParameter {
 	private long id; // ID
 	@Column(name = "parent_Id")
 	private long parentId; // ID
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name; // 名称
 	@Column(name = "code", length = 30, nullable = false, unique = true)
 	private String code; // 代码
-	@Column(name = "comments", length = 128)
+	@Column(name = "value", columnDefinition="default ''")
+	private String value; // 数值
+	@Column(name = "comments", length = 128, columnDefinition="default ''")
 	private String comments; // 说明
 	@Column(name = "createTime")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -44,11 +46,9 @@ public class SysComCode extends BaseParameter {
 	@Column(name = "lastEditTime")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastEditTime; // 最后一次修改时间
-	@Column(name = "isLeaf")
-	private short isLeaf; // 类型：0、非叶子节点；1、叶子结点；2、数据
-	@Column(name = "type")
+	@Column(name = "type",nullable = false)
 	private short type; // 类型：0、分层； 1、代码；2、数据
-	@Column(name = "statue")
+	@Column(name = "statue",columnDefinition="short default 1", nullable = false)
 	private short statue; // 状态
 
 	public long getId() {
@@ -83,6 +83,14 @@ public class SysComCode extends BaseParameter {
 		this.code = code;
 	}
 
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
 	public String getComments() {
 		return comments;
 	}
@@ -107,14 +115,6 @@ public class SysComCode extends BaseParameter {
 
 	public void setLastEditTime(Date lastEditTime) {
 		this.lastEditTime = lastEditTime;
-	}
-
-	public short getIsLeaf() {
-		return isLeaf;
-	}
-
-	public void setIsLeaf(short isLeaf) {
-		this.isLeaf = isLeaf;
 	}
 
 	public short getType() {

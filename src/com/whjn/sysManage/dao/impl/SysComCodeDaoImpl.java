@@ -56,7 +56,7 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	public QueryResult<SysComCode> getComCodeList(BaseParameter param, Integer nodeId) {
 		QueryResult<SysComCode> qr = new QueryResult<SysComCode>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.comments, c.createTime, ");
+		sb.append("SELECT c.id, c.parent_Id, c.code, c.name, c.value, c.comments, c.createTime, ");
 		sb.append("c.lastEditTime, c.type, c.statue FROM sys_Com_Code c WHERE c.parent_Id=? ");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, nodeId);
@@ -84,7 +84,7 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeInfo(Integer ComCodeId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.createTime,");
+		sql.append("SELECT c.id, c.parent_Id, c.code, c.name, c.value,  c.createTime,");
 		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c WHERE c.id=? ");
 		SQLQuery query = getSession().createSQLQuery(sql.toString());
 		query.setParameter(0, ComCodeId);
@@ -102,9 +102,9 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeListByParentId(Long decode, boolean includeDisabled) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.createTime,");
+		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.value,  c.createTime,");
 		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c ");
-		sql.append(" WHERE c.parent_Id = ? ");
+		sql.append(" WHERE c.parent_Id = ? AND type = 2");//只获取数据类型的
 		if (!includeDisabled) {
 			sql.append(" AND c.statue = 1 ");
 		}
@@ -125,9 +125,9 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.isLeaf, c.createTime,");
+		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.value,  c.createTime,");
 		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c ");
-		sql.append(" WHERE c.parent_Id = ( SELECT id FROM sys_Com_Code WHERE CODE = ? ) ");
+		sql.append(" WHERE type = 2 AND c.parent_Id = ( SELECT id FROM sys_Com_Code WHERE CODE = ? ) ");
 		if (!includeDisabled) {
 			sql.append(" AND c.statue = 1 ");
 		}

@@ -14,23 +14,25 @@ sysManage.comCodeManage.entry.parentId = null;
 sysManage.comCodeManage.entry.showWin = function(titleText) {
 	//命名空间
 	var className = sysManage.comCodeManage.entry;
-	//当前选中树节点
-	var node = sysManage.comCodeManage.tree.node;
-	//判断当前选中的节点类型
-	if (node.isLeaf()) { //如果是叶子节点，只能增加数据
-		alert("leaf"+node.raw.id);
-	} else {
-		alert("！leaf"+node.raw.id);
-	}
 	className.win = className.createWin(titleText);
-	
 	//根据条件控制工具栏按钮
 	className.setwinToolBar(titleText);
 	//根据条件对窗体中表单进行数据加载
 	className.setwinForm(titleText);
+	
+	var node = sysManage.comCodeManage.tree.node;
+	//判断当前选中的节点类型
+	if (node.isLeaf()) { 
+		className.formPnl.getForm().findField("type").setValue(2);
+		className.formPnl.getForm().findField("type").disabled=true;
+		className.formPnl.getForm().findField("value").allowBlank = false;
+	} else {
+		className.formPnl.getForm().findField("value").allowBlank = true;
+		className.formPnl.getForm().findField("type").disabled=false;
+	}
+	var node = sysManage.comCodeManage.tree.node;
 	//显示二级窗体
 	className.win.show();
-//	return className.win;
 }
 
 /**
@@ -109,29 +111,43 @@ sysManage.comCodeManage.entry.initInfoArea = function() {
 			maxLength : 50,
 			maxLengthText : "最大长度不超过50个字符"
 		},{
+			xtype : 'textfield',
+			name : 'value',
+			fieldLabel : '数值',
+			style: 'margin-top:10px',
+			maxLength : 50,
+			maxLengthText : "最大长度不超过50个字符"
+		},{
 			xtype : 'combobox',
 			name : 'type',
 			fieldLabel : '类型',
 			style: 'margin-top:10px',
 			emptyText : '请选择...',
-//			editable : false,
-			allowBlank : false
-		},{
-//			xtype : 'datefield',
-			xtype : 'combobox',
-			name : 'isLeaf',
-			fieldLabel : '是否叶结点',
-			style: 'margin-top:10px',
-			emptyText : '请选择...',
-//			editable : false,
-			allowBlank : false
+			displayField : 'TEXT',
+			valueField : 'VALUE',
+			store : sysManage.comCodeManage.typeArray,
+			editable : false,
+			allowBlank : false,
+			listeners : {
+				'change' : function (field, newValue, oldValue, eOpts ) {
+					if(newValue==2){
+						className.formPnl.getForm().findField("value").allowBlank = false;
+					} else {
+						className.formPnl.getForm().findField("value").allowBlank = true;
+					}
+				}
+			}
 		},{
 			xtype : 'combobox',
 			name : 'statue',
 			fieldLabel : '菜单状态',
 			emptyText : '请选择...',
 			allowBlank : false,
-//			editable : false,
+			displayField : 'TEXT',
+			valueField : 'VALUE',
+			value: 1,
+			store: sysManage.comCodeManage.statusArray,
+			editable : false,
 			style: 'margin-top:10px'
 		},{
 			xtype : 'textareafield',
@@ -183,7 +199,7 @@ sysManage.comCodeManage.entry.setwinForm = function(titleText) {
 			waitTitle : "提示",
 			waitMsg : "正在从服务器提取数据...",
 			failure : function(form, action) {
-				className.win.hide();
+				className.win.close();
 			},
 			success : function(form, action) {
 				Ext.getCmp("Id").setValue(action.result.data.ID);
@@ -209,8 +225,8 @@ sysManage.comCodeManage.entry.saveHandler = function() {
 	var str = whjn.validateForm(className.formPnl);
 	if (str == "") { //如果校验通过
 		var params = {};
-		var qryNames = [ "Id", "parentId", "code", "name", 
-			"type","isLeaf", "comments", "statue"];
+		var qryNames = [ "Id", "parentId", "code", "name", "value", 
+			"type", "comments", "statue"];
 		//循环遍历，获取表单信息
 		for ( var i = 0; i < qryNames.length; i++) {
 			var objTmp = className.formPnl.getForm().findField(qryNames[i]);
@@ -234,9 +250,16 @@ sysManage.comCodeManage.entry.saveHandler = function() {
 						sysManage.comCodeManage.entry.closeHandler();
 						//获取数据列表窗口
 						var className = sysManage.comCodeManage.panel;
-						var store = className.comCodeGridPnl.getStore();
 						//重新加载列表数据
-						store.reload();
+						className.loadRecord();
+						//树面板
+						var treePnl = sysManage.comCodeManage.tree.comCodeTree;
+						//点前选中的树节点
+						var node = sysManage.comCodeManage.tree.node;
+						//设置需要加载的树节点Id
+						treePnl.getStore().proxy.extraParams.parentId = node.data.id;
+						//刷新当前的树节点
+						whjn.refreshTreePnl(treePnl, node.data.id);
 					} else {
 						whjn.dlg.errTip(res.message);
 					}

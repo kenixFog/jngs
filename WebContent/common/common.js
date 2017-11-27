@@ -239,7 +239,6 @@ whjn.openModule_SetCfgInitData=function(mdlCfg,data){
 		var codeSign=mdlCfg.getCodeCfg.groupId || mdlCfg.getCodeCfg.groupCode;
 		var script="";
 		for (var i=0;i<codeVar.length;i++){
-			alert(Ext.JSON.decode(data).codeData["comCode_"+codeSign[i]]);
 			script+=codeVar[i]+'='+Ext.JSON.encode(data.codeData["comCode_"+codeSign[i]])+";";
 		}
 		if (script) eval(script);
@@ -419,19 +418,23 @@ whjn.validateForm=function(formPanel){
 };
 
 
-//刷新树面板，展开至选中节点
-//whjn.refreshTreePnl = function(treePnl, node){
-//	var nodeId = node.raw.id;
-//	var path = treePnl.getPath(nodeId);
-//	alert(path);
-////	selectNode.reload();
-//	treePnl.getLoader().load(treePnl.getRootNode(),  
-//	function(treeNode) {  
-//		treePnl.expandPath(path, 'id', function(bSucess, oLastNode) {  
-//			treePnl.getSelectionModel().select(oLastNode);  
-//		});
-//	}, this);    
-//}
+/**
+ * 在公用代码数组中插入一个空格，返回新数组，一般用于列表查询时
+ * 公用代码数组格式为：[[代码，名称，是否在用(布尔值)],...]
+ * @param {Array} comCodeArr 代码数组
+ * @return {Array} 新的公用代码数组
+ */
+whjn.getAddBlankValue=function(comCodeArr){
+	var newArr=[['','　',true]];//空格用中文全角空格
+	if (!comCodeArr) {
+		atom.showErrorDlg("传入的数组为空!");
+		return newArr;
+	}
+	for(var i=0;i<comCodeArr.length;i++){
+		newArr.push(comCodeArr[i]);
+	}
+	return newArr;	
+}
 
 /** 
  * 刷新树 刷新当前节点，展开或不展开当前节点，选中当前节点 

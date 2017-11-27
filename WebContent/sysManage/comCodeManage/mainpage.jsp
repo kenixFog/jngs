@@ -16,11 +16,10 @@
 	(function(){
 		var mdlCfg = {
 				getCodeCfg : {
-					//菜单类型、菜单状态、是否叶节点
-					groupCode : [ "GGDMGL_DMLX","GLOBAL_ZT","GGDMGL_ISLEAF" ],
+					//菜单类型、菜单状态
+					groupCode : [ "GGDMGL_DMLX","GLOBAL_ZT" ],
 					codeVar : [ "sysManage.comCodeManage.typeArray",
-								"sysManage.comCodeManage.statusArray",
-								"sysManage.comCodeManage.isLeafArray"],
+								"sysManage.comCodeManage.statusArray"],
 					includeDisabled : false
 				},
 				//按钮的隐藏方式，disable（禁用，变灰），hide（禁用，隐藏）

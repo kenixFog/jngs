@@ -117,7 +117,7 @@ public class SysComCodeController extends BaseController<SysComCode> {
 		// 公共代码Id
 		Integer comCodeId = RequestUtils.getIntParameter(request, "comCodeId");
 		List<SysComCode> resultList = sysComCodeService.getComCodeInfo(comCodeId);
-		String[] col = { "ID", "parentId", "code", "name", "isLeaf", "createTime", "lastEditTime", "comments", "type",
+		String[] col = { "ID", "parentId", "code", "name", "value", "createTime", "lastEditTime", "comments", "type",
 				"statue" };
 		String result = JsonUtil.fillListJsonString(col, resultList);
 		writeJSON(response, result);
@@ -204,11 +204,11 @@ public class SysComCodeController extends BaseController<SysComCode> {
 	 */
 	@RequestMapping("/getComCode")
 	public void getCommonCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String, Object> result = new HashMap<String, Object>();
+		// Map<String, Object> result = new HashMap<String, Object>();
 		// 获取前台传入的公共代码参数
 		JSONObject jsonObj = JSONObject.fromObject(request.getParameter("reqData"));
 		StringBuffer sbf = new StringBuffer();
-		sbf.append("{");
+		sbf.append("{success:true,data:{");
 		// 请求初始化公用代码
 		if (jsonObj.has("getCodeCfg")) {
 			JSONArray groupIds = null, groupCodes = null;
@@ -226,11 +226,10 @@ public class SysComCodeController extends BaseController<SysComCode> {
 				includeDisabled = codeCfgJson.getBoolean("includeDisabled");
 			sbf.append("codeData:");
 			this.getComCodeJSON(sbf, jsonArr2StrArr(groupIds), jsonArr2StrArr(groupCodes), includeDisabled);
-			sbf.append("}");
 		}
-		result.put("success", true);
-		result.put("data", sbf.toString());
-		writeJSON(response, result);
+		// result.put("success", true);
+		// result.put("data", sbf.toString());
+		writeJSON(response, sbf.append("}}").toString());
 	}
 
 	/***
@@ -252,10 +251,11 @@ public class SysComCodeController extends BaseController<SysComCode> {
 		if (groupIds != null) {// 根据公共代码ID获取公共代码
 			sbf.append("{");
 			for (int i = 0; i < groupIds.length; i++) {
-				List<SysComCode> lst = sysComCodeService.getComCodeListByParentId(Long.decode(groupIds[i]), includeDisabled);
+				List<SysComCode> lst = sysComCodeService.getComCodeListByParentId(Long.decode(groupIds[i]),
+						includeDisabled);
 				if (i > 0)
 					sbf.append(",");
-				sbf.append("comCode_").append(Integer.parseInt(groupIds[i])).append(":");
+				sbf.append("'comCode_").append(Integer.parseInt(groupIds[i])).append("':");
 				getComCodeJSONArray(lst, sbf, includeDisabled);
 			}
 			sbf.append("}");
@@ -299,8 +299,9 @@ public class SysComCodeController extends BaseController<SysComCode> {
 					sbf.append(",");
 				else
 					b = true;
-				sbf.append("['").append(de.getCode()).append("','").append(de.getName()).append("',")
-						.append(SysComCode.STATE_ENABLE == de.getStatue() ? true : false).append("]");
+				 sbf.append("['").append(de.getValue()).append("','").append(de.getName()).append("',")
+				 .append(SysComCode.STATE_ENABLE == de.getStatue() ? true :
+				 false).append("]");
 			}
 		}
 		sbf.append("]");

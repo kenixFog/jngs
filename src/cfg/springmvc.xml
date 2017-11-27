@@ -15,14 +15,15 @@
 	<!-- 过滤静态资源 -->
 	<mvc:default-servlet-handler />
 	<!--<mvc:resources mapping="/skin/**" location="/skin/" /> -->
-	
-	<mvc:resources location="/" mapping="/**"/>
+
+	<mvc:resources location="/" mapping="/**" />
 
 	<!-- 自动扫描的包 -->
 	<context:component-scan base-package="com.whjn.common.controller" />
 	<context:component-scan base-package="com.whjn.sysManage.controller" />
 
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
 	<!-- 视图解析处理器 -->
 	<bean id="viewResolver"
@@ -32,11 +33,22 @@
 	</bean>
 
 
+	<!-- 注册RequestMappingHandlerMapping 和RequestMappingHandlerAdapter 两个bean。处理空字符串问题 -->
+	<!-- <mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.whjn.common.framework.web.JsonObjectMapper"></bean>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven> -->
 
 
 
 
-	<!-- <bean
+	<bean
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
 			<list>
@@ -50,6 +62,9 @@
 				</bean>
 				<bean
 					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+					<property name="objectMapper">
+						<bean class="com.whjn.common.framework.web.JsonObjectMapper"></bean>
+					</property>
 					<property name="supportedMediaTypes">
 						<list>
 							<value>text/plain;charset=UTF-8</value>
@@ -59,8 +74,7 @@
 				</bean>
 			</list>
 		</property>
-	</bean> -->
-
+	</bean>
 
 
 	<bean id="messageSource"

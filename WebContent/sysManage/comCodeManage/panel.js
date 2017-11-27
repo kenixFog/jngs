@@ -20,10 +20,8 @@ sysManage.comCodeManage.panel.getStore = function(){
 		}, {
 			name : 'parentId',
 			type : 'long'
-		},  'code', 'name', 'comments',{
-			name : 'isLeaf',
-			type : 'boolean'
-		}, 'type', 'statue', 
+		},  'code', 'name', 'value','comments', 
+		'type', 'statue', 
 		{
 			name: 'createTime',
 			type : 'datetime',
@@ -91,23 +89,15 @@ sysManage.comCodeManage.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '编码', 
 	    	dataIndex: 'code', 
-	    	width:120
+	    	width:200
 	    },{ 
 	    	text: '名称', 
 	    	dataIndex: 'name' , 
 	    	width:120
 	    },{ 
-	    	text: '是否叶结点', 
-	    	dataIndex: 'isLeaf' , 
-	    	width:100,
-	    	sortable : false,
-	    	renderer : function(v) {
-				if (v == true) {
-					return '是';
-				} else {
-					return '否';
-				}
-			}
+	    	text: '数值', 
+	    	dataIndex: 'value' , 
+	    	width:80
 	    },{ 
 	    	text: '类型', 
 	    	dataIndex: 'type' , 
@@ -154,7 +144,7 @@ sysManage.comCodeManage.panel.initGridPnl = function() {
 	    listeners: {
 	        itemdblclick: function (me, record, item, index, e, eOpts) {
 	            //双击事件的操作
-	        	alert(123);
+	        	sysManage.comCodeManage.main.edit();
 	        }
 	    },
 	    bbar:new Ext.PagingToolbar({
