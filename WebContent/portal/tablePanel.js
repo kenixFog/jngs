@@ -59,8 +59,6 @@ portal.tablePanle.openTab = function(tabId, tabTitle, tabUrl) {
             loadMask: '页面加载中...',
             border: false
         }));
-    	alert(_tab);
-    	alert(123);
     	portal.tablePanle.tpl.setActiveTab(_tab);
     	_tab.load(tabUrl);
     } else {

@@ -51,7 +51,7 @@ public class SysUser extends BaseParameter{
 	@Column(name = "lastLoginTime")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginTime; // 最后一次登录时间
-	@Column(name = "statue")
+	@Column(name = "statue", columnDefinition="short default 1")
 	private short statue; // 状态
 	
 	public Long getId() {

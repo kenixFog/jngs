@@ -37,22 +37,22 @@ public class SysMenu extends BaseParameter {
 	@Column(name = "PARENT_ID")
 	private long parentId;
 	// 菜单路径
-	@Column(name = "URL", length = 200)
+	@Column(name = "URL", length = 200, columnDefinition=" default ''")
 	private String url;
 	// 菜单类型 0菜单，1按钮
 	@Column(name = "type")
 	private short type;
 	// 是否是叶子节点
-	@Column(name = "ISLEAF")
+	@Column(name = "ISLEAF",columnDefinition="short default 0", nullable = false)
 	private short isLeaf;
 	// 是否可编辑
-	@Column(name = "ISEDIT")
+	@Column(name = "ISEDIT",columnDefinition="short default 0", nullable = false)
 	private short isEdit;
 	// 是否可删除
-	@Column(name = "ISDELETE")
+	@Column(name = "ISDELETE",columnDefinition="short default 0", nullable = false)
 	private short isDelete;
 	// 状态 0.停用；1.启用
-	@Column(name = "STATUE")
+	@Column(name = "STATUE", columnDefinition="short default 1", nullable = false)
 	private short statue;
 
 

@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.whjn.common.base.Constant;
+
 /**
  * 参数信息，可以从数据库T_SYS_PARAM表中读取 <p>
  * 创建日期：2017-10-17<br>
@@ -16,7 +18,7 @@ import java.util.regex.Pattern;
  * @version 1.0
  */
 
-public class GlobalData implements Serializable{
+public class GlobalData extends Constant implements Serializable{
 	/**
 	 * 构造函数
 	 */
@@ -107,13 +109,9 @@ public class GlobalData implements Serializable{
 	
 	
 	/**
-	 * 常量50
-	 */
-	private static final int NUM50 = 5;
-	/**
 	 * 每页的显示多少条数据
 	 */
-	private static Integer pageSize = NUM50;
+	private static Integer pageSize = NUM_20;
 	
 
 	/**

@@ -62,5 +62,9 @@ public class Constant {
 	public static final String MENU_ADD = "ADD";
 
 	public static final String MODEL = "MODEL";
+	
+	public static final short STATE_ENABLE= 1;
+	
+	public static final short STATE_DISABLE= 0;
 
 }

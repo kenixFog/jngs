@@ -121,7 +121,7 @@ sysManage.menuManage.entry.initInfoArea = function() {
 			id:'parentId',
 			xtype : 'hidden',
 			name : 'parentId'
-		},new Ext.create("Ext.ux.comboboxtree", { 
+		},new Ext.create("Ext.ux.ComboBoxTree", { 
 	        name : 'parentName',  
 //	        storeUrl : webContextRoot + '/sys/menu/getMenuTreeByParentId',  
 	        multiSelect: false, 

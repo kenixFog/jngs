@@ -4,9 +4,12 @@
 Ext.namespace("whjn.dlg");
 
 /*
- * dlgData 格式: { infType:1 //信息类型： 1警告 2错误 showDetial:"",//显示提示对话框时默认是否显示详细信息
- * clientCode:"",//错误代码 message:"",//错误信息 detailMessage:"",//详细错认信息 callback:,
- * //本提示对话框关闭后的回调函数 }
+ * dlgData 格式: { infType:1 //信息类型： 1警告 2错误 
+ * showDetial:"",//显示提示对话框时默认是否显示详细信息
+ * clientCode:"",//错误代码 
+ * message:"",//错误信息 
+ * detailMessage:"",//
+ * 详细错认信息 callback:,//本提示对话框关闭后的回调函数 }
  */
 /**
  * 提示窗口
@@ -29,7 +32,7 @@ whjn.dlg.getErrorIconPnl = function() {
 	return new Ext.Panel({
 				border : false,
 				layout : 'fit',
-				html : "<img src='" + whjn.whjn_IMG_PATH
+				html : "<img src='" + whjn.ATOM_IMG_PATH
 						+ "ss-error.png' width='50' height='50' />"
 			});
 };
@@ -41,7 +44,7 @@ whjn.dlg.getWarnIconPnl = function() {
 	return new Ext.Panel({
 				border : false,
 				layout : 'fit',
-				html : "<img src='" + whjn.whjn_IMG_PATH
+				html : "<img src='" + whjn.ATOM_IMG_PATH
 						+ "ss-warn.png' width='50' height='50' />"
 			});
 };
@@ -223,7 +226,7 @@ whjn.dlg.showMomentDlg = function(msg, backFn) {
 						region : 'west',
 						width : 40,
 						border : false,
-						html : "<img src='" + whjn.whjn_IMG_PATH
+						html : "<img src='" + whjn.ATOM_IMG_PATH
 								+ "ss-right.png' width='40' height='40' />"
 					}, whjn.dlg.momentWinEdit]
 				});
@@ -239,4 +242,27 @@ whjn.dlg.showMomentDlg = function(msg, backFn) {
 	whjn.dlg.momentWinEdit.setValue(msg);
 	whjn.dlg.momentWin.show();
 	setTimeout(whjn.dlg.hideMomentWin, 800);
+};
+
+
+// 错误提示
+whjn.dlg.errTip = function(msg, e) {
+	Ext.MessageBox.show({
+		title : '错误信息',
+		msg : msg,
+		buttons : Ext.MessageBox.OK,
+		animateTarget : e,
+		icon : Ext.MessageBox.ERROR
+	});
+};
+
+// 一般提示
+whjn.dlg.infoTip = function(msg, e) {
+	Ext.MessageBox.show({
+		title : '系统信息',
+		msg : msg,
+		buttons : Ext.MessageBox.OK,
+		animateTarget : e,
+		icon : Ext.MessageBox.INFO
+	});
 };

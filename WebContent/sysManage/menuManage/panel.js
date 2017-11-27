@@ -132,6 +132,7 @@ sysManage.menuManage.panel.initGridPnl = function() {
 	    selType: "checkboxmodel",
 	    columns: [{ 
         	text: 'ID', 
+        	hidden : true,
         	dataIndex: 'id', 
         	width:30, 
         	align : 'right'
