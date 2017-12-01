@@ -29,13 +29,6 @@ sysManage.comCodeManage.main.initMainPanel = function(){
 	//  					text : atom.constant.delStuBtnText,
 	//  					tooltip: atom.constant.delStuBtnTip,
 				handler : sysManage.comCodeManage.main.del
-			},{             
-				bizCode : "BTNTEST",  //按钮的编码
-				text:'测试',
-	//  					text : atom.constant.addStuBtnText,         //按钮上显示的文字
-	//  					iconCls : 'btnIconAdd',                     //一个样式类，提供在按钮上显示的图标
-	//  					tooltip: atom.constant.addStuBtnTip,        //鼠标悬停在按钮上时的提示信息
-				handler : sysManage.comCodeManage.main.test
 			}]
 		},
 		items:[             								//用来存放主面板中包含子面板的 数组，
@@ -130,10 +123,6 @@ sysManage.comCodeManage.main.del = function(){
 				}
 		});
 	}
-}
-
-sysManage.comCodeManage.main.test = function(){
-	alert('test');
 }
 	
 /**

@@ -66,6 +66,21 @@ public interface SysMenuDao extends BaseDao<SysMenu> {
 	* @version V1.0   
 	*/
 	QueryResult<SysMenu> getMenuList(SysMenu sysMenu, String qryName, Integer nodeId);
+
+	/** 
+	* @Title: getMenuInfo 
+	* @Description: 获取菜单信息
+	* @param @param menuId
+	* @param @return  
+	* @return List<SysMenu>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月28日 上午10:21:39 
+	* @version V1.0   
+	*/
+	List<SysMenu> getMenuInfo(Integer menuId);
+
+	
 	
 
 }

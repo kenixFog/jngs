@@ -22,31 +22,30 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @系统角色实体类
  */
 @Entity
-@Table(name = "sys_role")
+@Table(name = "T_SYS_ROLE")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class SysRole extends BaseParameter {
-	private static final long serialVersionUID = -1024716609534002122L;
 
+	/** 
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+	*/ 
+	private static final long serialVersionUID = -4894338335461873737L;
 	// ID
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "ID")
 	private Long id;
 	// 所在组织机构ID
-	@Column(name = "orgId")
-	private Long orgId; 
+	@Column(name = "ROLETYPEID")
+	private Long roleTypeId; 
 	// 名称
-	@Column(name = "roleName", length = 50, nullable = false)
+	@Column(name = "ROLENAME", length = 50, nullable = false)
 	private String roleName;
 	// 编码
-	@Column(name = "roleCode", length = 50, nullable = false)
+	@Column(name = "ROLECODE", length = 50, nullable = false)
 	private String roleCode;
-	// 类型
-	@Column(name = "type", length = 2, nullable = false)
-	private short type;
-	
 	// 创建时间
-	@Column(name = "createTime")
+	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	
@@ -58,12 +57,12 @@ public class SysRole extends BaseParameter {
 		this.id = id;
 	}
 
-	public Long getOrgId() {
-		return orgId;
+	public Long getRoleTypeId() {
+		return roleTypeId;
 	}
 
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
+	public void setOrgId(Long roleTypeId) {
+		this.roleTypeId = roleTypeId;
 	}
 	
 	public String getRoleName() {
@@ -80,14 +79,6 @@ public class SysRole extends BaseParameter {
 
 	public void setRoleCode(String roleCode) {
 		this.roleCode = roleCode;
-	}
-
-	public short getType() {
-		return type;
-	}
-
-	public void setType(short type) {
-		this.type = type;
 	}
 
 	@JsonSerialize(using = DateTimeSerializer.class)

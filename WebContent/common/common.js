@@ -448,10 +448,11 @@ whjn.refreshTreePnl = function refreshNode(treePanel, currentNodeId){
     treePanel.getStore().load({  
             node : currentNode,   
             callback:function(){  
-                if(currentNode && currentNode.data.expanded){  
-                    //之前展开的还是展开  
-                    treePanel.expandPath(path);  
-                }  
+//                if(currentNode && currentNode.data.expanded){  
+//                    //之前展开的还是展开  
+//                    treePanel.expandPath(path);  
+//                } 
+            	treePanel.expandPath(path); 
                 treePanel.selectPath(path);  
             }  
         });  

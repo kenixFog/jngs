@@ -22,30 +22,39 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @系统组织机构实体类
  */
 @Entity
-@Table(name = "sys_org")
+@Table(name = "T_SYS_ORG")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class SysOrg extends BaseParameter {
-	private static final long serialVersionUID = -1024716609534002122L;
 
+	/** 
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+	*/ 
+	private static final long serialVersionUID = -4296990148987567807L;
 	// ID
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "ID")
 	private Long id;
 	// 名称
-	@Column(name = "orgName", length = 50, nullable = false)
+	@Column(name = "ORGNAME", length = 50, nullable = false)
 	private String orgName;
 	// 编码
-	@Column(name = "orgCode", length = 50, nullable = false)
+	@Column(name = "ORGCODE", length = 50, nullable = false)
 	private String orgCode;
 	// 类型
-	@Column(name = "type", length = 2, nullable = false)
+	@Column(name = "TYPE", length = 2 )
 	private short type;
 	// 父节点ID
-	@Column(name = "PARENT_ID")
+	@Column(name = "PARENTID")
 	private Long parentId;
+	//性质
+	@Column(name = "ATTR", length = 2, nullable = false)
+	private short attr;
+	//状态 0 禁用，1 启用
+	@Column(name = "STATUE", length = 2, nullable = false)
+	private short statue = 1;
 	// 创建时间
-	@Column(name = "createTime")
+	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	
@@ -87,6 +96,14 @@ public class SysOrg extends BaseParameter {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+	
+	public Short getStatue() {
+		return statue;
+	}
+
+	public void setStatue(Short statue) {
+		this.statue = statue;
 	}
 
 	@JsonSerialize(using = DateTimeSerializer.class)

@@ -45,15 +45,11 @@ sysManage.menuManage.tree.initTree = function() {
 			xtype : 'treepanel',
 			rootVisible : true,
 			store : menuTreeStore,
-//			tbar : [ treeFilterField ],
 			listeners : {
 				'select' : function(e, record){
 					var className = sysManage.menuManage.panel;
-					//清空查询条件
-					Ext.getCmp("menuName").setValue("");
 					//保存当前树节点信息至页面全局变量
 					sysManage.menuManage.tree.node =  record;
-					className.nodeId = sysManage.menuManage.tree.node.raw.id;
 					className.loadRecord();
 				}
 			}

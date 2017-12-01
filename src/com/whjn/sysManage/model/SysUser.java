@@ -23,36 +23,38 @@ import com.whjn.common.util.DateTimeSerializer;
  * @系统用户实体类
  */
 @Entity
-//@Table(name = "T_SYS_USER")
-@Table(name = "sys_user")
+@Table(name = "T_SYS_USER")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class SysUser extends BaseParameter{
 
+	/** 
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+	*/ 
 	private static final long serialVersionUID = 752468491608017649L;
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "ID")
 	private long id; // ID
-	@Column(name = "orgId")
+	@Column(name = "ORGID")
 	private long orgId; // 所在组织机构ID
-	@Column(name = "userName", length = 30, nullable = false, unique = true)
+	@Column(name = "USERNAME", length = 30, nullable = false, unique = true)
 	private String userName; // 用户名
-	@Column(name = "passWord", length = 32, nullable = false)
+	@Column(name = "PASSWORD", length = 32, nullable = false)
 	private String password; // 密码
-	@Column(name = "realName", length = 30, nullable = true)
+	@Column(name = "REALNAME", length = 30, nullable = true)
 	private String realName; // 姓名
-	@Column(name = "tel", length = 15, nullable = true)
+	@Column(name = "TEL", length = 15, nullable = true)
 	private String tel; // 手机号
-	@Column(name = "email", length = 30, nullable = true)
+	@Column(name = "EMAIL", length = 30, nullable = true)
 	private String email; // 邮箱
-	@Column(name = "createTime")
+	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime; // 创建时间
-	@Column(name = "lastLoginTime")
+	@Column(name = "LASTLOGINTIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginTime; // 最后一次登录时间
-	@Column(name = "statue", columnDefinition="short default 1")
-	private short statue; // 状态
+	@Column(name = "STATUE")
+	private short statue = 1; // 状态
 	
 	public Long getId() {
 		return id;

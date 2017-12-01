@@ -54,8 +54,8 @@ sysManage.comCodeManage.panel.getStore = function(){
 	    },
 	    listeners: {
 	    	'beforeload': function(store, opration, eOpts){
-	    		var className = sysManage.comCodeManage.tree;
-	    		this.proxy.extraParams.nodeId = className.node.raw.id;
+	    		var node = sysManage.comCodeManage.tree.node;
+	    		this.proxy.extraParams.nodeId = node.raw.id;
 	    	}
 	    }
 	});
@@ -133,12 +133,12 @@ sysManage.comCodeManage.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '创建时间', 
 	    	dataIndex: 'createTime' , 
-	    	width:150,
+	    	width:140,
 	    	sortable : false
 	    },{ 
 	    	text: '修改时间', 
 	    	dataIndex: 'lastEditTime' , 
-	    	width:150,
+	    	width:140,
 	    	sortable : false
 	    }],
 	    listeners: {

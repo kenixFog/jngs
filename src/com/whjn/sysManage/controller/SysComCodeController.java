@@ -2,9 +2,7 @@ package com.whjn.sysManage.controller;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
-import com.whjn.common.util.StringUtil;
 import com.whjn.sysManage.model.SysComCode;
 import com.whjn.sysManage.service.SysComCodeService;
 
@@ -143,8 +140,9 @@ public class SysComCodeController extends BaseController<SysComCode> {
 	@RequestMapping(value = "/saveComCodeInfo", method = { RequestMethod.POST, RequestMethod.GET })
 	public void saveComCodeInfo(SysComCode entity, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		SysComCode checkCode = sysComCodeService.getByProerties("code", entity.getCode());
 		if (entity.getId() == -1) {// ID为-1代表新增
+			//检查编码是否存在
+			SysComCode checkCode = sysComCodeService.getByProerties("code", entity.getCode());
 			if (null == checkCode) {// 编码不存在
 				entity.setCreateTime(new Date());
 				entity.setLastEditTime(new Date());
@@ -155,10 +153,19 @@ public class SysComCodeController extends BaseController<SysComCode> {
 				entity.setMessage("保存失败，编码已存在，请重新输入！");
 			}
 		} else {// 修改
-			entity.setCreateTime(checkCode.getCreateTime());
-			entity.setLastEditTime(new Date());
-			sysComCodeService.merge(entity);
-			entity.setSuccess(true);
+			//根据ID获取原数据
+			SysComCode oldObj = sysComCodeService.getByProerties("id", entity.getId());
+			// 根据新修改的编码去数据库查询数据
+			SysComCode checkCode = sysComCodeService.getByProerties("code", entity.getCode());
+			if ((!oldObj.getCode().equals(entity.getCode())) && null != checkCode) {// 编码被修改,并且数据库不存在已修改的编码
+				entity.setSuccess(false);
+				entity.setMessage("保存失败，编码已存在，请重新输入！");
+			} else {
+				entity.setCreateTime(oldObj.getCreateTime());
+				entity.setLastEditTime(new Date());
+				sysComCodeService.merge(entity);
+				entity.setSuccess(true);
+			}
 		}
 		writeJSON(response, entity);
 	}

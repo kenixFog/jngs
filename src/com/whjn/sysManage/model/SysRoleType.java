@@ -17,29 +17,33 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+
 /**
- * @系统角色和人员关系实体类
+ * @系统角色实体类
  */
 @Entity
-@Table(name = "T_SYS_ROLE_USER")
+@Table(name = "T_SYS_ROLETYPE")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class SysRoleUser extends BaseParameter {
+public class SysRoleType extends BaseParameter {
 
 	/** 
 	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
 	*/ 
-	private static final long serialVersionUID = 2484854076921137858L;
+	private static final long serialVersionUID = -8826136608630324860L;
 	// ID
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
 	private Long id;
-	// 角色ID
-	@Column(name = "ROLEID")
-	private Long roleId; 
-	// 用户ID
-	@Column(name = "USERID")
-	private Long userId;
+	// 所在组织机构ID
+	@Column(name = "ORGID")
+	private Long orgId; 
+	// 名称
+	@Column(name = "ROLETYPENAME", length = 50, nullable = false)
+	private String roleName;
+	// 编码
+	@Column(name = "ROLETYPECODE", length = 50, nullable = false)
+	private String roleCode;
 	// 创建时间
 	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -53,22 +57,29 @@ public class SysRoleUser extends BaseParameter {
 		this.id = id;
 	}
 
-	public Long getRoleId() {
-		return roleId;
+	public Long getOrgId() {
+		return orgId;
 	}
 
-	public void setRoelId(Long roleId) {
-		this.roleId = roleId;
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
 	}
 	
-	public Long getUserId() {
-		return userId;
+	public String getRoleName() {
+		return roleName;
 	}
-	
-	public void setUserId(Long userId) {
-		this.userId = userId;
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
-	
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
 
 	@JsonSerialize(using = DateTimeSerializer.class)
 	public Date getCreateTime() {

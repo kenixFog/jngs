@@ -27,7 +27,7 @@ public class SysComCodeServiceImpl extends BaseServiceImpl<SysComCode> implement
 	private SysComCodeDao sysComCodeDao;
 
 	@Resource
-	public void setSysMenuDao(SysComCodeDao sysComCodeDao) {
+	public void setComCodeDao(SysComCodeDao sysComCodeDao) {
 		this.sysComCodeDao = sysComCodeDao;
 		this.baseDao = sysComCodeDao;
 	}

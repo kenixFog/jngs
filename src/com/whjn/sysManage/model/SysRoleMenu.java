@@ -22,24 +22,27 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @系统角色和菜单关系实体类
  */
 @Entity
-@Table(name = "sys_role_menu")
+@Table(name = "T_SYS_ROLE_MENU")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class SysRoleMenu extends BaseParameter {
-	private static final long serialVersionUID = -1024716609534002122L;
 
+	/** 
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+	*/ 
+	private static final long serialVersionUID = -1483297101086690376L;
 	// ID
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "ID")
 	private Long id;
 	// 角色ID
-	@Column(name = "roleId")
+	@Column(name = "ROLEID")
 	private Long roleId;
 	// 菜单ID
-	@Column(name = "menuId")
+	@Column(name = "MENUID")
 	private Long menuId;
 	// 创建时间
-	@Column(name = "createTime")
+	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 
