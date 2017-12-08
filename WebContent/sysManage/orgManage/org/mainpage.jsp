@@ -17,15 +17,15 @@
 		var mdlCfg = {
 				getCodeCfg : {
 					//菜单类型、菜单状态
-					groupCode : [ "MENU_CDLX","GLOBAL_ZT","GLOBAL_YES_NO"],
-					codeVar : [ "sysManage.menuManage.typeArray",
-								"sysManage.menuManage.statusArray",
-								"sysManage.menuManage.yesOrNoArray"]
+					groupCode : [ "ORG_TYPE","GLOBAL_ZT","ORG_ATTR"],
+					codeVar : [ "sysManage.orgManage.org.typeArray",
+								"sysManage.orgManage.org.statusArray",
+								"sysManage.orgManage.org.attrArray"]
 				},
 				//按钮的隐藏方式，disable（禁用，变灰），hide（禁用，隐藏）
 				btnCtrlMode : 'hide'
 		};
-	    whjn.openModule(sysManage.menuManage.main.initMainPanel,null,mdlCfg);
+	    whjn.openModule(sysManage.orgManage.org.main.initMainPanel,null,mdlCfg);
 	})();
 	</script>
 	<iframe id="exportFrame" name="exportFrame" width="0" height="0"/>

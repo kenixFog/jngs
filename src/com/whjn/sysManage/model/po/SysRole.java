@@ -1,4 +1,4 @@
-package com.whjn.sysManage.model;
+package com.whjn.sysManage.model.po;
 
 import java.util.Date;
 
@@ -17,28 +17,35 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+
 /**
- * @系统角色和人员关系实体类
+ * @系统角色实体类
  */
 @Entity
-@Table(name = "sys_role_user")
+@Table(name = "T_SYS_ROLE")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class SysRoleUser extends BaseParameter {
-	private static final long serialVersionUID = -1024716609534002122L;
+public class SysRole extends BaseParameter {
 
+	/** 
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+	*/ 
+	private static final long serialVersionUID = -4894338335461873737L;
 	// ID
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "ID")
 	private Long id;
-	// 角色ID
-	@Column(name = "roleId")
-	private Long roleId; 
-	// 用户ID
-	@Column(name = "userId")
-	private Long userId;
+	// 所在组织机构ID
+	@Column(name = "ROLETYPEID")
+	private Long roleTypeId; 
+	// 名称
+	@Column(name = "ROLENAME", length = 50, nullable = false)
+	private String roleName;
+	// 编码
+	@Column(name = "ROLECODE", length = 50, nullable = false)
+	private String roleCode;
 	// 创建时间
-	@Column(name = "createTime")
+	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	
@@ -50,22 +57,29 @@ public class SysRoleUser extends BaseParameter {
 		this.id = id;
 	}
 
-	public Long getRoleId() {
-		return roleId;
+	public Long getRoleTypeId() {
+		return roleTypeId;
 	}
 
-	public void setRoelId(Long roleId) {
-		this.roleId = roleId;
+	public void setOrgId(Long roleTypeId) {
+		this.roleTypeId = roleTypeId;
 	}
 	
-	public Long getUserId() {
-		return userId;
+	public String getRoleName() {
+		return roleName;
 	}
-	
-	public void setUserId(Long userId) {
-		this.userId = userId;
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
-	
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
 
 	@JsonSerialize(using = DateTimeSerializer.class)
 	public Date getCreateTime() {

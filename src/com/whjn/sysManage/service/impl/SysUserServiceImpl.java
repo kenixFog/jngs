@@ -1,15 +1,17 @@
 package com.whjn.sysManage.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.sysManage.dao.SysUserDao;
-import com.whjn.sysManage.model.SysUser;
+import com.whjn.sysManage.model.po.SysOrg;
+import com.whjn.sysManage.model.po.SysUser;
 import com.whjn.sysManage.service.SysUserService;
 
 
@@ -24,23 +26,30 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 		this.baseDao = sysUserDao;
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getUserList
+	* @Description:
+	* @param @param sysUser
+	* @param @param nodeId
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysUserService#getUserList(com.whjn.sysManage.model.vo.SysUser_Vo, java.lang.Integer) 
+	*/
 	@Override
-	public List<SysUser> getSysUserList(List<SysUser> resultList) {
-		List<SysUser> sysUserList = new ArrayList<SysUser>();
-		for (SysUser entity : resultList) {
-			SysUser sysUser = new SysUser();
-			sysUser.setId(entity.getId());
-			sysUser.setUserName(entity.getUserName());
-			sysUser.setPassword(entity.getPassword());
-			sysUser.setRealName(entity.getRealName());
-			sysUser.setTel(entity.getTel());
-			sysUser.setEmail(entity.getEmail());
-			sysUser.setLastLoginTime(entity.getLastLoginTime());
-//			sysUser.setRole(entity.getRole());
-//			sysUser.setRoleName(SystemCache.DICTIONARY.get("SYSUSER_ROLE").getItems().get(String.valueOf(entity.getRole())).getValue());
-			sysUserList.add(sysUser);
-		}
-		return sysUserList;
+	public QueryResult<SysUser> getUserList(SysUser sysUser, Integer nodeId) {
+		QueryResult<SysUser> menuList = sysUserDao.getMenuList(sysUser, nodeId);
+		return menuList;
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getUserInfo
+	* @Description:
+	* @param @param userId
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysUserService#getUserInfo(java.lang.Integer) 
+	*/
+	@Override
+	public List<SysUser> getUserInfo(Integer userId) {
+		return sysUserDao.getUserInfo(userId);
 	}
 
 }

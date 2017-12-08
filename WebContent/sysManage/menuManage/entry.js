@@ -3,7 +3,9 @@
 //弹出二级窗口
 sysManage.menuManage.entry.win = null;
 //标识是新增还是(编辑和查看）
-sysManage.menuManage.entry.currObjId = null;	
+sysManage.menuManage.entry.currObjId = null;
+//父节点Id
+sysManage.menuManage.entry.parentId = null;	
 
 
 /**
@@ -14,30 +16,21 @@ sysManage.menuManage.entry.showWin = function(titleText) {
 	var className = sysManage.menuManage.entry;
 	//当前选中树节点
 	var node = sysManage.menuManage.tree.node;
-	//判断当前选中的节点类型
-	if (node.isLeaf()) { //如果是叶子节点，只能增加页面的按钮
-		
-		alert("leaf"+node.raw.id);
-//		//通过当前节点信息获取年级名称
-//		className.grade = sysManage.menuManage.tree.curTreeNode.parentNode.attributes.text;
-//		//通过当前节点信息获取班级名称
-//		className.clas = sysManage.menuManage.tree.curTreeNode.attributes.text;
-	} else {
-		alert("！leaf"+node.raw.id);
-//		//通过当前列面信息获取年级名称
-//		className.grade = rec.get("GRADE");
-//		//通过当前列面信息获取班级名称
-//		className.clas = rec.get("CLASSNUMBER");
-	}
 	//获取二级弹出窗口
 	className.win = className.createWin(titleText);
-	//显示二级窗体
+	//根据条件控制工具栏按钮
 	className.setwinToolBar(titleText);
 	//根据条件对窗体中表单进行数据加载
 	className.setwinForm(titleText);
+	//判断当前选中的节点类型
+	if (node.isLeaf()) { //选中末级页面结点，点击新增
+		//只能新增按钮类型
+		className.formPnl.getForm().findField("type").setValue('2');
+		//类型下拉框不可用
+		className.formPnl.getForm().findField("type").setDisabled(true);
+	}
+	//显示二级窗体
 	className.win.show();
-	//根据条件控制工具栏按钮
-	return className.win;
 }
 
 /**
@@ -48,11 +41,11 @@ sysManage.menuManage.entry.createWin = function(titleText) {
 	var winCfg = {
 		layout : 'fit',   	  // 布局样式
 		width : 400,	
-		height : 430,
+		height : 380,
 		title : '菜单信息'+'-'+titleText,
 		resizable : false,	 // 不允许用户允许拖动窗体边角来控制窗口大小
 		autoScroll : true,   // 自动显示滚动条
-		closeAction : 'hide',// 关闭时为隐藏操作
+		closeAction : 'destroy',// 关闭时为隐藏操作
 		modal : true,		 // 模态化显示：后方的区域不能点击和编辑
 		tbar :{
 			cls:'whjn-tbar',
@@ -80,30 +73,6 @@ sysManage.menuManage.entry.createWin = function(titleText) {
  * @returns {Ext.form.FormPanel}
  */
 sysManage.menuManage.entry.initInfoArea = function() {
-	
-	var menuTreeStore = Ext.create('Ext.data.TreeStore', {   
-        root: {  
-        	id : -1,
-            text : '功能菜单树', 
-    		type : 0, //节点类型				
-            expanded : true,
-            leaf : false  
-        },  
-        proxy: {   
-        	type : 'ajax',  
-            url : webContextRoot + '/sys/menu/getMenuTreeByParentId',//请求  
-            reader : {  
-                type : 'json'
-            } 
-        },
-        listeners : {  
-            'beforeexpand' : function(node,eOpts){  
-            	//点击父亲节点的菜单会将节点的id通过ajax请求 
-                this.proxy.extraParams.parentId = node.raw.id;  
-            }
-        }
-    });
-	
 	var className = sysManage.menuManage.entry;
 	var formPnl = new Ext.form.Panel({
 		bodyPadding: 20,
@@ -114,28 +83,15 @@ sysManage.menuManage.entry.initInfoArea = function() {
 			anchor : '100%'
 		},
 		items : [{
-			id : 'ID',
+			id : 'id',
 			xtype : 'hidden',
-			name : 'ID'
+			name : 'id',
+			value : sysManage.menuManage.entry.currObjId
 		},{
 			id:'parentId',
 			xtype : 'hidden',
 			name : 'parentId'
-		},new Ext.create("Ext.ux.ComboBoxTree", { 
-	        name : 'parentName',  
-//	        storeUrl : webContextRoot + '/sys/menu/getMenuTreeByParentId',  
-	        multiSelect: false, 
-	        onlyChooseLeaf : false, 
-	        fieldLabel : '上级菜单', 
-	        labelWidth : 80,
-	        editable : false,
-	        store : menuTreeStore,
-	        listeners:{
-	        	change : function(field, newValue, oldValue, eOpts){
-	        		Ext.getCmp("parentId").setValue(this.getSubmitValue());
-	        	}
-	        }
-	    }),{
+		},{
 			xtype : 'textfield',
 			name : 'menuCode',
 			fieldLabel : '菜单编码',
@@ -157,22 +113,38 @@ sysManage.menuManage.entry.initInfoArea = function() {
 			fieldLabel : '菜单类型',
 			style: 'margin-top:10px',
 			emptyText : '请选择...',
-			allowBlank : false
-		},{
-			xtype : 'combobox',
-			name : 'isLeaf',
-			fieldLabel : '是否叶结点',
-			style: 'margin-top:10px',
-			emptyText : '请选择...',
-			disabled : true,
-			allowBlank : false
+			editable : false,
+			store : sysManage.menuManage.typeArray,
+			allowBlank : false,
+			listeners : {
+				'change' : function (field, newValue, oldValue, eOpts ) {
+					if(!sysManage.menuManage.tree.node.isLeaf() && newValue == 2){//非叶子节点（分层菜单）
+						whjn.dlg.errTip("分层菜单下，不允许新增按钮!");
+						className.formPnl.getForm().findField("type").setValue();
+						return;//分层菜单下，不允许新增按钮
+					} else {
+						if(newValue==1){//末级页面
+							//url字段可用
+//							className.formPnl.getForm().findField("url").setDisabled(false);
+							//不允许为空
+							className.formPnl.getForm().findField("url").allowBlank = false;
+						} else {//分层节点 或 按钮
+							//清空url路径
+//							className.formPnl.getForm().findField("url").setValue();
+							//url字段不可用
+//							className.formPnl.getForm().findField("url").setDisabled(true);
+							//允许为空
+							className.formPnl.getForm().findField("url").allowBlank = true;
+						}
+					}
+				}
+			}
 		},{
 			xtype : 'textfield',
 			name : 'url',
 			fieldLabel : '菜单路径',
 			style: 'margin-top:10px',
-			allowBlank : false,
-			readOnly : true,
+//			disabled : true,//默认不可用
 			maxLength : 200,
 			maxLengthText : "最大长度不超过200个字符"
 		},{
@@ -180,6 +152,9 @@ sysManage.menuManage.entry.initInfoArea = function() {
 			name : 'isEdit',
 			fieldLabel : '是否可编辑',
 			emptyText : '请选择...',
+			editable : false,
+			store : sysManage.menuManage.yesOrNoArray,
+			value: '1',
 			allowBlank : false,
 			style: 'margin-top:10px'
 		},{
@@ -187,6 +162,9 @@ sysManage.menuManage.entry.initInfoArea = function() {
 			name : 'isDelete',
 			fieldLabel : '是否可删除',
 			emptyText : '请选择...',
+			editable : false,
+			store : sysManage.menuManage.yesOrNoArray,
+			value: '1',
 			allowBlank : false,
 			style: 'margin-top:10px'
 		},{
@@ -194,6 +172,9 @@ sysManage.menuManage.entry.initInfoArea = function() {
 			name : 'statue',
 			fieldLabel : '菜单状态',
 			emptyText : '请选择...',
+			editable : false,
+			store : sysManage.menuManage.statusArray,
+			value: '1',
 			allowBlank : false,
 			style: 'margin-top:10px'
 		}]
@@ -213,8 +194,6 @@ sysManage.menuManage.entry.setwinToolBar = function(titleText) {
 	//根据不同操作，控制工具栏按钮
 	if ("新增" == titleText || "编辑" == titleText) {
 		funcObjs = [ 'save', 'close' ];
-	} else if ("查看" == titleText) {
-		funcObjs = [ 'close' ];
 	}
 	if (funcObjs == null)
 		funcObjs = [];
@@ -228,10 +207,9 @@ sysManage.menuManage.entry.setwinToolBar = function(titleText) {
 sysManage.menuManage.entry.setwinForm = function(titleText) {
 	var className = sysManage.menuManage.entry;
 	var formPnl = className.formPnl;
-	if ("查看" == titleText || "编辑" == titleText) {
-		var url = webContextRoot + '/sys/menu/getMenuInfo';
+	if ("编辑" == titleText) {
 		formPnl.getForm().load({
-			url : url,
+			url :  webContextRoot + '/sys/menu/getMenuInfo',
 			method : "post",
 			params : {
 				// 菜单Id
@@ -240,28 +218,17 @@ sysManage.menuManage.entry.setwinForm = function(titleText) {
 			waitTitle : "提示",
 			waitMsg : "正在从服务器提取数据...",
 			failure : function(form, action) {
-				className.win.hide();
+				className.win.close();
 			},
 			success : function(form, action) {
 				Ext.getCmp("ID").setValue(action.result.data.ID);
 				Ext.getCmp("parentId").setValue(action.result.data.parentId);
-				if ("查看" == titleText) {
-					// 设置表单里面的控件为只读
-					whjn.setFormReadOnly(formPnl, true);
-				} else if ("编辑" == titleText) {
-					whjn.setFormReadOnly(formPnl, false);
-					if(action.result.data.type==1){//如果是按钮
-						var childTmp = formPnl.getForm().findField("parentName");
-
-					}
-				}
 			}
 		});
 	} else { //新增
 		//树节点
 		var parentNode = sysManage.menuManage.tree.node;
 		formPnl.getForm().findField("parentId").setValue(parentNode.raw.id);
-		formPnl.getForm().findField("parentName").setValue(parentNode.raw.text);
 	}
 	
 }
@@ -276,8 +243,8 @@ sysManage.menuManage.entry.saveHandler = function() {
 	var str = whjn.validateForm(className.formPnl);
 	if (str == "") { //如果校验通过
 		var params = {};
-		var qryNames = [ "ID", "parentId", "parentName", "menuCode", "menuName", 
-			"type","isLeaf", "url", "isEdit", "isDelete", "statue"];
+		var qryNames = [ "id", "parentId", "menuCode", "menuName", 
+			"type","url", "isEdit", "isDelete", "statue"];
 		//循环遍历，获取表单信息
 		for ( var i = 0; i < qryNames.length; i++) {
 			var objTmp = className.formPnl.getForm().findField(qryNames[i]);
@@ -288,29 +255,38 @@ sysManage.menuManage.entry.saveHandler = function() {
 					params[qryNames[i]] = objTmp.getValue();
 				}
 			}
-			alert(qryNames[i]+":"+objTmp.getValue());
 		}
-//		//操作类型，0 代表新增，非0代表编辑或删除
-//		params["currObjId"] = className.currObjId;
-//		//当前节点ID
-//		params["nodeId"] = sysManage.menuManage.tree.curTreeNode.attributes["nodeId"];
-//		className.formPnl.getForm().submit(
-//				{
-//					url : atom.webContextRoot
-//							+ '/treeAndPanelsAction.do?method=saveStuInfo',
-//					method : "post",
-//					params : params,
-//					waitTitle : "提示",
-//					waitMsg : "正在从服务器提取数据...",
-//					success : function(form, action) {
-//						parent.Appframe.viewinfdlg.show("数据保存成功!");
-//						//重新加载学生列表信息
-//						sysManage.menuManage.stuPanel.mainGrid.getStore()
-//								.load();
-//						//调用关闭按钮
-//						sysManage.menuManage.entry.closeHandler();
-//					}
-//				});
+		Ext.Ajax.request({
+			url : webContextRoot + '/sys/menu/saveMenuInfo',
+			params : params,
+			method : "POST",
+			success : function(response) {
+				if (response.responseText != '') {
+					var res = Ext.JSON.decode(response.responseText);
+					if (res.success) {
+						whjn.dlg.showMomentDlg("保存成功!");
+						sysManage.menuManage.entry.closeHandler();
+						//获取数据列表窗口
+						var className = sysManage.menuManage.panel;
+						//重新加载列表数据
+						className.loadRecord();
+						//树面板
+						var treePnl = sysManage.menuManage.tree.menuTree;
+						//点前选中的树节点
+						var node = sysManage.menuManage.tree.node;
+						//设置需要加载的树节点Id
+						treePnl.getStore().proxy.extraParams.parentId = node.data.id;
+						//刷新当前的树节点
+						whjn.refreshTreePnl(treePnl, node.data.id);
+					} else {
+						whjn.dlg.errTip(res.message);
+					}
+				}
+			},
+			failure : function(response) {
+				whjn.dlg.errTip('操作失败！');
+			}
+		});
 	} else {
 		Ext.MessageBox.alert("提示", str);
 	}

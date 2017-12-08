@@ -1,22 +1,22 @@
-﻿Ext.namespace("sysManage.comCodeManage.tree");
+﻿Ext.namespace("sysManage.orgManage.org.tree");
 //选中的树节点
-sysManage.comCodeManage.tree.node = null;
+sysManage.orgManage.org.tree.node = null;
 
-sysManage.comCodeManage.tree.initTree = function() {
-	 var comCodeTreeStore = Ext.create('Ext.data.TreeStore', {  
+sysManage.orgManage.org.tree.initTree = function() {
+	 var orgTreeStore = Ext.create('Ext.data.TreeStore', {  
 	        autoLoad : true,  
 	        proxy : {  
 	                type : 'ajax',  
-	                url : webContextRoot + '/sys/comCode/getComCodeTreeByParentId',//请求  
+	                url : webContextRoot + '/sys/org/getOrgTreeByParentId',//请求  
 	                reader : {  
 	                    type : 'json'
 	                } 
 	            },  
 	        root : {  
 	        	id : -1,
-	        	code : 'comCode_CODE',//节点编码
-	            text : '公共代码树', 
-	    		type : 0, //节点类型				
+	        	code : 'ORG_CODE',//节点编码
+	            text : '基准组织树', 
+	            attr : '0',
 	            expanded : true,
 	            leaf : false
 	        },  
@@ -28,32 +28,33 @@ sysManage.comCodeManage.tree.initTree = function() {
 	            'expand' : function(node,eOpts){
 	            	var item = this.getNodeById(node.raw.id);
 	            	//选中当前菜单
-	            	sysManage.comCodeManage.tree.comCodeTree.getSelectionModel().select(item);
+	            	sysManage.orgManage.org.tree.orgTree.getSelectionModel().select(item);
 				}
 	        }  
 	    });
-	 sysManage.comCodeManage.tree.comCodeTreeStore=comCodeTreeStore;
-	 var comCodeTree = Ext.create('Ext.tree.Panel', {
-			id : 'comCodeTree',
+	 sysManage.orgManage.org.tree.orgTreeStore=orgTreeStore;
+	 var orgTree = Ext.create('Ext.tree.Panel', {
+			id : 'orgTree',
 			region : 'west',
 			split : true,
-			title : '公共代码',
-			width : 220,
+			title : '基准组织树',
+			width : 320,
 			margins : '2 0 0 0',
 			collapsible : true,
 			animCollapse : true,
 			xtype : 'treepanel',
 			rootVisible : true,
-			store : comCodeTreeStore,
+			store : orgTreeStore,
 			listeners : {
 				'select' : function(e, record){
-					var className = sysManage.comCodeManage.panel;
+					sysManage.orgManage.org.main.changeMenuBtn(record);
+					var className = sysManage.orgManage.org.panel;
 					//保存当前树节点信息至页面全局变量
-					sysManage.comCodeManage.tree.node = record;
+					sysManage.orgManage.org.tree.node =  record;
 					className.loadRecord();
 				}
 			}
-	});
-	sysManage.comCodeManage.tree.comCodeTree = comCodeTree;
-	return comCodeTree;
+		});
+	sysManage.orgManage.org.tree.orgTree = orgTree;
+	return orgTree;
 }

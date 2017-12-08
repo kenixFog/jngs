@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.BaseService;
-import com.whjn.sysManage.model.SysMenu;
+import com.whjn.sysManage.model.po.SysMenu;
 
 public interface SysMenuService extends BaseService<SysMenu> {
 
@@ -65,5 +65,31 @@ public interface SysMenuService extends BaseService<SysMenu> {
 	* @version V1.0   
 	*/
 	QueryResult<SysMenu> getMenuList(SysMenu sysMenu, String qryName, Integer nodeId);
+
+	/** 
+	* @Title: getMenuInfo 
+	* @Description: 获取菜单信息
+	* @param @param menuId
+	* @param @return  
+	* @return List<SysComCode>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月28日 上午10:15:29 
+	* @version V1.0   
+	*/
+	List<SysMenu> getMenuInfo(Integer menuId);
+
+	/** 
+	* @Title: delMenuByIds 
+	* @Description: 删除菜单信息
+	* @param @param entity
+	* @param @param ids  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年11月28日 上午10:17:38 
+	* @version V1.0   
+	*/
+	void delMenuByIds(SysMenu entity, Long[] ids);
 
 }

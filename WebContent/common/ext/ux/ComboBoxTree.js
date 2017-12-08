@@ -1,9 +1,5 @@
 /**
  *  基于Extjs4的下拉树控件
- *  version:2012-10-29
- *  author: ZHANGLEI
- *  用法:
-    
     实例化store作为数据源
     var store = Ext.create('Ext.data.TreeStore',{
 		proxy:{
@@ -62,7 +58,7 @@
 Ext.define('Ext.ux.ComboBoxTree',{
 	extend : 'Ext.form.field.Picker',
 	requires : ['Ext.tree.Panel'],
-	alias : ['widget.comboboxtree'],
+	alias : ['widget.ComboBoxTree'],
 	multiSelect : false,
 	multiCascade:true,
 	submitValue:'',
@@ -88,7 +84,7 @@ Ext.define('Ext.ux.ComboBoxTree',{
 			ownerCt : this.ownerCt,
 			useArrows : true,
 			store : self.store,
-			rootVisible : true,
+			rootVisible : false,
 			viewConfig: {
 				onCheckboxChange: function(e,t) {
 				if (self.multiSelect) {//多选
@@ -173,6 +169,10 @@ Ext.define('Ext.ux.ComboBoxTree',{
 			}
 		}
 	},
+	getStore : function(){
+		return this.store;
+	},
+	
 	clearValue : function() {
 		this.setDefaultValue('','');
 	},
@@ -182,7 +182,7 @@ Ext.define('Ext.ux.ComboBoxTree',{
 		}
 		return this.eleJson;
 	},
-	getSubmitValue : function() {
+	getValue : function() {
 		if(this.submitValue == undefined){
 			this.submitValue = '';
 		}

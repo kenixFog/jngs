@@ -1,10 +1,10 @@
-Ext.namespace("sysManage.menuManage.panel");
-sysManage.menuManage.panel.initPanel = function() {
+Ext.namespace("sysManage.orgManage.org.panel");
+sysManage.orgManage.org.panel.initPanel = function() {
 	var panel = new Ext.Panel({
 		region : 'center',
 		layout : 'border',
 		items:[
-			sysManage.menuManage.panel.initGridPnl()
+			sysManage.orgManage.org.panel.initGridPnl()
 		]
 	});
 	return panel;
@@ -13,9 +13,9 @@ sysManage.menuManage.panel.initPanel = function() {
 
 
 
-sysManage.menuManage.panel.getStore = function(){
+sysManage.orgManage.org.panel.getStore = function(){
 	
-	Ext.define('MenuModel', {
+	Ext.define('OrgModel', {
 		extend : 'Ext.data.Model',
 		idProperty : 'id',
 		fields : [ {
@@ -24,21 +24,17 @@ sysManage.menuManage.panel.getStore = function(){
 		}, {
 			name : 'parentId',
 			type : 'long'
-		},  'menuCode', 'menuName','isEdit', 
-		'isDelete','type','statue','url', 
+		},  'orgCode', 'orgName','attr', 
+		'type','statue', 
 		{
 			name: 'createTime',
-			type : 'datetime',
-			dateFormat : 'Y-m-d H:i:s'
-		},{
-			name:'lastEditTime',
 			type : 'datetime',
 			dateFormat : 'Y-m-d H:i:s'
 		}]
 	});
 
 	var store = Ext.create("Ext.data.Store", {
-	    model: "MenuModel",
+	    model: "OrgModel",
 	    pageSize: whjn.PS,
 	    proxy: {
 	        type: "ajax",
@@ -48,7 +44,7 @@ sysManage.menuManage.panel.getStore = function(){
 	            update : 'POST',  
 	            destroy: 'POST'  
 	        },
-	        url: webContextRoot + '/sys/menu/getMenuList',
+	        url: webContextRoot + '/sys/org/getOrgList',
 	        reader: {
 	        	type : 'json',
 				root : 'data',
@@ -57,7 +53,7 @@ sysManage.menuManage.panel.getStore = function(){
 	    },
 	    listeners: {
 	    	'beforeload': function(store, opration, eOpts){
-	    		var node = sysManage.menuManage.tree.node;
+	    		var node = sysManage.orgManage.org.tree.node;
 	    		this.proxy.extraParams.nodeId = node.raw.id;
 	    	}
 	    }
@@ -66,10 +62,10 @@ sysManage.menuManage.panel.getStore = function(){
 }
 
 
-sysManage.menuManage.panel.initGridPnl = function() {
-	var className = sysManage.menuManage.panel;
+sysManage.orgManage.org.panel.initGridPnl = function() {
+	var className = sysManage.orgManage.org.panel;
 	var store = className.getStore();
-	var menuGridPnl = Ext.create("Ext.grid.Panel", {
+	var orgGridPnl = Ext.create("Ext.grid.Panel", {
 	    xtype: "grid",
 	    store: store,
 	    title:'菜单列表',
@@ -90,60 +86,42 @@ sysManage.menuManage.panel.initGridPnl = function() {
 	        hidden :true,
 	        align : 'right'
 	    },{ 
-	    	text: '菜单编码', 
-	    	dataIndex: 'menuCode', 
-	    	width:120
+	    	text: '基准组织编码', 
+	    	dataIndex: 'orgCode', 
+	    	width:130
 	    },{ 
-	    	text: '菜单名称', 
-	    	dataIndex: 'menuName' , 
-	    	width:120
+	    	text: '基准组织名称', 
+	    	dataIndex: 'orgName' , 
+	    	width:250
 	    },{ 
 	    		
-	    	text: '菜单路径', 
-	    	dataIndex: 'url' , 
-	    	flex:1,
-	    	sortable : false
-	    		
+	    	text: '性质', 
+	    	dataIndex: 'attr' , 
+	    	width:120,
+	    	sortable : false,
+	    	renderer : function(v) {
+				if (v == 1) {
+					return '公司';
+				} else if(v == 2 ){
+					return '部门';
+				} else {
+					return '班组'; 
+				}
+			}
 	    },{ 
-	    	text: '菜单类型', 
+	    	text: '类型', 
 	    	dataIndex: 'type' , 
-	    	width:90,
+	    	width:120,
 	    	sortable : false,
 	    	renderer : function(v) {
 				if (v == 1) {
-					return '页面菜单';
-				} else if(v == 2){
-					return '按钮';
+					return '内部组织';
 				} else {
-					return '分层菜单';
+					return '外部组织';
 				}
 			}
 	    },{ 
-	    	text: '是否可编辑', 
-	    	dataIndex: 'isEdit' , 
-	    	width:90,
-	    	sortable : false,
-	    	renderer : function(v) {
-				if (v == 1) {
-					return '是';
-				} else {
-					return '否';
-				}
-			}
-	    },{ 
-	    	text: '是否可删除', 
-	    	dataIndex: 'isDelete' , 
-	    	width:90,
-	    	sortable : false,
-	    	renderer : function(v) {
-				if (v == 1) {
-					return '是';
-				} else {
-					return '否';
-				}
-			}
-	    },{ 
-	    	text: '菜单状态', 
+	    	text: '状态', 
 	    	dataIndex: 'statue', 
 	    	width:90,
 	    	renderer : function(v) {
@@ -158,16 +136,11 @@ sysManage.menuManage.panel.initGridPnl = function() {
 	    	dataIndex: 'createTime' , 
 	    	width:140,
 	    	sortable : false
-	    },{ 
-	    	text: '修改时间', 
-	    	dataIndex: 'lastEditTime' , 
-	    	width:140,
-	    	sortable : false
 	    }],
 	    listeners: {
 	        itemdblclick: function (me, record, item, index, e, eOpts) {
 	        	 //双击事件的操作
-	        	sysManage.menuManage.main.edit();
+//	        	sysManage.orgManage.org.main.edit();
 	        }
 	    },
 	    bbar:new Ext.PagingToolbar({
@@ -178,12 +151,12 @@ sysManage.menuManage.panel.initGridPnl = function() {
 			emptyMsg : '没有记录'
 	    })
 	});
-	className.menuGridPnl=menuGridPnl;
-	return menuGridPnl;
+	className.orgGridPnl=orgGridPnl;
+	return orgGridPnl;
 }
 
-sysManage.menuManage.panel.loadRecord = function(){
-	var className = sysManage.menuManage.panel;
-	var store = className.menuGridPnl.getStore();
+sysManage.orgManage.org.panel.loadRecord = function(){
+	var className = sysManage.orgManage.org.panel;
+	var store = className.orgGridPnl.getStore();
 	store.load();
 }

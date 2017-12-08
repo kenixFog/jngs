@@ -1,4 +1,4 @@
-package com.whjn.sysManage.model;
+package com.whjn.sysManage.model.po;
 
 import java.util.Date;
 
@@ -21,25 +21,28 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @系统用户实体类
  */
 @Entity
-@Table(name = "sys_com_code")
+@Table(name = "T_SYS_COMCODE")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class SysComCode extends BaseParameter {
 
-	private static final long serialVersionUID = 5967125506046149887L;
+	/** 
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+	*/ 
+	private static final long serialVersionUID = 5710574775586747841L;
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private long id; // ID
-	@Column(name = "parent_Id")
+	@Column(name = "parentId")
 	private long parentId; // ID
 	@Column(name = "name", nullable = false)
 	private String name; // 名称
 	@Column(name = "code", length = 30, nullable = false, unique = true)
 	private String code; // 代码
-	@Column(name = "value", columnDefinition="default ''")
-	private String value; // 数值
-	@Column(name = "comments", length = 128, columnDefinition="default ''")
-	private String comments; // 说明
+	@Column(name = "value")
+	private String value = ""; // 数值
+	@Column(name = "comments", length = 128)
+	private String comments = ""; // 说明
 	@Column(name = "createTime")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime; // 创建时间
@@ -48,8 +51,8 @@ public class SysComCode extends BaseParameter {
 	private Date lastEditTime; // 最后一次修改时间
 	@Column(name = "type",nullable = false)
 	private short type; // 类型：0、分层； 1、代码；2、数据
-	@Column(name = "statue",columnDefinition="short default 1", nullable = false)
-	private short statue; // 状态
+	@Column(name = "statue", nullable = false)
+	private short statue = 1; // 状态
 
 	public long getId() {
 		return id;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.sysManage.dao.SysMenuDao;
-import com.whjn.sysManage.model.SysMenu;
+import com.whjn.sysManage.model.po.SysMenu;
 
 
 @Repository
@@ -24,48 +24,84 @@ public class SysMenuDaoImpl extends BaseDaoImpl<SysMenu> implements SysMenuDao {
 		super(SysMenu.class);
 	}
 
+	/*
+	 * (非 Javadoc) 
+	* @Title: getUseMenuByAuthority
+	* @Description:根据用户使用菜单权限获取菜单
+	* @param @param userId
+	* @param @param parentId
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysMenuDao#getUseMenuByAuthority(long, long)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SysMenu> getUseMenuByAuthority(long userId, long parentId) {
-		SQLQuery query = getSession().createSQLQuery("SELECT DISTINCT m.* FROM sys_role_user ru " + 
-				"LEFT JOIN sys_role_menu rm ON ru.roleId = rm.roleId " + 
-				"LEFT JOIN sys_menu m ON rm.menuid= m.id WHERE " +
-				"m.parent_id = ? and m.type = 0 and m.statue = 1 and userid = ?"); 
+		SQLQuery query = getSession().createSQLQuery("SELECT DISTINCT m.* FROM t_sys_role_user ru " + 
+				"LEFT JOIN t_sys_role_menu rm ON ru.roleId = rm.roleId " + 
+				"LEFT JOIN t_sys_menu m ON rm.menuid= m.id WHERE " +
+				"m.parentid = ? and m.type <> 2 and m.statue = 1 and userid = ?"); 
 		query.setParameter(0, parentId);
 		query.setParameter(1, userId);
 		query.addEntity(SysMenu.class);
 		return query.list();
 	}
 
+	/*
+	 * (非 Javadoc) 
+	* @Title: getButton
+	* @Description:根据用户权限获取按钮权限
+	* @param @param userId
+	* @param @param muneId
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysMenuDao#getButton(long, long)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SysMenu> getButton(long userId, long muneId) {
-		SQLQuery query = getSession().createSQLQuery("SELECT DISTINCT m.* FROM sys_role_user ru " + 
-				"LEFT JOIN sys_role_menu rm ON ru.roleId = rm.roleId " + 
-				"LEFT JOIN sys_menu m ON rm.menuid= m.id WHERE " +
-				"m.parent_id = ? and m.type = 1 and m.statue = 1 and userid = ?"); 
+		SQLQuery query = getSession().createSQLQuery("SELECT DISTINCT m.* FROM t_sys_role_user ru " + 
+				"LEFT JOIN t_sys_role_menu rm ON ru.roleId = rm.roleId " + 
+				"LEFT JOIN t_sys_menu m ON rm.menuid= m.id WHERE " +
+				"m.parentid = ? and m.type = 2 and m.statue = 1 and userid = ?"); 
 		query.setParameter(0, muneId);
 		query.setParameter(1, userId);
 		query.addEntity(SysMenu.class);
 		return query.list();
 	}
 	
+	/*
+	 * (非 Javadoc) 
+	* @Title: getMenuTreeByParentId
+	* @Description:据用户管理菜单权限获取菜单 
+	* @param @param parentId
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysMenuDao#getMenuTreeByParentId(long)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SysMenu> getMenuTreeByParentId(long parentId) {
 		SQLQuery query = getSession()
-				.createSQLQuery("SELECT m.* FROM sys_menu m WHERE " + "m.parent_id = ? and m.type = 0 ");
+				.createSQLQuery("SELECT m.* FROM t_sys_menu m WHERE " + "m.parentid = ? and m.type <> 2 ");
 		query.setParameter(0, parentId);
 		query.addEntity(SysMenu.class);
 		return query.list();
 	}
 
+	/*
+	 * (非 Javadoc) 
+	* @Title: getMenuList
+	* @Description:获取菜单列表
+	* @param @param sysMenu
+	* @param @param qryName
+	* @param @param nodeId
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysMenuDao#getMenuList(com.whjn.sysManage.model.SysMenu, java.lang.String, java.lang.Integer)
+	 */
 	@Override
 	public QueryResult<SysMenu> getMenuList(SysMenu sysMenu, String qryName, Integer nodeId) {
 		QueryResult<SysMenu> qr = new QueryResult<SysMenu>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT m.id, m.parent_Id, m.code, m.name, m.url, m.isEdit, m.isDelete, m.isleaf, m.type, m.statue");
-		sb.append(" FROM sys_menu m WHERE parent_Id=? ");
+		sb.append("SELECT m.id, m.parentId, m.code, m.name, m.url, m.isEdit, m.isDelete, m.type,");
+		sb.append(" m.statue, m.createTime, m.lastEditTime FROM t_sys_menu m WHERE parentId=? ");
 		if (qryName.length()!=0) {
 			sb.append(" AND NAME LIKE ? ");
 		}
@@ -85,6 +121,23 @@ public class SysMenuDaoImpl extends BaseDaoImpl<SysMenu> implements SysMenuDao {
 			qr.setResultList(new ArrayList<SysMenu>());
 		}
 		return qr;
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getMenuInfo
+	* @Description:获取菜单信息
+	* @param @param menuId
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysMenuDao#getMenuInfo(java.lang.Integer) 
+	*/
+	@Override
+	public List<SysMenu> getMenuInfo(Integer menuId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT c.id, c.parentId, c.code, c.name, c.type,  c.url, c.isDelete, c.isEdit,");
+		sql.append("c.statue, c.createTime, c.lastEditTime  FROM t_sys_menu c WHERE c.id=? ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, menuId);
+		return query.list();
 	}
 
 

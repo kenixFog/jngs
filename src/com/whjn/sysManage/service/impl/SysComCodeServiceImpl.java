@@ -15,7 +15,7 @@ import com.whjn.common.base.BaseParameter;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.sysManage.dao.SysComCodeDao;
-import com.whjn.sysManage.model.SysComCode;
+import com.whjn.sysManage.model.po.SysComCode;
 import com.whjn.sysManage.service.SysComCodeService;
 
 import net.sf.json.JSONObject;
@@ -27,7 +27,7 @@ public class SysComCodeServiceImpl extends BaseServiceImpl<SysComCode> implement
 	private SysComCodeDao sysComCodeDao;
 
 	@Resource
-	public void setSysMenuDao(SysComCodeDao sysComCodeDao) {
+	public void setComCodeDao(SysComCodeDao sysComCodeDao) {
 		this.sysComCodeDao = sysComCodeDao;
 		this.baseDao = sysComCodeDao;
 	}

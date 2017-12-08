@@ -1,64 +1,74 @@
-Ext.namespace("sysManage.menuManage.main");
+Ext.namespace("sysManage.orgManage.org.main");
 
-sysManage.menuManage.main.initMainPanel = function(){  
+sysManage.orgManage.org.main.initMainPanel = function(){  
 	//定义面板
 	var mainPanel = Ext.create('Ext.Panel',{
 		layout : 'border',                //布局类型 
 		border : true,                    //隐藏边框
 		tbar :{
 			cls:'whjn-tbar',
-			items:[{             
+			items:[{ 
 				bizCode : "ADD",  //按钮的编码
 				text:'新增',
-	//  					text : atom.constant.addStuBtnText,         //按钮上显示的文字
 	  			iconCls : 'fa fa-plus fa-lg',                  //一个样式类，提供在按钮上显示的图标
-	//  					tooltip: atom.constant.addStuBtnTip,        //鼠标悬停在按钮上时的提示信息
-				handler : sysManage.menuManage.main.add
+				menu : {
+					items : [{
+						id:'NEW-COM',
+						iconCls : 'fa fa-building fa-lg', 
+						text:'新增公司',
+						handler : sysManage.orgManage.org.main.add
+		            },{
+		            	id:'NEW-DEP',
+		            	iconCls : 'fa fa-cogs fa-lg', 
+		                text:'新增部门',
+		                handler : sysManage.orgManage.org.main.add
+		            },{
+		            	id:'NEW-GROUP',
+		            	iconCls : 'fa fa-users fa-lg', 
+		                text:'新增班组',
+	  					handler : sysManage.orgManage.org.main.add
+		            }]
+				}
 			},{
 				bizCode : "EDIT",
 				text:'编辑',
 				iconCls : 'fa fa-pencil fa-lg',
-	//  					text : atom.constant.editStuBtnText,
-	//  					iconCls : 'btnIconEdit',
-	//  					tooltip: atom.constant.editStuBtnTip,
-	  			handler : sysManage.menuManage.main.edit
+	  			handler : sysManage.orgManage.org.main.edit
 			}, {
 				bizCode : "DELE",
 				text:'删除',
 				iconCls : 'fa fa-trash-o fa-lg', 
-	//  					text : atom.constant.delStuBtnText,
-	//  					tooltip: atom.constant.delStuBtnTip,
-				handler : sysManage.menuManage.main.del
+				handler : sysManage.orgManage.org.main.del
 			}]
 		},
 		items:[             								//用来存放主面板中包含子面板的 数组，
-				sysManage.menuManage.tree.initTree(),        //课程树面板
-				sysManage.menuManage.panel.initPanel()       //包含双列表的面板   
+				sysManage.orgManage.org.tree.initTree(),        //课程树面板
+				sysManage.orgManage.org.panel.initPanel()       //包含双列表的面板   
 		      ]
 	});
-	sysManage.menuManage.main.mainPnl = mainPanel;
+	sysManage.orgManage.org.main.mainPnl = mainPanel;
 	return mainPanel;
 }	
 					
 /**
  * 新增
  */
-sysManage.menuManage.main.add = function(){
-	sysManage.menuManage.entry.currObjId = -1;
-	sysManage.menuManage.entry.showWin("新增");
+sysManage.orgManage.org.main.add = function(){
+	sysManage.orgManage.org.entry.currObjId = -1;
+	sysManage.orgManage.org.entry.showWin("新增");
 }
 
 
 /**
  * 编辑
  */
-sysManage.menuManage.main.edit = function(){
+sysManage.orgManage.org.main.edit = function(){
 	//菜单面板
-	var menuGridPnl = sysManage.menuManage.panel.menuGridPnl;
+	var orgGridPnl = sysManage.orgManage.org.panel.orgGridPnl;
 	//定义命名空间
-	var className = sysManage.menuManage.entry;
+	var className = sysManage.orgManage.org.entry;
 	// 判断选择的记录条数
-	var rec = sysManage.menuManage.main.getSelected(menuGridPnl);
+	var rec = sysManage.orgManage.org.main.getSelected(orgGridPnl);
 	if (rec) {
 		if(rec[0].data.isEdit==0){//为0，不可编辑
 			Ext.MessageBox.alert('提示', "该记录不可编辑");
@@ -66,19 +76,19 @@ sysManage.menuManage.main.edit = function(){
 			//获取菜单Id
 			className.currObjId = rec[0].data.id;
 			//调用编辑二级页面
-			sysManage.menuManage.entry.showWin("编辑");
+			sysManage.orgManage.org.entry.showWin("编辑");
 		}
 	}
 }
 
-sysManage.menuManage.main.del = function(){
-	var className = sysManage.menuManage.panel;
+sysManage.orgManage.org.main.del = function(){
+	var className = sysManage.orgManage.org.panel;
 	var sm = className.menuGridPnl.getSelectionModel();
 	if (sm.getCount() == 0) {//如果没有选中
 		whjn.dlg.infoTip("请选择需要删除的记录!");
 		return false;
 	} else {
-		var delURL = webContextRoot + '/sys/org/delOrgByIds';
+		var delURL = webContextRoot + '/sys/menu/delMenuByIds';
 		Ext.MessageBox.confirm('确认', '您确定要删除选择的这些菜单吗？',
 			function(btn) {
 				//根据选择不同按钮进行操作
@@ -100,13 +110,13 @@ sysManage.menuManage.main.del = function(){
 								if (res.success) {
 									whjn.dlg.showMomentDlg("删除成功!");
 									//获取数据列表窗口
-									var className = sysManage.menuManage.panel;
+									var className = sysManage.orgManage.org.panel;
 									//重新加载列表数据
 									className.loadRecord();
 									//树面板
-									var treePnl = sysManage.menuManage.tree.menuTree;
+									var treePnl = sysManage.orgManage.org.tree.orgTree;
 									//点前选中的树节点
-									var node = sysManage.menuManage.tree.node;
+									var node = sysManage.orgManage.org.tree.node;
 									//设置需要加载的树节点Id
 									treePnl.getStore().proxy.extraParams.parentId = node.data.id;
 									//刷新当前的树节点
@@ -127,7 +137,7 @@ sysManage.menuManage.main.del = function(){
  * 判断选择的信息是否单选
  * @returns {记录(rec)}
  */
-sysManage.menuManage.main.getSelected = function(grid){
+sysManage.orgManage.org.main.getSelected = function(grid){
 	//选择条数大于一
 	if (grid.getSelectionModel().getCount() > 1) {
 		Ext.MessageBox.alert("提示", "一次只能选择一条记录!");
@@ -144,3 +154,33 @@ sysManage.menuManage.main.getSelected = function(grid){
 	}
 }
 
+
+sysManage.orgManage.org.main.changeMenuBtn = function(node){
+	if(node.parentNode){//如果上级节点存在，则为子节点
+		node.raw.attr == 1
+		if(node.raw.attr == 1){//公司
+			//只能新增部门
+			Ext.getCmp("NEW-COM").setDisabled(true);
+			Ext.getCmp("NEW-DEP").setDisabled(false);
+			Ext.getCmp("NEW-GROUP").setDisabled(true);
+			sysManage.orgManage.orgAttr = '2'
+		}else if(node.raw.attr == 2){
+			//只能新增班组
+			sysManage.orgManage.orgAttr='3'
+			Ext.getCmp("NEW-COM").setDisabled(true);
+			Ext.getCmp("NEW-DEP").setDisabled(true);
+			Ext.getCmp("NEW-GROUP").setDisabled(false);
+		} else {
+			//什么也不能新增
+			Ext.getCmp("NEW-COM").setDisabled(true);
+			Ext.getCmp("NEW-DEP").setDisabled(true);
+			Ext.getCmp("NEW-GROUP").setDisabled(true);
+		}
+	} else { //根节点
+		//只能新增公司
+		sysManage.orgManage.orgAttr='1'
+		Ext.getCmp("NEW-COM").setDisabled(false);
+		Ext.getCmp("NEW-DEP").setDisabled(true);
+		Ext.getCmp("NEW-GROUP").setDisabled(true);
+	}
+}

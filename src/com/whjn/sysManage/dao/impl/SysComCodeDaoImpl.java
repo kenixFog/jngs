@@ -10,7 +10,7 @@ import com.whjn.common.base.BaseParameter;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.sysManage.dao.SysComCodeDao;
-import com.whjn.sysManage.model.SysComCode;
+import com.whjn.sysManage.model.po.SysComCode;
 
 
 
@@ -37,7 +37,7 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeTreeByParentId(long parentId) {
 		SQLQuery query = getSession()
-				.createSQLQuery("SELECT c.* FROM sys_Com_Code c WHERE " + "c.parent_id = ? and c.type <>2 ");
+				.createSQLQuery("SELECT c.* FROM t_sys_comCode c WHERE " + "c.parentid = ? and c.type <>2 ");
 		query.setParameter(0, parentId);
 		query.addEntity(SysComCode.class);
 		return query.list();
@@ -56,8 +56,8 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	public QueryResult<SysComCode> getComCodeList(BaseParameter param, Integer nodeId) {
 		QueryResult<SysComCode> qr = new QueryResult<SysComCode>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT c.id, c.parent_Id, c.code, c.name, c.value, c.comments, c.createTime, ");
-		sb.append("c.lastEditTime, c.type, c.statue FROM sys_Com_Code c WHERE c.parent_Id=? ");
+		sb.append("SELECT c.id, c.parentId, c.code, c.name, c.value, c.comments, c.createTime, ");
+		sb.append("c.lastEditTime, c.type, c.statue FROM t_sys_comCode c WHERE c.parentId=? ");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, nodeId);
 		query.addEntity(SysComCode.class);
@@ -84,8 +84,8 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeInfo(Integer ComCodeId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT c.id, c.parent_Id, c.code, c.name, c.value,  c.createTime,");
-		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c WHERE c.id=? ");
+		sql.append("SELECT c.id, c.parentId, c.code, c.name, c.value,  c.createTime,");
+		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM t_sys_comCode c WHERE c.id=? ");
 		SQLQuery query = getSession().createSQLQuery(sql.toString());
 		query.setParameter(0, ComCodeId);
 		return query.list();
@@ -102,9 +102,9 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeListByParentId(Long decode, boolean includeDisabled) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.value,  c.createTime,");
-		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c ");
-		sql.append(" WHERE c.parent_Id = ? AND type = 2");//只获取数据类型的
+		sql.append(" SELECT c.id, c.parentId, c.code, c.name, c.value,  c.createTime,");
+		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM t_sys_comCode c ");
+		sql.append(" WHERE c.parentId = ? AND type = 2");//只获取数据类型的
 		if (!includeDisabled) {
 			sql.append(" AND c.statue = 1 ");
 		}
@@ -125,9 +125,9 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 	@Override
 	public List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT c.id, c.parent_Id, c.code, c.name, c.value,  c.createTime,");
-		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM sys_Com_Code c ");
-		sql.append(" WHERE type = 2 AND c.parent_Id = ( SELECT id FROM sys_Com_Code WHERE CODE = ? ) ");
+		sql.append(" SELECT c.id, c.parentId, c.code, c.name, c.value,  c.createTime,");
+		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM t_sys_comCode c ");
+		sql.append(" WHERE type = 2 AND c.parentId = ( SELECT id FROM t_sys_comCode WHERE CODE = ? ) ");
 		if (!includeDisabled) {
 			sql.append(" AND c.statue = 1 ");
 		}

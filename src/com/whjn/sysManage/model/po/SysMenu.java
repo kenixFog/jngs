@@ -1,27 +1,36 @@
-package com.whjn.sysManage.model;
+package com.whjn.sysManage.model.po;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.whjn.common.base.BaseParameter;
+import com.whjn.common.util.DateTimeSerializer;
 
 
 /**
  * @系统菜单实体类
  */
 @Entity
-@Table(name = "SYS_MENU")
+@Table(name = "T_SYS_MENU")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class SysMenu extends BaseParameter {
 
-	private static final long serialVersionUID = -5233663741711528284L;
 
+	/** 
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+	*/ 
+	private static final long serialVersionUID = -8193534709825826849L;
 	// ID
 	@Id
 	@GeneratedValue
@@ -34,27 +43,31 @@ public class SysMenu extends BaseParameter {
 	@Column(name = "CODE", length = 50, nullable = false)
 	private String menuCode;
 	// 父节点ID
-	@Column(name = "PARENT_ID")
+	@Column(name = "PARENTID")
 	private long parentId;
 	// 菜单路径
-	@Column(name = "URL", length = 200, columnDefinition=" default ''")
-	private String url;
+	@Column(name = "URL", length = 200)
+	private String url = "";
 	// 菜单类型 0菜单，1按钮
-	@Column(name = "type")
+	@Column(name = "TYPE", nullable = false)
 	private short type;
-	// 是否是叶子节点
-	@Column(name = "ISLEAF",columnDefinition="short default 0", nullable = false)
-	private short isLeaf;
 	// 是否可编辑
-	@Column(name = "ISEDIT",columnDefinition="short default 0", nullable = false)
-	private short isEdit;
+	@Column(name = "ISEDIT", nullable = false)
+	private short isEdit = 0;
 	// 是否可删除
-	@Column(name = "ISDELETE",columnDefinition="short default 0", nullable = false)
-	private short isDelete;
+	@Column(name = "ISDELETE", nullable = false)
+	private short isDelete = 0;
 	// 状态 0.停用；1.启用
-	@Column(name = "STATUE", columnDefinition="short default 1", nullable = false)
-	private short statue;
-
+	@Column(name = "STATUE",  nullable = false)
+	private short statue = 1;
+	// 创建时间
+	@Column(name = "CREATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime; 
+	// 最后一次修改时间
+	@Column(name = "LASTEDITTIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastEditTime; 
 
 	public long getId() {
 		return id;
@@ -104,14 +117,6 @@ public class SysMenu extends BaseParameter {
 		this.type = type;
 	}
 
-	public short getIsLeaf() {
-		return isLeaf;
-	}
-
-	public void setIsLeaf(short isLeaf) {
-		this.isLeaf = isLeaf;
-	}
-
 	public short getIsEdit() {
 		return isEdit;
 	}
@@ -135,14 +140,22 @@ public class SysMenu extends BaseParameter {
 	public void setStatue(short statue) {
 		this.statue = statue;
 	}
-
-	@Override
-	public String toString() {
-		return "SysMenu [id=" + id + ", menuName=" + menuName + ", menuCode=" + menuCode + ", parentId=" + parentId
-				+ ", url=" + url + ", type=" + type + ", isLeaf=" + isLeaf + ", isEdit=" + isEdit + ", isdelete="
-				+ isDelete + ", statue=" + statue + "]";
+	
+	@JsonSerialize(using = DateTimeSerializer.class)
+	public Date getCreateTime() {
+		return createTime;
 	}
-	
-	
-	
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	@JsonSerialize(using = DateTimeSerializer.class)
+	public Date getLastEditTime() {
+		return lastEditTime;
+	}
+
+	public void setLastEditTime(Date lastEditTime) {
+		this.lastEditTime = lastEditTime;
+	}
 }

@@ -441,18 +441,86 @@ whjn.getAddBlankValue=function(comCodeArr){
  * @param treePanel  
  * @param currentNodeId 当前节点id 
  */  
-whjn.refreshTreePnl = function refreshNode(treePanel, currentNodeId){  
+whjn.refreshTreePnl = function (treePanel, currentNodeId){  
 	var currentNode = treePanel.getStore().getNodeById(currentNodeId); //当前节点删除了就不存在了  
     var path = currentNode.getPath('id'); 
     //刷新节点，展开节点，选中节点  
     treePanel.getStore().load({  
             node : currentNode,   
             callback:function(){  
-                if(currentNode && currentNode.data.expanded){  
-                    //之前展开的还是展开  
-                    treePanel.expandPath(path);  
-                }  
+//                if(currentNode && currentNode.data.expanded){  
+//                    //之前展开的还是展开  
+//                    treePanel.expandPath(path);  
+//                } 
+            	treePanel.expandPath(path); 
                 treePanel.selectPath(path);  
             }  
         });  
 }  
+
+
+whjn.searchTreePnl = function(treePnl, nodeId){
+	//根节点
+	var root = treePnl.getStore().tree.root;
+	//搜索到的节点
+	var currNode = whjn.searchNodeById(treePnl,root,nodeId);
+	// 上级节点
+	var parent = currNode.parentNode;
+	var parentPath = parent.getPath('id');
+	var path = currNode.getPath('id');
+	//刷新节点，展开节点，选中节点  
+	treePnl.getStore().load({  
+            node : currNode,   
+            callback:function(){  
+            	treePnl.expandPath(parentPath); 
+            	treePnl.selectPath(path);  
+            }  
+        });  
+}
+
+
+
+whjn.searchNodeById = function(treePnl, node, nodeId){
+	var childs= node.childNodes;//获取子节点
+	var cNode;//找到的节点
+	for(var i=0; i < childs.length; i++){
+        cNode = childs[i];
+        if(cNode.raw.id == id){
+            break;
+        } else {
+        	var path = cNode.getPath('id');//当前节点路径
+        	treePnl.getStore().load({  
+                node : cNode,   
+                callback:function(){  
+                	treePnl.expandPath(path); 
+//                	treePnl.selectPath(path);  
+                }  
+            });
+        	if(cNode.childNodes.length > 0){
+        		whjn.searchNodeById(treePnl, cNode, nodeId)
+        	}
+        }
+     }
+	
+	return cNode;
+}
+
+
+
+
+
+//whjn.searchNodeById = function(treePnl, node, id){
+//	var childs= node.childNodes;//获取子节点
+//	for(var i=0; i < childs.length; i++){
+//        var cNode = childs[i];
+//        if(cNode.raw.id == id){
+//            return cNode;
+//        }
+//        cNode.expand();//展开当前节点
+//        whjn.searchNodeById(cNode,id);//递归调用
+//     }
+//	
+//}
+
+
+
