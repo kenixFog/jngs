@@ -16,6 +16,7 @@ sysManage.orgManage.org.tree.initTree = function() {
 	        	id : -1,
 	        	code : 'ORG_CODE',//节点编码
 	            text : '基准组织树', 
+	            attr : '0',
 	            expanded : true,
 	            leaf : false
 	        },  
@@ -37,7 +38,7 @@ sysManage.orgManage.org.tree.initTree = function() {
 			region : 'west',
 			split : true,
 			title : '基准组织树',
-			width : 280,
+			width : 320,
 			margins : '2 0 0 0',
 			collapsible : true,
 			animCollapse : true,
@@ -46,10 +47,11 @@ sysManage.orgManage.org.tree.initTree = function() {
 			store : orgTreeStore,
 			listeners : {
 				'select' : function(e, record){
+					sysManage.orgManage.org.main.changeMenuBtn(record);
 					var className = sysManage.orgManage.org.panel;
 					//保存当前树节点信息至页面全局变量
 					sysManage.orgManage.org.tree.node =  record;
-//					className.loadRecord();
+					className.loadRecord();
 				}
 			}
 		});

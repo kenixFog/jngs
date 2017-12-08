@@ -15,7 +15,7 @@ sysManage.orgManage.org.panel.initPanel = function() {
 
 sysManage.orgManage.org.panel.getStore = function(){
 	
-	Ext.define('MenuModel', {
+	Ext.define('OrgModel', {
 		extend : 'Ext.data.Model',
 		idProperty : 'id',
 		fields : [ {
@@ -34,7 +34,7 @@ sysManage.orgManage.org.panel.getStore = function(){
 	});
 
 	var store = Ext.create("Ext.data.Store", {
-	    model: "MenuModel",
+	    model: "OrgModel",
 	    pageSize: whjn.PS,
 	    proxy: {
 	        type: "ajax",
@@ -44,7 +44,7 @@ sysManage.orgManage.org.panel.getStore = function(){
 	            update : 'POST',  
 	            destroy: 'POST'  
 	        },
-	        url: webContextRoot + '/sys/menu/getMenuList',
+	        url: webContextRoot + '/sys/org/getOrgList',
 	        reader: {
 	        	type : 'json',
 				root : 'data',
@@ -65,9 +65,9 @@ sysManage.orgManage.org.panel.getStore = function(){
 sysManage.orgManage.org.panel.initGridPnl = function() {
 	var className = sysManage.orgManage.org.panel;
 	var store = className.getStore();
-	var menuGridPnl = Ext.create("Ext.grid.Panel", {
+	var orgGridPnl = Ext.create("Ext.grid.Panel", {
 	    xtype: "grid",
-//	    store: store,
+	    store: store,
 	    title:'菜单列表',
 	    region : 'center',
 	    border : false,
@@ -87,19 +87,27 @@ sysManage.orgManage.org.panel.initGridPnl = function() {
 	        align : 'right'
 	    },{ 
 	    	text: '基准组织编码', 
-	    	dataIndex: 'menuCode', 
-	    	width:200
+	    	dataIndex: 'orgCode', 
+	    	width:130
 	    },{ 
 	    	text: '基准组织名称', 
-	    	dataIndex: 'menuName' , 
-	    	width:200
+	    	dataIndex: 'orgName' , 
+	    	width:250
 	    },{ 
 	    		
 	    	text: '性质', 
 	    	dataIndex: 'attr' , 
 	    	width:120,
-	    	sortable : false
-	    		
+	    	sortable : false,
+	    	renderer : function(v) {
+				if (v == 1) {
+					return '公司';
+				} else if(v == 2 ){
+					return '部门';
+				} else {
+					return '班组'; 
+				}
+			}
 	    },{ 
 	    	text: '类型', 
 	    	dataIndex: 'type' , 
@@ -107,11 +115,9 @@ sysManage.orgManage.org.panel.initGridPnl = function() {
 	    	sortable : false,
 	    	renderer : function(v) {
 				if (v == 1) {
-					return '页面菜单';
-				} else if(v == 2){
-					return '按钮';
+					return '内部组织';
 				} else {
-					return '分层菜单';
+					return '外部组织';
 				}
 			}
 	    },{ 
@@ -145,12 +151,12 @@ sysManage.orgManage.org.panel.initGridPnl = function() {
 			emptyMsg : '没有记录'
 	    })
 	});
-	className.menuGridPnl=menuGridPnl;
-	return menuGridPnl;
+	className.orgGridPnl=orgGridPnl;
+	return orgGridPnl;
 }
 
 sysManage.orgManage.org.panel.loadRecord = function(){
 	var className = sysManage.orgManage.org.panel;
-	var store = className.menuGridPnl.getStore();
+	var store = className.orgGridPnl.getStore();
 	store.load();
 }

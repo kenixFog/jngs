@@ -13,17 +13,20 @@ sysManage.orgManage.org.main.initMainPanel = function(){
 	  			iconCls : 'fa fa-plus fa-lg',                  //一个样式类，提供在按钮上显示的图标
 				menu : {
 					items : [{
+						id:'NEW-COM',
 						iconCls : 'fa fa-building fa-lg', 
-						text:'新增公司'
-//						handler : sysManage.orgManage.org.main.add
+						text:'新增公司',
+						handler : sysManage.orgManage.org.main.add
 		            },{
+		            	id:'NEW-DEP',
 		            	iconCls : 'fa fa-cogs fa-lg', 
-		                text:'新增部门'
-//		                handler : sysManage.orgManage.org.main.add
+		                text:'新增部门',
+		                handler : sysManage.orgManage.org.main.add
 		            },{
+		            	id:'NEW-GROUP',
 		            	iconCls : 'fa fa-users fa-lg', 
-		                text:'新增班组'
-//	  					handler : sysManage.orgManage.org.main.add
+		                text:'新增班组',
+	  					handler : sysManage.orgManage.org.main.add
 		            }]
 				}
 			},{
@@ -61,11 +64,11 @@ sysManage.orgManage.org.main.add = function(){
  */
 sysManage.orgManage.org.main.edit = function(){
 	//菜单面板
-	var menuGridPnl = sysManage.orgManage.org.panel.menuGridPnl;
+	var orgGridPnl = sysManage.orgManage.org.panel.orgGridPnl;
 	//定义命名空间
 	var className = sysManage.orgManage.org.entry;
 	// 判断选择的记录条数
-	var rec = sysManage.orgManage.org.main.getSelected(menuGridPnl);
+	var rec = sysManage.orgManage.org.main.getSelected(orgGridPnl);
 	if (rec) {
 		if(rec[0].data.isEdit==0){//为0，不可编辑
 			Ext.MessageBox.alert('提示', "该记录不可编辑");
@@ -111,7 +114,7 @@ sysManage.orgManage.org.main.del = function(){
 									//重新加载列表数据
 									className.loadRecord();
 									//树面板
-									var treePnl = sysManage.orgManage.org.tree.menuTree;
+									var treePnl = sysManage.orgManage.org.tree.orgTree;
 									//点前选中的树节点
 									var node = sysManage.orgManage.org.tree.node;
 									//设置需要加载的树节点Id
@@ -151,3 +154,33 @@ sysManage.orgManage.org.main.getSelected = function(grid){
 	}
 }
 
+
+sysManage.orgManage.org.main.changeMenuBtn = function(node){
+	if(node.parentNode){//如果上级节点存在，则为子节点
+		node.raw.attr == 1
+		if(node.raw.attr == 1){//公司
+			//只能新增部门
+			Ext.getCmp("NEW-COM").setDisabled(true);
+			Ext.getCmp("NEW-DEP").setDisabled(false);
+			Ext.getCmp("NEW-GROUP").setDisabled(true);
+			sysManage.orgManage.orgAttr = '2'
+		}else if(node.raw.attr == 2){
+			//只能新增班组
+			sysManage.orgManage.orgAttr='3'
+			Ext.getCmp("NEW-COM").setDisabled(true);
+			Ext.getCmp("NEW-DEP").setDisabled(true);
+			Ext.getCmp("NEW-GROUP").setDisabled(false);
+		} else {
+			//什么也不能新增
+			Ext.getCmp("NEW-COM").setDisabled(true);
+			Ext.getCmp("NEW-DEP").setDisabled(true);
+			Ext.getCmp("NEW-GROUP").setDisabled(true);
+		}
+	} else { //根节点
+		//只能新增公司
+		sysManage.orgManage.orgAttr='1'
+		Ext.getCmp("NEW-COM").setDisabled(false);
+		Ext.getCmp("NEW-DEP").setDisabled(true);
+		Ext.getCmp("NEW-GROUP").setDisabled(true);
+	}
+}

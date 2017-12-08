@@ -78,7 +78,7 @@ sysManage.menuManage.main.del = function(){
 		whjn.dlg.infoTip("请选择需要删除的记录!");
 		return false;
 	} else {
-		var delURL = webContextRoot + '/sys/menu/delMenuByIds';
+		var delURL = webContextRoot + '/sys/org/delOrgByIds';
 		Ext.MessageBox.confirm('确认', '您确定要删除选择的这些菜单吗？',
 			function(btn) {
 				//根据选择不同按钮进行操作

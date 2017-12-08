@@ -6,7 +6,8 @@ sysManage.orgManage.org.entry.win = null;
 sysManage.orgManage.org.entry.currObjId = null;
 //父节点Id
 sysManage.orgManage.org.entry.parentId = null;	
-
+//基准组织类型
+sysManage.orgManage.orgtype = null;
 
 /**
  * 对菜单窗口的显示方式进行控制
@@ -22,13 +23,6 @@ sysManage.orgManage.org.entry.showWin = function(titleText) {
 	className.setwinToolBar(titleText);
 	//根据条件对窗体中表单进行数据加载
 	className.setwinForm(titleText);
-	//判断当前选中的节点类型
-	if (node.isLeaf()) { //选中末级页面结点，点击新增
-		//只能新增按钮类型
-		className.formPnl.getForm().findField("type").setValue('2');
-		//类型下拉框不可用
-		className.formPnl.getForm().findField("type").setDisabled(true);
-	}
 	//显示二级窗体
 	className.win.show();
 }
@@ -41,8 +35,8 @@ sysManage.orgManage.org.entry.createWin = function(titleText) {
 	var winCfg = {
 		layout : 'fit',   	  // 布局样式
 		width : 400,	
-		height : 380,
-		title : '菜单信息'+'-'+titleText,
+		height : 300,
+		title : '基准组织信息'+'-'+titleText,
 		resizable : false,	 // 不允许用户允许拖动窗体边角来控制窗口大小
 		autoScroll : true,   // 自动显示滚动条
 		closeAction : 'destroy',// 关闭时为隐藏操作
@@ -79,7 +73,7 @@ sysManage.orgManage.org.entry.initInfoArea = function() {
 		border : false,
 		fieldDefaults : {
 			labelAlign : 'left',
-			labelWidth : 80,
+			labelWidth : 100,
 			anchor : '100%'
 		},
 		items : [{
@@ -93,84 +87,43 @@ sysManage.orgManage.org.entry.initInfoArea = function() {
 			name : 'parentId'
 		},{
 			xtype : 'textfield',
-			name : 'menuCode',
-			fieldLabel : '菜单编码',
+			name : 'orgCode',
+			fieldLabel : '基准组织编码',
 			style: 'margin-top:10px',
 			allowBlank : false,
 			maxLength : 50,
 			maxLengthText : "最大长度不超过50个字符"
 		},{
 			xtype : 'textfield',
-			name : 'menuName',
-			fieldLabel : '菜单名称',
+			name : 'orgName',
+			fieldLabel : '基准组织名称',
 			style: 'margin-top:10px',
 			allowBlank : false,
 			maxLength : 50,
 			maxLengthText : "最大长度不超过50个字符"
+		},{
+			xtype : 'combobox',
+			name : 'attr',
+			fieldLabel : '性质',
+			style: 'margin-top:10px',
+			emptyText : '请选择...',
+			editable : false,
+			store : sysManage.orgManage.org.attrArray,
+			allowBlank : false,
+			readOnly : true,
+			value : sysManage.orgManage.orgAttr
 		},{
 			xtype : 'combobox',
 			name : 'type',
-			fieldLabel : '菜单类型',
+			fieldLabel : '类型',
 			style: 'margin-top:10px',
 			emptyText : '请选择...',
 			editable : false,
-			store : sysManage.orgManage.org.typeArray,
-			allowBlank : false,
-			listeners : {
-				'change' : function (field, newValue, oldValue, eOpts ) {
-					if(!sysManage.orgManage.org.tree.node.isLeaf() && newValue == 2){//非叶子节点（分层菜单）
-						whjn.dlg.errTip("分层菜单下，不允许新增按钮!");
-						className.formPnl.getForm().findField("type").setValue();
-						return;//分层菜单下，不允许新增按钮
-					} else {
-						if(newValue==1){//末级页面
-							//url字段可用
-//							className.formPnl.getForm().findField("url").setDisabled(false);
-							//不允许为空
-							className.formPnl.getForm().findField("url").allowBlank = false;
-						} else {//分层节点 或 按钮
-							//清空url路径
-//							className.formPnl.getForm().findField("url").setValue();
-							//url字段不可用
-//							className.formPnl.getForm().findField("url").setDisabled(true);
-							//允许为空
-							className.formPnl.getForm().findField("url").allowBlank = true;
-						}
-					}
-				}
-			}
-		},{
-			xtype : 'textfield',
-			name : 'url',
-			fieldLabel : '菜单路径',
-			style: 'margin-top:10px',
-//			disabled : true,//默认不可用
-			maxLength : 200,
-			maxLengthText : "最大长度不超过200个字符"
-		},{
-			xtype : 'combobox',
-			name : 'isEdit',
-			fieldLabel : '是否可编辑',
-			emptyText : '请选择...',
-			editable : false,
-			store : sysManage.orgManage.org.yesOrNoArray,
-			value: '1',
-			allowBlank : false,
-			style: 'margin-top:10px'
-		},{
-			xtype : 'combobox',
-			name : 'isDelete',
-			fieldLabel : '是否可删除',
-			emptyText : '请选择...',
-			editable : false,
-			store : sysManage.orgManage.org.yesOrNoArray,
-			value: '1',
-			allowBlank : false,
-			style: 'margin-top:10px'
+			store : sysManage.orgManage.org.typeArray
 		},{
 			xtype : 'combobox',
 			name : 'statue',
-			fieldLabel : '菜单状态',
+			fieldLabel : '状态',
 			emptyText : '请选择...',
 			editable : false,
 			store : sysManage.orgManage.org.statusArray,
@@ -209,11 +162,11 @@ sysManage.orgManage.org.entry.setwinForm = function(titleText) {
 	var formPnl = className.formPnl;
 	if ("编辑" == titleText) {
 		formPnl.getForm().load({
-			url :  webContextRoot + '/sys/menu/getMenuInfo',
+			url :  webContextRoot + '/sys/org/getOrgInfo',
 			method : "post",
 			params : {
 				// 菜单Id
-				menuId : className.currObjId
+				orgId : className.currObjId
 			},
 			waitTitle : "提示",
 			waitMsg : "正在从服务器提取数据...",
@@ -243,8 +196,8 @@ sysManage.orgManage.org.entry.saveHandler = function() {
 	var str = whjn.validateForm(className.formPnl);
 	if (str == "") { //如果校验通过
 		var params = {};
-		var qryNames = [ "id", "parentId", "menuCode", "menuName", 
-			"type","url", "isEdit", "isDelete", "statue"];
+		var qryNames = [ "id", "attr","parentId", "orgCode", "orgName", 
+			"type","statue"];
 		//循环遍历，获取表单信息
 		for ( var i = 0; i < qryNames.length; i++) {
 			var objTmp = className.formPnl.getForm().findField(qryNames[i]);
@@ -257,7 +210,7 @@ sysManage.orgManage.org.entry.saveHandler = function() {
 			}
 		}
 		Ext.Ajax.request({
-			url : webContextRoot + '/sys/menu/saveMenuInfo',
+			url : webContextRoot + '/sys/org/saveOrgInfo',
 			params : params,
 			method : "POST",
 			success : function(response) {
@@ -271,7 +224,7 @@ sysManage.orgManage.org.entry.saveHandler = function() {
 						//重新加载列表数据
 						className.loadRecord();
 						//树面板
-						var treePnl = sysManage.orgManage.org.tree.menuTree;
+						var treePnl = sysManage.orgManage.org.tree.orgTree;
 						//点前选中的树节点
 						var node = sysManage.orgManage.org.tree.node;
 						//设置需要加载的树节点Id
