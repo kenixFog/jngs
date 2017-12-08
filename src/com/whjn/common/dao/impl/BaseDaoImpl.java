@@ -664,7 +664,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	private void processQuery(Criteria criteria, BaseParameter param) {
 		try {
 			Map<String, Object> staticConditionMap = BeanUtil.describeAvailableParameter(param);
-			Map<String, Object> dynamicConditionMap = param.getQueryDynamicConditions();
+			Map<String, String> dynamicConditionMap = param.getQueryDynamicConditions();
 			if ((staticConditionMap != null && staticConditionMap.size() > 0)) {
 				for (Entry<String, Object> e : staticConditionMap.entrySet()) {
 					Object value = e.getValue();
@@ -690,11 +690,11 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 			if (dynamicConditionMap != null && dynamicConditionMap.size() > 0) {
 				Object bean = entityClass.newInstance();
 				Map<String, Object> map = new HashMap<String, Object>();
-				for (Entry<String, Object> e : dynamicConditionMap.entrySet()) {
+				for (Entry<String, String> e : dynamicConditionMap.entrySet()) {
 					map.put(getPropName(e.getKey()), e.getValue());
 				}
 				BeanUtils.populate(bean, map);
-				for (Entry<String, Object> e : dynamicConditionMap.entrySet()) {
+				for (Entry<String, String> e : dynamicConditionMap.entrySet()) {
 					String pn = e.getKey();
 					String prop = getPropName(pn);
 					String methodName = getOpt(pn);
@@ -736,7 +736,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	private void extendprocessQuery(Criteria criteria, BaseParameter param) {
 		try {
 			Map<String, Object> staticConditionMap = BeanUtil.describeAvailableParameter(param);
-			Map<String, Object> dynamicConditionMap = param.getQueryDynamicConditions();
+			Map<String, String> dynamicConditionMap = param.getQueryDynamicConditions();
 			if ((staticConditionMap != null && staticConditionMap.size() > 0)) {
 				for (Entry<String, Object> e : staticConditionMap.entrySet()) {
 					Object value = e.getValue();
@@ -770,11 +770,11 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 			if (dynamicConditionMap != null && dynamicConditionMap.size() > 0) {
 				Object bean = entityClass.newInstance();
 				Map<String, Object> map = new HashMap<String, Object>();
-				for (Entry<String, Object> e : dynamicConditionMap.entrySet()) {
+				for (Entry<String, String> e : dynamicConditionMap.entrySet()) {
 					map.put(getPropName(e.getKey()), e.getValue());
 				}
 				BeanUtils.populate(bean, map);
-				for (Entry<String, Object> e : dynamicConditionMap.entrySet()) {
+				for (Entry<String, String> e : dynamicConditionMap.entrySet()) {
 					String pn = e.getKey();
 					String prop = getPropName(pn);
 					String methodName = getOpt(pn);

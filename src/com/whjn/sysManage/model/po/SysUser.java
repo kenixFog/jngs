@@ -1,4 +1,4 @@
-package com.whjn.sysManage.model;
+package com.whjn.sysManage.model.po;
 
 import java.util.Date;
 
@@ -35,14 +35,14 @@ public class SysUser extends BaseParameter{
 	@GeneratedValue
 	@Column(name = "ID")
 	private long id; // ID
-	@Column(name = "ORGID")
-	private long orgId; // 所在组织机构ID
 	@Column(name = "USERNAME", length = 30, nullable = false, unique = true)
 	private String userName; // 用户名
-	@Column(name = "PASSWORD", length = 32, nullable = false)
+	@Column(name = "PASSWORD", length = 32, nullable = false, columnDefinition="varchar(32) default '015212c7a321358ef41b6c7dc7fff356'")
 	private String password; // 密码
 	@Column(name = "REALNAME", length = 30, nullable = true)
 	private String realName; // 姓名
+	@Column(name = "ORGID", length = 30, nullable = true)
+	private long orgId; // 组织机构Id
 	@Column(name = "TEL", length = 15, nullable = true)
 	private String tel; // 手机号
 	@Column(name = "EMAIL", length = 30, nullable = true)
@@ -64,13 +64,6 @@ public class SysUser extends BaseParameter{
 		this.id = id;
 	}
 
-	public Long getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
-	}
 	
 	public String getUserName() {
 		return userName;
@@ -96,6 +89,14 @@ public class SysUser extends BaseParameter{
 		this.realName = realName;
 	}
 
+	public long getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(long orgId) {
+		this.orgId = orgId;
+	}
+	
 	public String getTel() {
 		return tel;
 	}

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.sysManage.dao.SysMenuDao;
-import com.whjn.sysManage.model.SysMenu;
+import com.whjn.sysManage.model.po.SysMenu;
 import com.whjn.sysManage.service.SysMenuService;
 
 import net.sf.json.JSONObject;

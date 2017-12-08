@@ -1,4 +1,4 @@
-package com.whjn.sysManage.model;
+package com.whjn.sysManage.model.po;
 
 import java.util.Date;
 

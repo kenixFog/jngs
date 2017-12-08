@@ -20,7 +20,7 @@ public class BaseParameter extends Constant implements Serializable {
 	//起始页
 	private Integer firstResult;
 	//动态查询条件
-	private Map<String, Object> queryDynamicConditions = new HashMap<String, Object>(4);
+	private Map<String, String> queryDynamicConditions = new HashMap<String, String>(4);
 	//排序条件
 	private Map<String, String> sortedConditions = new LinkedHashMap<String, String>(2);
 	//动态属性
@@ -77,11 +77,11 @@ public class BaseParameter extends Constant implements Serializable {
 		this.firstResult = firstResult;
 	}
 	
-	public Map<String, Object> getQueryDynamicConditions() {
+	public Map<String, String> getQueryDynamicConditions() {
 		return queryDynamicConditions;
 	}
 
-	public void setQueryDynamicConditions(Map<String, Object> queryDynamicConditions) {
+	public void setQueryDynamicConditions(Map<String, String> queryDynamicConditions) {
 		this.queryDynamicConditions = queryDynamicConditions;
 	}
 

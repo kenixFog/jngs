@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.sysManage.dao.SysMenuDao;
-import com.whjn.sysManage.model.SysMenu;
+import com.whjn.sysManage.model.po.SysMenu;
 
 
 @Repository

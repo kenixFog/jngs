@@ -6,7 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.whjn.sysManage.model.SysUser;
+import com.whjn.sysManage.model.po.SysUser;
+
 
 
 /**

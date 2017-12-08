@@ -20,7 +20,7 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
-import com.whjn.sysManage.model.SysMenu;
+import com.whjn.sysManage.model.po.SysMenu;
 import com.whjn.sysManage.service.SysMenuService;
 
 @Controller

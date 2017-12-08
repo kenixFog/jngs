@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.BaseService;
-import com.whjn.sysManage.model.SysMenu;
+import com.whjn.sysManage.model.po.SysMenu;
 
 public interface SysMenuService extends BaseService<SysMenu> {
 

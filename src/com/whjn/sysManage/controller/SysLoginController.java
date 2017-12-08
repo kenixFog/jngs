@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.framework.web.WebUtil;
 import com.whjn.common.util.MD5;
-import com.whjn.sysManage.model.SysUser;
+import com.whjn.sysManage.model.po.SysUser;
 import com.whjn.sysManage.service.SysUserService;
 
 

@@ -10,7 +10,7 @@ import com.whjn.common.base.BaseParameter;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.sysManage.dao.SysComCodeDao;
-import com.whjn.sysManage.model.SysComCode;
+import com.whjn.sysManage.model.po.SysComCode;
 
 
 

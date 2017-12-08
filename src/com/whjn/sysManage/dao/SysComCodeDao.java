@@ -5,7 +5,7 @@ import java.util.List;
 import com.whjn.common.base.BaseParameter;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.BaseDao;
-import com.whjn.sysManage.model.SysComCode;
+import com.whjn.sysManage.model.po.SysComCode;
 
 
 public interface SysComCodeDao extends BaseDao<SysComCode> {

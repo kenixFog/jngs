@@ -1,4 +1,4 @@
-package com.whjn.sysManage.model;
+package com.whjn.sysManage.model.po;
 
 import java.util.Date;
 
@@ -41,7 +41,7 @@ public class SysOrg extends BaseParameter {
 	// 编码
 	@Column(name = "ORGCODE", length = 50, nullable = false)
 	private String orgCode;
-	// 类型
+	// 类型  1、公司，2、部门，3、班组
 	@Column(name = "TYPE", length = 2 )
 	private short type;
 	// 父节点ID
@@ -96,6 +96,14 @@ public class SysOrg extends BaseParameter {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+	
+	public Short getAttr() {
+		return attr;
+	}
+
+	public void setAttr(Short attr) {
+		this.attr = attr;
 	}
 	
 	public Short getStatue() {
