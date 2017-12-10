@@ -9,7 +9,6 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/constant.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/comdlg.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/common/ext/ux/test.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/common/font-awesome/css/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/global/whjn.css">

@@ -224,7 +224,7 @@ sysManage.orgManage.user.entry.setwinForm = function(titleText) {
 			success : function(form, action) {
 				formPnl.getForm().findField("userName").setReadOnly(true);
 //				Ext.getCmp("ID").setValue(action.result.data.ID);
-//				whjn.searchTreePnl(sysManage.orgManage.user.entry.orgComb, action.result.data.orgId);
+				whjn.searchTreePnl(sysManage.orgManage.user.entry.orgComb, action.result.data.orgId);
 			}
 		});
 	} else { //新增

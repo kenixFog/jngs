@@ -139,6 +139,7 @@ Ext.define('Ext.ux.ComboBoxTree',{
 		});
 		self.picker.on({
 			itemclick: function (view,recore,item,index,e,object) {
+				alert(123)
 				if (!self.multiSelect) {
 					self.submitValue = recore.get('id');
 					self.setValue(recore.get('text')); 
@@ -171,6 +172,15 @@ Ext.define('Ext.ux.ComboBoxTree',{
 	},
 	getStore : function(){
 		return this.store;
+	},
+	
+	itemClick : function(node){
+		if (!this.multiSelect) {
+			this.submitValue = node.get('id');
+			this.setValue(node.get('text')); 
+			this.eleJson = Ext.encode(node.raw);
+			this.collapse();    
+		}
 	},
 	
 	clearValue : function() {

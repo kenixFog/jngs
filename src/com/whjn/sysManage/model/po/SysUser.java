@@ -2,10 +2,13 @@ package com.whjn.sysManage.model.po;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,8 +44,12 @@ public class SysUser extends BaseParameter{
 	private String password; // 密码
 	@Column(name = "REALNAME", length = 30, nullable = true)
 	private String realName; // 姓名
-	@Column(name = "ORGID", length = 30, nullable = true)
-	private long orgId; // 组织机构Id
+	
+	@ManyToOne(cascade={CascadeType.ALL})// 指定多对一关系                       //指定多对一关系
+	@JoinColumn(name="ORGID")                       
+    //一个用户对应于一个基准组织
+	private SysOrg org ;
+	
 	@Column(name = "TEL", length = 15, nullable = true)
 	private String tel; // 手机号
 	@Column(name = "EMAIL", length = 30, nullable = true)
@@ -89,12 +96,12 @@ public class SysUser extends BaseParameter{
 		this.realName = realName;
 	}
 
-	public long getOrgId() {
-		return orgId;
+	public SysOrg getOrg() {
+		return org;
 	}
 
-	public void setOrgId(long orgId) {
-		this.orgId = orgId;
+	public void setOrg(SysOrg org) {
+		this.org = org;
 	}
 	
 	public String getTel() {

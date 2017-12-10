@@ -95,18 +95,15 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrg> implements SysOrg
 		for(int i=0;i<orgList.size();i++) {
 			JSONObject childrenJsonObject = new JSONObject();
 			List<SysOrg> orgChildList = sysOrgDao.getOrgTreeByParentId(orgList.get(i).getId());
-			if(orgChildList.size()> 0) {
-				equipTreeNode(childrenJsonObject, orgChildList);
-			} else {
-				childrenJsonObject.put("id", orgList.get(i).getId());
-				childrenJsonObject.put("code", orgList.get(i).getOrgCode());
-				childrenJsonObject.put("text", orgList.get(i).getOrgName());
-				childrenJsonObject.put("parentId", orgList.get(i).getParentId());
-				childrenJsonObject.put("statue", orgList.get(i).getStatue());
-				childrenJsonObject.put("attr", orgList.get(i).getAttr());
-				childrenJsonObject.put("createTime", orgList.get(i).getCreateTime());
-				jsonArray.add(childrenJsonObject);
-			}
+			childrenJsonObject.put("id", orgList.get(i).getId());
+			childrenJsonObject.put("code", orgList.get(i).getOrgCode());
+			childrenJsonObject.put("text", orgList.get(i).getOrgName());
+			childrenJsonObject.put("parentId", orgList.get(i).getParentId());
+			childrenJsonObject.put("statue", orgList.get(i).getStatue());
+			childrenJsonObject.put("attr", orgList.get(i).getAttr());
+			childrenJsonObject.put("createTime", orgList.get(i).getCreateTime());
+			equipTreeNode(childrenJsonObject, orgChildList);
+			jsonArray.add(childrenJsonObject);
 		}
 		jsonObject.element("children", jsonArray);
 	}
