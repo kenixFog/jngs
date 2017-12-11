@@ -62,7 +62,7 @@ sysManage.orgManage.user.panel.getStore = function(){
 		fields : [ {
 			name : 'id',
 			type : 'long'
-		}, 'userName', 'realName', 'orgName','email', 
+		}, 'userName', 'realName', 'org.orgName','email', 
 		'tel','statue', 
 		{
 			name: 'createTime',
@@ -131,7 +131,7 @@ sysManage.orgManage.user.panel.initGridPnl = function() {
 	    	width:150
 	    },{ 
 	    	text: '基准组织', 
-	    	dataIndex: 'orgName', 
+	    	dataIndex: 'org.orgName', 
 	    	width:150
 	    },{ 
 	    	text: '邮箱', 

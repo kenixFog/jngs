@@ -37,6 +37,8 @@ sysManage.orgManage.user.main.initMainPanel = function(){
  * 新增
  */
 sysManage.orgManage.user.main.add = function(){
+	alert(123);
+	alert(sysManage.orgManage.user.entry.currObjId);
 	sysManage.orgManage.user.entry.currObjId = -1;
 	sysManage.orgManage.user.entry.showWin("新增");
 }

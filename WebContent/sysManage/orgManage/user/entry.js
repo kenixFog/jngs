@@ -3,7 +3,7 @@
 //弹出二级窗口
 sysManage.orgManage.user.entry.win = null;
 //标识是新增还是(编辑和查看）
-sysManage.orgManage.user.entry.currObjId = null;
+sysManage.orgManage.user.entry.currObjId = -1;
 //父节点Id
 sysManage.orgManage.user.entry.parentId = null;	
 //基准组织树
@@ -105,22 +105,8 @@ sysManage.orgManage.user.entry.initInfoArea = function() {
 		multiCascade : false,
 		multiSelect : false,
 		labelWidth : 70
-//		listeners:{
-//        	'change' : function(field, newValue, oldValue, eOpts){
-//        		alert(213);
-//        		if(sysManage.orgManage.user.entry.currObjId!=-1){//表示编辑，需要搜索异步树
-//        			if(sysManage.orgManage.user.entry.only){//是否满足只搜索了一次
-//        				return;
-//        			}
-//        			var nodeId = sysManage.orgManage.user.entry.orgId;
-//        			
-//        		}
-//        	}
-//        }
 	})
 	sysManage.orgManage.user.entry.orgComb = orgComb;
-	
-	
 	
 	var formPnl = new Ext.form.Panel({
 		bodyPadding: 20,
