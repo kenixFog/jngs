@@ -2,7 +2,6 @@ package com.whjn.sysManage.controller;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,8 +22,6 @@ import com.whjn.common.util.RequestUtils;
 import com.whjn.sysManage.model.po.SysOrg;
 import com.whjn.sysManage.service.SysOrgService;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 
 

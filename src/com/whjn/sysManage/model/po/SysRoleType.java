@@ -2,10 +2,13 @@ package com.whjn.sysManage.model.po;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,19 +38,23 @@ public class SysRoleType extends BaseParameter {
 	@GeneratedValue
 	@Column(name = "ID")
 	private Long id;
-	// 所在组织机构ID
-	@Column(name = "ORGID")
-	private Long orgId; 
+	//分组对应基准组织
+	@ManyToOne(cascade =  {CascadeType.REFRESH})// 指定多对一关系
+	@JoinColumn(name="ORGID")                       
+	private SysOrg org ;
 	// 名称
-	@Column(name = "ROLETYPENAME", length = 50, nullable = false)
+	@Column(name = "ROLENAME", length = 50, nullable = false)
 	private String roleName;
 	// 编码
-	@Column(name = "ROLETYPECODE", length = 50, nullable = false)
+	@Column(name = "ROLECODE", length = 50, nullable = false)
 	private String roleCode;
 	// 创建时间
 	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
+	// 说明
+	@Column(name = "comments", length = 128)
+	private String comments = ""; 
 	
 	public Long getId() {
 		return id;
@@ -57,12 +64,12 @@ public class SysRoleType extends BaseParameter {
 		this.id = id;
 	}
 
-	public Long getOrgId() {
-		return orgId;
+	public SysOrg getOrg() {
+		return org;
 	}
 
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
+	public void setOrg(SysOrg org) {
+		this.org = org;
 	}
 	
 	public String getRoleName() {
@@ -90,4 +97,11 @@ public class SysRoleType extends BaseParameter {
 		this.createTime = createTime;
 	}
 
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 }

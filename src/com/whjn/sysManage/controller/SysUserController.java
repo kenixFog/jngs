@@ -20,7 +20,9 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
+import com.whjn.sysManage.model.po.SysOrg;
 import com.whjn.sysManage.model.po.SysUser;
+import com.whjn.sysManage.service.SysOrgService;
 import com.whjn.sysManage.service.SysUserService;
 
 @Controller
@@ -29,6 +31,9 @@ public class SysUserController extends BaseController<SysUser> {
 
 	@Resource
 	private SysUserService sysUserService;
+	
+	@Resource
+	private SysOrgService sysOrgService;
 
 	@RequestMapping("/getUserList")
 	public void getUserList(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -104,6 +109,8 @@ public class SysUserController extends BaseController<SysUser> {
 			//检查用户名是否存在
 			SysUser checkUserName = sysUserService.getByProerties("userName", entity.getUserName());
 			if (null == checkUserName) {// 编码不存在
+				SysOrg sysOrg = sysOrgService.get(RequestUtils.getLongParameter(request, "orgId"));
+				entity.setOrg(sysOrg);
 				entity.setCreateTime(new Date());
 				sysUserService.persist(entity);
 				entity.setSuccess(true);
@@ -120,6 +127,8 @@ public class SysUserController extends BaseController<SysUser> {
 				entity.setSuccess(false);
 				entity.setMessage("保存失败，用户名已存在，请重新输入！");
 			} else {
+				SysOrg sysOrg = sysOrgService.get(RequestUtils.getIntParameter(request, "orgId"));
+				entity.setOrg(sysOrg);
 				sysUserService.merge(entity);
 				entity.setSuccess(true);
 			}
@@ -150,6 +159,7 @@ public class SysUserController extends BaseController<SysUser> {
 	public void delUserByIds(SysUser entity, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("ids") Long[] ids) throws IOException {
 		boolean result = sysUserService.deleteByPK(ids);
+		entity.setSuccess(result);
 		if(!result) {//删除失败
 			entity.setMessage("删除失败，请与系统开发人员联系！");
 		}

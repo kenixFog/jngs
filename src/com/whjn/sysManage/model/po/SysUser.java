@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -40,12 +41,12 @@ public class SysUser extends BaseParameter{
 	private long id; // ID
 	@Column(name = "USERNAME", length = 30, nullable = false, unique = true)
 	private String userName; // 用户名
-	@Column(name = "PASSWORD", length = 32, nullable = false, columnDefinition="varchar(32) default '015212c7a321358ef41b6c7dc7fff356'")
+	@Column(name = "PASSWORD", length = 32, columnDefinition="varchar(32) default '015212c7a321358ef41b6c7dc7fff356'")
 	private String password; // 密码
 	@Column(name = "REALNAME", length = 30, nullable = true)
 	private String realName; // 姓名
 	
-	@ManyToOne(cascade={CascadeType.ALL})// 指定多对一关系                       //指定多对一关系
+	@ManyToOne(cascade =  {CascadeType.REFRESH})// 指定多对一关系
 	@JoinColumn(name="ORGID")                       
     //一个用户对应于一个基准组织
 	private SysOrg org ;
