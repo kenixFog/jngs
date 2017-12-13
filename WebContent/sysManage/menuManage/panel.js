@@ -156,12 +156,12 @@ sysManage.menuManage.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '创建时间', 
 	    	dataIndex: 'createTime' , 
-	    	width:140,
+	    	width:160,
 	    	sortable : false
 	    },{ 
 	    	text: '修改时间', 
 	    	dataIndex: 'lastEditTime' , 
-	    	width:140,
+	    	width:160,
 	    	sortable : false
 	    }],
 	    listeners: {

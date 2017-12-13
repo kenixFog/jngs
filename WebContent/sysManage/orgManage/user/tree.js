@@ -39,12 +39,12 @@ sysManage.orgManage.user.tree.initTree = function() {
 			region : 'west',
 			split : true,
 			title : '基准组织树',
-			width : 320,
+			width : 300,
 			margins : '2 0 0 0',
 			collapsible : true,
 			animCollapse : true,
 			xtype : 'treepanel',
-			rootVisible : true,
+			rootVisible : false,
 			store : orgTreeStore,
 			listeners : {
 				'select' : function(e, record){

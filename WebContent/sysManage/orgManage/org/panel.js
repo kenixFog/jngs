@@ -134,7 +134,7 @@ sysManage.orgManage.org.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '创建时间', 
 	    	dataIndex: 'createTime' , 
-	    	width:140,
+	    	width:160,
 	    	sortable : false
 	    }],
 	    listeners: {

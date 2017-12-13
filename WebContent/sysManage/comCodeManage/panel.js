@@ -89,7 +89,7 @@ sysManage.comCodeManage.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '编码', 
 	    	dataIndex: 'code', 
-	    	width:200
+	    	width:150
 	    },{ 
 	    	text: '名称', 
 	    	dataIndex: 'name' , 
@@ -113,13 +113,6 @@ sysManage.comCodeManage.panel.initGridPnl = function() {
 				}
 			}
 	    },{ 
-	    		
-	    	text: '备注', 
-	    	dataIndex: 'comments' , 
-	    	flex:1,
-	    	sortable : false
-	    		
-	    },{ 
 	    	text: '状态', 
 	    	dataIndex: 'statue', 
 	    	width:100,
@@ -133,12 +126,18 @@ sysManage.comCodeManage.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '创建时间', 
 	    	dataIndex: 'createTime' , 
-	    	width:140,
+	    	width:160,
 	    	sortable : false
 	    },{ 
 	    	text: '修改时间', 
 	    	dataIndex: 'lastEditTime' , 
-	    	width:140,
+	    	width:160,
+	    	sortable : false
+	    },{ 
+	    		
+	    	text: '备注', 
+	    	dataIndex: 'comments' , 
+	    	flex:1,
 	    	sortable : false
 	    }],
 	    listeners: {

@@ -43,7 +43,7 @@ sysManage.menuManage.tree.initTree = function() {
 			collapsible : true,
 			animCollapse : true,
 			xtype : 'treepanel',
-			rootVisible : true,
+			rootVisible : false,
 			store : menuTreeStore,
 			listeners : {
 				'select' : function(e, record){

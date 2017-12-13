@@ -37,8 +37,6 @@ sysManage.orgManage.user.main.initMainPanel = function(){
  * 新增
  */
 sysManage.orgManage.user.main.add = function(){
-	alert(123);
-	alert(sysManage.orgManage.user.entry.currObjId);
 	sysManage.orgManage.user.entry.currObjId = -1;
 	sysManage.orgManage.user.entry.showWin("新增");
 }
@@ -67,7 +65,6 @@ sysManage.orgManage.user.main.edit = function(){
 }
 
 sysManage.orgManage.user.main.del = function(){
-	alert(123);
 	var className = sysManage.orgManage.user.panel;
 	var sm = className.userGridPnl.getSelectionModel();
 	if (sm.getCount() == 0) {//如果没有选中

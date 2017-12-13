@@ -124,19 +124,19 @@ sysManage.orgManage.user.panel.initGridPnl = function() {
 	    },{ 
 	        text: '登录名', 
 	        dataIndex: 'userName', 
-	        width:150
+	        width:100
 	    },{ 
 	    	text: '姓名', 
 	    	dataIndex: 'realName', 
-	    	width:150
+	    	width:80
 	    },{ 
 	    	text: '基准组织', 
 	    	dataIndex: 'org.orgName', 
-	    	width:150
+	    	width:220
 	    },{ 
 	    	text: '邮箱', 
 	    	dataIndex: 'email' , 
-	    	width:200
+	    	width:150
 	    },{ 
 	    		
 	    	text: '电话', 
@@ -145,7 +145,7 @@ sysManage.orgManage.user.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '状态', 
 	    	dataIndex: 'statue', 
-	    	width:90,
+	    	width:50,
 	    	renderer : function(v) {
 				if (v == 0) {
 					return '停用';
@@ -156,18 +156,18 @@ sysManage.orgManage.user.panel.initGridPnl = function() {
 	    },{ 
 	    	text: '创建时间', 
 	    	dataIndex: 'createTime' , 
-	    	width:140,
+	    	width:160,
 	    	sortable : false
 	    },{ 
 	    	text: '最后一次登录时间', 
 	    	dataIndex: 'lastLoginTime' , 
-	    	width:140,
+	    	width:160,
 	    	sortable : false
 	    }],
 	    listeners: {
 	        itemdblclick: function (me, record, item, index, e, eOpts) {
 	        	 //双击事件的操作
-//	        	sysManage.orgManage.user.main.edit();
+	        	sysManage.orgManage.user.main.edit();
 	        }
 	    },
 	    bbar:new Ext.PagingToolbar({

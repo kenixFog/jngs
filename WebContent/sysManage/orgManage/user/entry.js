@@ -118,7 +118,8 @@ sysManage.orgManage.user.entry.initInfoArea = function() {
 		},
 		items : [{
 			id : 'id',
-//			xtype : 'hidden',
+//			xtype : 'textfield',
+			xtype : 'hidden',
 			name : 'id',
 			value : sysManage.orgManage.user.entry.currObjId
 		},{
@@ -199,7 +200,7 @@ sysManage.orgManage.user.entry.setwinForm = function(titleText) {
 			url :  webContextRoot + '/sys/user/getUserInfo',
 			method : "post",
 			params : {
-				// 菜单Id
+				// userId
 				userId : className.currObjId
 			},
 			waitTitle : "提示",
@@ -209,15 +210,11 @@ sysManage.orgManage.user.entry.setwinForm = function(titleText) {
 			},
 			success : function(form, action) {
 				formPnl.getForm().findField("userName").setReadOnly(true);
-//				Ext.getCmp("ID").setValue(action.result.data.ID);
 				whjn.searchTreePnl(sysManage.orgManage.user.entry.orgComb, action.result.data.orgId);
 			}
 		});
 	} else { //新增
 		formPnl.getForm().findField("userName").setReadOnly(false);
-		//树节点
-//		var parentNode = sysManage.orgManage.user.tree.node;
-//		formPnl.getForm().findField("org").setValue(parentNode.raw.id);
 	}
 	
 }
