@@ -48,11 +48,11 @@ portal.tablePanle.createMainTabPanel = function(){
 //打开tab
 portal.tablePanle.openTab = function(tabId, tabTitle, tabUrl) {
 	
-	var _tab = portal.tablePanle.tpl.getComponent(tabId);
+	var _tab = portal.tablePanle.tpl.getComponent('whjn'+tabId);
     if (!_tab) {
     	_tab = portal.tablePanle.tpl.add(Ext.create('Ext.ux.IFrame',{
             xtype: 'iframepanel',
-            id: tabId,
+            id: 'whjn'+tabId,
             title: tabTitle,
             closable: true,
             layout: 'fit',
