@@ -27,7 +27,7 @@ import com.whjn.sysManage.service.SysUserService;
 
 @Controller
 @RequestMapping("/sys/user")
-public class SysUserController extends BaseController<SysUser> {
+public class SysUserController extends BaseController {
 
 	@Resource
 	private SysUserService sysUserService;

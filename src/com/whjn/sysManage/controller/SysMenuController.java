@@ -25,7 +25,7 @@ import com.whjn.sysManage.service.SysMenuService;
 
 @Controller
 @RequestMapping("/sys/menu")
-public class SysMenuController extends BaseController<SysMenu> {
+public class SysMenuController extends BaseController {
 
 	@Resource
 	private SysMenuService sysMenuService;

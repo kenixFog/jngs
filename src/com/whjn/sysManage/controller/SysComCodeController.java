@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/sys/comCode")
-public class SysComCodeController extends BaseController<SysComCode> {
+public class SysComCodeController extends BaseController {
 
 	@Resource
 	private SysComCodeService sysComCodeService;

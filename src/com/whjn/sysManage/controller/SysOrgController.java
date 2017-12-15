@@ -28,7 +28,7 @@ import com.whjn.sysManage.service.SysOrgService;
 
 @Controller
 @RequestMapping("/sys/org")
-public class SysOrgController extends BaseController<SysOrg>{
+public class SysOrgController extends BaseController{
 
 	@Resource
 	private SysOrgService sysOrgService;

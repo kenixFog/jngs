@@ -6,38 +6,11 @@ import java.util.List;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.BaseDao;
 import com.whjn.sysManage.model.po.SysRole;
-import com.whjn.sysManage.model.po.SysRoleType;
+import com.whjn.sysManage.model.po.SysRoleUser;
 
 public interface SysRoleDao extends BaseDao<SysRole> {
 
 	
-	/** 
-	* @Title: getRoleTypeByOrgId 
-	* @Description: 
-	* @param @param currentOrgId
-	* @param @return  
-	* @return List<SysRoleType>    
-	* @author Chen Cai
-	* @throws
-	* @date 2017年12月13日 下午4:13:21 
-	* @version V1.0   
-	*/
-	List<SysRoleType> getRoleTypeByOrgId(Long currentOrgId);
-	
-	/** 
-	* @Title: getRoleTypeList 
-	* @Description: 
-	* @param @param sysRoleType
-	* @param @param nodeId
-	* @param @return  
-	* @return QueryResult<SysRoleType>    
-	* @author Chen Cai
-	* @throws
-	* @date 2017年12月13日 下午5:27:11 
-	* @version V1.0   
-	*/
-	QueryResult<SysRoleType> getRoleTypeList(SysRoleType sysRoleType, String nodeId);
-
 	/** 
 	* @Title: getRoleList 
 	* @Description: 
@@ -51,6 +24,32 @@ public interface SysRoleDao extends BaseDao<SysRole> {
 	* @version V1.0   
 	*/
 	QueryResult<SysRole> getRoleList(SysRole sysRole, String nodeId);
+
+	/** 
+	* @Title: getRoleInfo 
+	* @Description: 
+	* @param @param roleId
+	* @param @return  
+	* @return List<SysRole>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年12月14日 下午3:34:20 
+	* @version V1.0   
+	*/
+	List<SysRole> getRoleInfo(Integer roleId);
+
+	/** 
+	* @Title: getUserByRoleId 
+	* @Description: 
+	* @param @param id
+	* @param @return  
+	* @return List<SysUser>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年12月15日 上午10:11:32 
+	* @version V1.0   
+	*/
+	List<SysRoleUser> getRoleUserByRoleId(Long id);
 
 	
 
