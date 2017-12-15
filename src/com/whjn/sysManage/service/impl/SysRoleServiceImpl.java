@@ -1,6 +1,5 @@
 package com.whjn.sysManage.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,17 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.impl.BaseServiceImpl;
-import com.whjn.sysManage.dao.SysOrgDao;
 import com.whjn.sysManage.dao.SysRoleDao;
-import com.whjn.sysManage.model.po.SysOrg;
 import com.whjn.sysManage.model.po.SysRole;
-import com.whjn.sysManage.model.po.SysRoleType;
 import com.whjn.sysManage.model.po.SysRoleUser;
-import com.whjn.sysManage.model.po.SysUser;
 import com.whjn.sysManage.service.SysRoleService;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 
 @Service
@@ -31,11 +24,11 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 	private SysRoleDao sysRoleDao;
 
 	
-//	@Resource
-//	public void setSysRoleDao(SysRoleDao sysRoleDao) {
-//		this.sysRoleDao = sysRoleDao;
-//		this.baseDao = sysRoleDao;
-//	}
+	@Resource
+	public void setSysRoleDao(SysRoleDao sysRoleDao) {
+		this.sysRoleDao = sysRoleDao;
+		this.baseDao = sysRoleDao;
+	}
 
 	/* (非 Javadoc) 
 	* @Title: getRoleList

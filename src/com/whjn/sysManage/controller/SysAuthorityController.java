@@ -217,12 +217,13 @@ public class SysAuthorityController extends BaseController {
 	public void saveRoleInfo(SysRole entity, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		String nodeId = RequestUtils.getStringParameter(request, "nodeId");
+		nodeId = nodeId.substring(0, nodeId.indexOf("-"));
 		if (entity.getId() == -1) {// ID为-1代表新增
 			//检查编码和名称是否存在
 			SysRole checkRoleName = sysRoleService.getByProerties("roleName", entity.getRoleName());
 			SysRole checkRoleCode = sysRoleService.getByProerties("roleCode", entity.getRoleCode());
 			if (null == checkRoleCode && null==checkRoleName) {// 编码和名称都不存在
-				SysRoleType sysRoleType = sysRoleTypeService.get(nodeId.substring(0, nodeId.indexOf("-")));
+				SysRoleType sysRoleType = sysRoleTypeService.get(Long.parseLong(nodeId));
 				entity.setSysRoleType(sysRoleType);
 				entity.setCreateTime(new Date());
 				sysRoleService.persist(entity);
@@ -243,7 +244,7 @@ public class SysAuthorityController extends BaseController {
 				entity.setSuccess(false);
 				entity.setMessage("保存失败，编码或名称已存在，保存失败！");
 			} else {
-				SysRoleType sysRoleType = sysRoleTypeService.get(Long.parseLong(nodeId.substring(0, nodeId.indexOf("-"))));
+				SysRoleType sysRoleType = sysRoleTypeService.get(Long.parseLong(nodeId));
 				entity.setSysRoleType(sysRoleType);
 				entity.setCreateTime(oldObj.getCreateTime());
 				sysRoleService.merge(entity);

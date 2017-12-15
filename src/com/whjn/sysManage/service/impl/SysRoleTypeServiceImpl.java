@@ -35,16 +35,16 @@ public class SysRoleTypeServiceImpl extends BaseServiceImpl<SysRoleType> impleme
 	@Resource
 	private SysOrgDao sysOrgDao;
 
-//	@Resource
-//	public void setSysOrgDao(SysOrgDao sysOrgDao) {
-//		this.sysOrgDao = sysOrgDao;
-//	}
-//	
-//	@Resource
-//	public void setSysRoleTypeDao(SysRoleTypeDao sysRoleTypeDao) {
-//		this.sysRoleTypeDao = sysRoleTypeDao;
-//		this.baseDao = sysRoleTypeDao;
-//	}
+	@Resource
+	public void setSysOrgDao(SysOrgDao sysOrgDao) {
+		this.sysOrgDao = sysOrgDao;
+	}
+	
+	@Resource
+	public void setSysRoleTypeDao(SysRoleTypeDao sysRoleTypeDao) {
+		this.sysRoleTypeDao = sysRoleTypeDao;
+		this.baseDao = sysRoleTypeDao;
+	}
 	
 	
 	
