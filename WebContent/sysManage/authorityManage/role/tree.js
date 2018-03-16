@@ -7,10 +7,10 @@ sysManage.authorityManage.role.tree.initTree = function() {
 	        autoLoad : true,  
 	        proxy : {  
 	                type : 'ajax',  
-	                url : webContextRoot + '/sys/authority/getRoleTreeByParentId',//请求  
+	                url : webContextRoot + '/sys/authority/getRoleTypeTreeByParentId',//请求  
 	                reader : {  
 	                    type : 'json'
-	                } 
+	                }
 	            },  
 	        root : {  
 	        	id : -1,

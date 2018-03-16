@@ -21,6 +21,7 @@
 	<!-- 自动扫描的包 -->
 	<context:component-scan base-package="com.whjn.common.controller" />
 	<context:component-scan base-package="com.whjn.sysManage.controller" />
+	<context:component-scan base-package="com.whjn.dfwdsj.controller" />
 
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />

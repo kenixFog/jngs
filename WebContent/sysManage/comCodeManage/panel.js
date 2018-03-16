@@ -87,13 +87,13 @@ sysManage.comCodeManage.panel.initGridPnl = function() {
 	        hidden :true,
 	        align : 'right'
 	    },{ 
-	    	text: '编码', 
-	    	dataIndex: 'code', 
-	    	width:150
-	    },{ 
 	    	text: '名称', 
 	    	dataIndex: 'name' , 
 	    	width:120
+	    },{ 
+	    	text: '编码', 
+	    	dataIndex: 'code', 
+	    	width:150
 	    },{ 
 	    	text: '数值', 
 	    	dataIndex: 'value' , 

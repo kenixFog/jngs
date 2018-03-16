@@ -88,13 +88,13 @@ sysManage.authorityManage.role.panel.initGridPnl = function() {
         	width:30, 
         	align : 'right'
 	    },{ 
-	    	text: '编码', 
-	    	dataIndex: 'roleCode', 
-	    	width:150
-	    },{ 
 	    	text: '名称', 
 	    	dataIndex: 'roleName' , 
 	    	width:120
+	    },{ 
+	    	text: '编码', 
+	    	dataIndex: 'roleCode', 
+	    	width:150
 	    },{ 
 	    	text: '创建时间', 
 	    	dataIndex: 'createTime' , 

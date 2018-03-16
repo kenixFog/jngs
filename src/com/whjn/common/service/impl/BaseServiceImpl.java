@@ -138,7 +138,7 @@ public class BaseServiceImpl<E> implements BaseService<E> {
 	public E merge(E entity) {
 		return baseDao.merge(entity);
 	}
-
+	
 	/*
 	 * (非 Javadoc) 
 	* @Title: get

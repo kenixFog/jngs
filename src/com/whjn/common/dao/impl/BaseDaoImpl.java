@@ -224,7 +224,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	public E merge(E entity) {
 		return (E) getSession().merge(entity);
 	}
-
+	
 	/*
 	 * (非 Javadoc) 
 	* @Title: get
@@ -801,4 +801,6 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 			e.printStackTrace();
 		}
 	}
+
+	
 }

@@ -103,14 +103,17 @@ sysManage.authorityManage.role.main.del = function(){
 									var className = sysManage.authorityManage.role.panel;
 									//重新加载列表数据
 									className.loadRecord();
-									//树面板
-									var treePnl = sysManage.authorityManage.role.tree.comCodeTree;
-									//点前选中的树节点
-									var node = sysManage.authorityManage.role.tree.node;
-									//设置需要加载的树节点Id
-									treePnl.getStore().proxy.extraParams.parentId = node.data.id;
-									//刷新当前的树节点
-									whjn.refreshTreePnl(treePnl, node.data.id);
+									var nodeType = sysManage.authorityManage.role.tree.node.raw.nodeType;
+									if(nodeType == 0){
+										//树面板
+										var treePnl = sysManage.authorityManage.role.tree.roleTree;
+										//点前选中的树节点
+										var node = sysManage.authorityManage.role.tree.node;
+										//设置需要加载的树节点Id
+										treePnl.getStore().proxy.extraParams.parentId = node.data.id;
+										//刷新当前的树节点
+										whjn.refreshTreePnl(treePnl, node.data.id);
+									}
 								} else {
 									whjn.dlg.errTip(res.message);
 								}

@@ -49,16 +49,28 @@ public class SysRoleTypeServiceImpl extends BaseServiceImpl<SysRoleType> impleme
 	
 	
 	/* (非 Javadoc) 
-	* @Title: getRoleTreeByParentId
+	* @Title: getRoleTypeTreeByParentId
 	* @Description:
 	* @param @param parentId
 	* @param @return 
 	* @see com.whjn.sysManage.service.SysRoleService#getRoleTreeByParentId(long) 
 	*/
 	@Override
-	public List getRoleTreeByParentId(long parentId) {
+	public List getRoleTypeTreeByParentId(long parentId) {
 		List<SysOrg> OrgList = sysOrgDao.getOrgTreeByParentId(parentId);
 		List resultList = new ArrayList();
+		JSONObject jsonObj = new JSONObject();
+		List<SysRoleType> roleTypeList = sysRoleTypeDao.getRoleTypeByOrgId(parentId);
+		for(int i=0;i<roleTypeList.size();i++) {
+			JSONObject roleTypeJsonObject = new JSONObject();
+			roleTypeJsonObject.put("id", roleTypeList.get(i).getId()+"-");
+			roleTypeJsonObject.put("code", roleTypeList.get(i).getRoleCode());
+			roleTypeJsonObject.put("text", roleTypeList.get(i).getRoleName());
+			roleTypeJsonObject.put("leaf", 1);
+			roleTypeJsonObject.put("parentId", roleTypeList.get(i).getOrg().getId());
+			roleTypeJsonObject.put("nodeType", "1");//代表分组
+			resultList.add(roleTypeJsonObject);
+		}
 		for (int i = 0; i < OrgList.size(); i++) {
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("id", OrgList.get(i).getId());
@@ -156,7 +168,7 @@ public class SysRoleTypeServiceImpl extends BaseServiceImpl<SysRoleType> impleme
 	public void delRoleTypeByIds(Map<String, Object> result, Long[] ids) {
 		boolean flag = false;
 		for (int i = 0; i < ids.length; i++) {
-			List<SysRole> list = sysRoleDao.queryByProerties("roleType",ids[i]);
+			List<SysRole> list = sysRoleDao.getRoleByRoleTypeId(ids[i]);
 			if(list.size()>0) {
 				result.put("message", "删除失败，所选分组中存在角色，不能删除！");
 				break;

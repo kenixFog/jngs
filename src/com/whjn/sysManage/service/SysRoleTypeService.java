@@ -26,7 +26,7 @@ public interface SysRoleTypeService extends BaseService<SysRoleType> {
 	* @date 2017年12月14日 下午3:25:11 
 	* @version V1.0   
 	*/
-	List getRoleTreeByParentId(long parentId);
+	List getRoleTypeTreeByParentId(long parentId);
 	
 	
 	/** 

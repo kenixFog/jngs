@@ -50,6 +50,21 @@ public interface SysRoleDao extends BaseDao<SysRole> {
 	* @version V1.0   
 	*/
 	List<SysRoleUser> getRoleUserByRoleId(Long id);
+	
+	
+	
+	/** 
+	* @Title: getUserByRoleId 
+	* @Description: 
+	* @param @param id
+	* @param @return  
+	* @return List<SysUser>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年12月15日 上午10:11:32 
+	* @version V1.0   
+	*/
+	List<SysRole> getRoleByRoleTypeId(Long id);
 
 	
 

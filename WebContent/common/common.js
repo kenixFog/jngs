@@ -293,7 +293,7 @@ whjn.getHiddenMainForm=function(){
         form.method="post";
         document.body.appendChild(form);
         
-		var f=new Ext.form.BasicForm(form,{});
+		var f=new Ext.form.Basic(form,{});
 		whjn.hiddenMainForm=f;
 		return whjn.hiddenMainForm;
 	}
@@ -446,7 +446,7 @@ whjn.refreshTreePnl = function (treePanel, currentNodeId){
     var path = currentNode.getPath('id'); 
     //刷新节点，展开节点，选中节点  
     treePanel.getStore().load({  
-            node : currentNode,   
+            node : currentNode,  
             callback:function(){  
 //                if(currentNode && currentNode.data.expanded){  
 //                    //之前展开的还是展开  
@@ -481,5 +481,18 @@ whjn.searchNodeById = function(treePnl, node, id){
 	
 }
 
-
+/**
+ * 根据Code返回对应的Name
+ * @param {String} code
+ * @param {Array} codeNameArray 二维数组其中，一个数组中分别为：code和name
+ * @return {String}
+ */
+whjn.getNameByCode=function(code,codeNameArray){
+	if (!codeNameArray) return "";
+	for (var i=0;i<codeNameArray.length;i++){
+		var objTmp=codeNameArray[i];
+		if (objTmp[0]==code) return objTmp[1];
+	}
+	return "";
+}
 

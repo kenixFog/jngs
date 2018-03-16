@@ -90,12 +90,12 @@ sysManage.menuManage.panel.initGridPnl = function() {
 	        hidden :true,
 	        align : 'right'
 	    },{ 
-	    	text: '菜单编码', 
-	    	dataIndex: 'menuCode', 
-	    	width:120
-	    },{ 
 	    	text: '菜单名称', 
 	    	dataIndex: 'menuName' , 
+	    	width:120
+	    },{ 
+	    	text: '菜单编码', 
+	    	dataIndex: 'menuCode', 
 	    	width:120
 	    },{ 
 	    		

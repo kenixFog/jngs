@@ -122,13 +122,13 @@ sysManage.orgManage.user.panel.initGridPnl = function() {
         	width:30, 
         	align : 'right'
 	    },{ 
-	        text: '登录名', 
-	        dataIndex: 'userName', 
-	        width:100
-	    },{ 
 	    	text: '姓名', 
 	    	dataIndex: 'realName', 
 	    	width:80
+	    },{ 
+	        text: '登录名', 
+	        dataIndex: 'userName', 
+	        width:100
 	    },{ 
 	    	text: '基准组织', 
 	    	dataIndex: 'org.orgName', 

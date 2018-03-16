@@ -8,8 +8,7 @@
 	<jsp:include flush="true" page="/common/loader.jsp" />
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="tree.js"></script>
-	<script type="text/javascript" src="panel.js"></script>
-	<script type="text/javascript" src="entry.js"></script>
+	<script type="text/javascript" src="menuTree.js"></script>
 </head>
 <body>
 	<script type="text/javascript">
@@ -18,13 +17,13 @@
 				getCodeCfg : {
 					//状态
 					groupCode : ["GLOBAL_ZT" ],
-					codeVar : [ "sysManage.authorityManage.role.statusArray"],
+					codeVar : [ "sysManage.authorityManage.roleAuthorize.statusArray"],
 					includeDisabled : false
 				},
 				//按钮的隐藏方式，disable（禁用，变灰），hide（禁用，隐藏）
 				btnCtrlMode : 'hide'
 		};
-	    whjn.openModule(sysManage.authorityManage.role.main.initMainPanel,null,mdlCfg);
+	    whjn.openModule(sysManage.authorityManage.roleAuthorize.main.initMainPanel,null,mdlCfg);
 	})();
 	</script>
 	<iframe id="exportFrame" name="exportFrame" width="0" height="0"/>

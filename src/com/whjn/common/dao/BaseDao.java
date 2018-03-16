@@ -119,6 +119,7 @@ public interface BaseDao<E> {
 	 */
 	public E merge(E entity);
 
+	
 	/**
 	* @Title: get 
 	* @Description: 根据Id获取对象(后台数据层立即执行查询数据库操作)
@@ -283,4 +284,5 @@ public interface BaseDao<E> {
 	public QueryResult<E> doPaginationQuery(BaseParameter parameter, boolean bool);
 
 	public QueryResult<E> doPaginationQuery(BaseParameter parameter);
+
 }

@@ -86,13 +86,13 @@ sysManage.orgManage.org.panel.initGridPnl = function() {
 	        hidden :true,
 	        align : 'right'
 	    },{ 
-	    	text: '基准组织编码', 
-	    	dataIndex: 'orgCode', 
-	    	width:130
-	    },{ 
 	    	text: '基准组织名称', 
 	    	dataIndex: 'orgName' , 
 	    	width:250
+	    },{ 
+	    	text: '基准组织编码', 
+	    	dataIndex: 'orgCode', 
+	    	width:130
 	    },{ 
 	    		
 	    	text: '性质', 

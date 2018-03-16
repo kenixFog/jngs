@@ -88,4 +88,21 @@ public class SysRoleDaoImpl extends BaseDaoImpl<SysRole> implements SysRoleDao {
 		return query.list();
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getRoleByRoleTypeId
+	* @Description:
+	* @param @param id
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysRoleDao#getRoleByRoleTypeId(java.lang.Long) 
+	*/
+	@Override
+	public List<SysRole> getRoleByRoleTypeId(Long id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM t_sys_role  WHERE roleTypeId= ? ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, id);
+		query.addEntity(SysRole.class);
+		return query.list();
+	}
+
 }

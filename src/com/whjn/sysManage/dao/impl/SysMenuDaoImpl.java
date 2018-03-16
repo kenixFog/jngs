@@ -140,5 +140,21 @@ public class SysMenuDaoImpl extends BaseDaoImpl<SysMenu> implements SysMenuDao {
 		return query.list();
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getAuthorityMenu
+	* @Description:
+	* @param @param parentId
+	* @param @param nodeId
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysMenuDao#getAuthorityMenu(long, java.lang.String) 
+	*/
+	@Override
+	public List<SysMenu> getAuthorityMenu(long parentId) {
+		SQLQuery query = getSession().createSQLQuery("SELECT * from t_sys_menu where statue = 1 and parentid = ?"); 
+		query.setParameter(0, parentId);
+		query.addEntity(SysMenu.class);
+		return query.list();
+	}
+
 
 }

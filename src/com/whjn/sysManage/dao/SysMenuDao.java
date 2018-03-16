@@ -80,6 +80,20 @@ public interface SysMenuDao extends BaseDao<SysMenu> {
 	*/
 	List<SysMenu> getMenuInfo(Integer menuId);
 
+	/** 
+	* @Title: getAuthorityMenu 
+	* @Description: 
+	* @param @param parentId
+	* @param @param nodeId
+	* @param @return  
+	* @return List<SysMenu>    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年12月26日 下午3:11:05 
+	* @version V1.0   
+	*/
+	List<SysMenu> getAuthorityMenu(long parentId);
+
 	
 	
 

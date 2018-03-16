@@ -68,6 +68,20 @@ public interface SysRoleService extends BaseService<SysRole> {
 	 * @param result 
 	*/
 	void delRoleByIds(Map<String, Object> result, Long[] ids);
+
+
+	/** 
+	* @Title: getRoleTreeByParentId 
+	* @Description: 
+	* @param @param parentId
+	* @param @return  
+	* @return List    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年12月18日 下午4:51:40 
+	* @version V1.0   
+	*/
+	List getRoleTreeByParentId(long parentId);
 	
 	
 

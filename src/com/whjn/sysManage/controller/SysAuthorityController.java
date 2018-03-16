@@ -20,10 +20,12 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
+import com.whjn.sysManage.model.po.SysMenu;
 import com.whjn.sysManage.model.po.SysOrg;
 import com.whjn.sysManage.model.po.SysRole;
 import com.whjn.sysManage.model.po.SysRoleType;
 import com.whjn.sysManage.service.SysOrgService;
+import com.whjn.sysManage.service.SysRoleMenuService;
 import com.whjn.sysManage.service.SysRoleService;
 import com.whjn.sysManage.service.SysRoleTypeService;
 
@@ -41,7 +43,34 @@ public class SysAuthorityController extends BaseController {
 	
 	@Resource
 	private SysRoleTypeService sysRoleTypeService;
+	
+	
+	@Resource
+	private SysRoleMenuService sysRoleMenuService;
 
+	/**
+	* @Title: getRoleTypeTreeByParentId 
+	* @Description: 获取角色分组树
+	* @param @param request
+	* @param @param response
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年12月1日 下午4:39:23 
+	* @version V1.0
+	*/
+	@RequestMapping("/getRoleTypeTreeByParentId")
+	public void getRoleTypeTreeByParentId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		long parentId = Long.parseLong(request.getParameter("parentId"));
+		List resultList = sysRoleTypeService.getRoleTypeTreeByParentId(parentId);
+		writeJSON(response, resultList);
+	}
+	
+	
+	
+	
+	
 	/**
 	* @Title: getRoleTreeByParentId 
 	* @Description: 获取角色树
@@ -57,9 +86,11 @@ public class SysAuthorityController extends BaseController {
 	@RequestMapping("/getRoleTreeByParentId")
 	public void getRoleTreeByParentId(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		long parentId = Long.parseLong(request.getParameter("parentId"));
-		List resultList = sysRoleTypeService.getRoleTreeByParentId(parentId);
+		List resultList = sysRoleService.getRoleTreeByParentId(parentId);
 		writeJSON(response, resultList);
 	}
+	
+	
 	
 	
 	/**
@@ -287,5 +318,71 @@ public class SysAuthorityController extends BaseController {
 		}
 		writeJSON(response, result);
 	}
+	
+	
+	
+	/**
+	 * 
+	 * @Title: getMenuTreeByParentId
+	 * @Description: 根据角色获取菜单权限
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author kenix
+	 * @throws @date
+	 *             2017年11月1日 下午3:00:51
+	 * @version V1.0
+	 */
+	// 异步树
+	@RequestMapping("/getAuthorityTree")
+	public void getAuthorityTree(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//根据选中节点，获取下级节点
+		long parentId = Long.parseLong(request.getParameter("parentId"));
+		//当前角色Id
+		String roleId = RequestUtils.getStringParameter(request, "roleId");
+		roleId = roleId.substring(0, roleId.indexOf("+"));
+		List<SysMenu> resultList = sysRoleMenuService.getAuthorityTree(parentId, roleId);
+		writeJSON(response, resultList);
+	}
+	
+	
+	/**
+	 * 
+	* @Title: saveAuthorityMenu 
+	* @Description: 保存权限
+	* @param @param entity
+	* @param @param request
+	* @param @param response
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2017年12月27日 下午5:24:25 
+	* @version V1.0
+	 */
+	@RequestMapping(value = "/saveAuthorityMenu", method = { RequestMethod.POST, RequestMethod.GET })
+	public void saveAuthorityMenu(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("ids") Long[] ids)
+			throws IOException {
+		String roleId = RequestUtils.getStringParameter(request, "roleId");
+		roleId = roleId.substring(0, roleId.indexOf("+"));
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			sysRoleMenuService.saveAuthorityMenu(Long.parseLong(roleId), ids);
+			result.put("success", true);
+		} catch(Exception e) {
+			e.printStackTrace();
+			result.put("success", false);
+			result.put("message", "保存失败，请联系管理员！");
+		}
+		
+		writeJSON(response, result);
+	}
+	
+	
 
 }
