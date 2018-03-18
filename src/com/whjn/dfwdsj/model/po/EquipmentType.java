@@ -35,7 +35,7 @@ public class EquipmentType extends BaseParameter {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
-	private long id;
+	private int id;
 	// 菜单名称
 	@Column(name = "NAME", length = 50, nullable = false)
 	private String typeName;
@@ -57,11 +57,41 @@ public class EquipmentType extends BaseParameter {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastEditTime; 
 
-	public long getId() {
+	
+	
+	
+	public EquipmentType() {
+		super();
+	}
+
+	public EquipmentType(int id, String typeName, String typeCode, short isLeaf, long parentId, Date createTime,
+			Date lastEditTime) {
+		super();
+		this.id = id;
+		this.typeName = typeName;
+		this.typeCode = typeCode;
+		this.isLeaf = isLeaf;
+		this.parentId = parentId;
+		this.createTime = createTime;
+		this.lastEditTime = lastEditTime;
+	}
+
+	public EquipmentType(String typeName, String typeCode, short isLeaf, long parentId, Date createTime,
+			Date lastEditTime) {
+		super();
+		this.typeName = typeName;
+		this.typeCode = typeCode;
+		this.isLeaf = isLeaf;
+		this.parentId = parentId;
+		this.createTime = createTime;
+		this.lastEditTime = lastEditTime;
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -114,4 +144,5 @@ public class EquipmentType extends BaseParameter {
 	public void setLastEditTime(Date lastEditTime) {
 		this.lastEditTime = lastEditTime;
 	}
+	
 }

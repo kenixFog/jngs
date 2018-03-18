@@ -71,47 +71,59 @@ public class EquipmentController extends BaseController {
 	* @version V1.0
 	 */
 	@RequestMapping("/saveEquipmentType")
-	public void saveEquipmentType(EquipmentType equipmentTypes, HttpServletRequest request, HttpServletResponse response)
+	public void saveEquipmentType(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String obj = request.getParameter("paramArray");
 		//获取前台传入的要保存或修改的参数
 		JSONArray paramArray = JSONArray.fromObject(obj);
-		String string="123";
-//		for(int i = 0; i < paramArray.size(); i++) {//循环遍历每一条数据
-//			JSONObject paramObj = paramArray.getJSONObject(i);
-//			// ID为空时新增记录，否则修改记录
-//			if (paramObj.get("ID") == null || "".equals(paramObj.get("ID"))) {
-//				EquipmentType checkCode = equipmentTypeService.getByProerties("typeCode", equipmentTypes[i].getTypeCode());
-//				if(null == checkCode){
-//					equipmentTypes[i].setCreateTime(new Date());
-//					equipmentTypes[i].setLastEditTime(new Date());
-//					equipmentTypeService.persist(equipmentTypes[i]);
-//					result.put("success", true);
-//				}else {
-//					result.put("success", false);
-//					result.put("message", "保存失败，编码["+equipmentTypes[i].getTypeCode()+"]已存在，请重新输入！");
-//					break;
-//				}
-//			} else {
-//				// 根据ID获取原数据
-//				EquipmentType oldObj = equipmentTypeService.getByProerties("id", equipmentTypes[i].getId());
-//				// 根据新修改的编码去数据库查询数据
-//				EquipmentType checkCode = equipmentTypeService.getByProerties("typeCode", equipmentTypes[i].getTypeCode());
-//				if ((!oldObj.getTypeCode().equals(equipmentTypes[i].getTypeCode())) && null != checkCode) {// 编码被修改
-//					result.put("success", false);
-//					result.put("message", "保存失败，编码["+equipmentTypes[i].getTypeCode()+"]已存在，请重新输入！");
-//					break;
-//				} else {
-//					equipmentTypes[i].setCreateTime(oldObj.getCreateTime());
-//					equipmentTypes[i].setLastEditTime(new Date());
-//					equipmentTypeService.merge(equipmentTypes[i]);
-//					result.put("success", true);
-//				}
-//			}
-//		}
-//		writeJSON(response, result);
+		for(int i = 0; i < paramArray.size(); i++) {//循环遍历每一条数据
+			JSONObject paramObj = paramArray.getJSONObject(i);
+			// ID为空时新增记录，否则修改记录
+			if (paramObj.get("id") == null || "".equals(paramObj.get("id"))) {//新增
+				
+				EquipmentType checkCode = equipmentTypeService.getByProerties("typeCode", paramObj.get("typeCode").toString());
+				if(null == checkCode){
+					EquipmentType equipmentType = new EquipmentType(
+							paramObj.get("typeName").toString(),
+							paramObj.get("typeCode").toString(),
+							Short.valueOf(paramObj.get("isLeaf").toString()).shortValue(),
+							Long.valueOf(paramObj.get("parentId").toString()).longValue(),
+							new Date(),
+							new Date());
+					equipmentTypeService.persist(equipmentType);
+					result.put("success", true);
+				}else {
+					result.put("success", false);
+					result.put("message", "保存失败，编码["+paramObj.get("typeCode")+"]已存在，请重新输入！");
+					break;
+				}
+			} else {//更新
+				// 根据ID获取原数据
+				System.out.println(paramObj.get("id").getClass().getTypeName());
+				EquipmentType oldObj = equipmentTypeService.getByProerties("id", paramObj.get("id"));
+				// 根据新修改的编码去数据库查询数据
+				EquipmentType checkCode = equipmentTypeService.getByProerties("typeCode", paramObj.get("typeCode"));
+				if ((!oldObj.getTypeCode().equals(paramObj.get("typeCode"))) && null != checkCode) {// 编码被修改
+					result.put("success", false);
+					result.put("message", "保存失败，编码["+paramObj.get("typeCode")+"]已存在，请重新输入！");
+					break;
+				} else {
+					EquipmentType equipmentType = new EquipmentType(
+							Integer.valueOf(paramObj.get("id").toString()).intValue(),
+							paramObj.get("typeName").toString(),
+							paramObj.get("typeCode").toString(),
+							Short.valueOf(paramObj.get("isLeaf").toString()).shortValue(),
+							Long.valueOf(paramObj.get("parentId").toString()).longValue(),
+							oldObj.getCreateTime(),
+							new Date());
+					equipmentTypeService.merge(equipmentType);
+					result.put("success", true);
+				}
+			}
+		}
+		writeJSON(response, result);
 	}
 	
 }

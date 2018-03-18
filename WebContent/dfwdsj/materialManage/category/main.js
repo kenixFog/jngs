@@ -106,7 +106,7 @@ dawdsj.materialManage.category.main.save=function(){
 					if (res.success) {
 						whjn.dlg.showMomentDlg("保存成功!");
 						var className = dawdsj.materialManage.category.panel;
-						var store = className.typeGridPnl.getStore();
+						var store = className.gridPnl.getStore();
 						store.load();
 						//树面板
 						var treePnl = dawdsj.materialManage.category.tree.qcTree;
