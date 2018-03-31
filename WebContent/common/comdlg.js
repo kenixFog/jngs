@@ -266,3 +266,14 @@ whjn.dlg.infoTip = function(msg, e) {
 		icon : Ext.MessageBox.INFO
 	});
 };
+
+//警告
+whjn.dlg.warnTip = function(msg, e) {
+	Ext.MessageBox.show({
+		title : '系统信息',
+		msg : msg,
+		buttons : Ext.MessageBox.OK,
+		animateTarget : e,
+		icon : Ext.MessageBox.WARNING
+	});
+};

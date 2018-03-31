@@ -19,8 +19,9 @@ public interface EquipmentTypeDao extends BaseDao<EquipmentType> {
 	* @throws
 	* @date 2017年11月20日 下午4:28:02 
 	* @version V1.0   
+	 * @param orgId 
 	*/
-	List<EquipmentType> getEquipmentType(long parentId);
+	List<EquipmentType> getEquipmentType(long parentId, long orgId);
 
 	/** 
 	* @Title: getEquipmentTypeList 
@@ -33,7 +34,8 @@ public interface EquipmentTypeDao extends BaseDao<EquipmentType> {
 	* @throws
 	* @date 2018年3月13日 下午4:50:06 
 	* @version V1.0   
+	 * @param orgId 
 	*/
-	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId);
+	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId);
 
 }

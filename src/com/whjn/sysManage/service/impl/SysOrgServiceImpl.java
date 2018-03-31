@@ -157,5 +157,17 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrg> implements SysOrg
 		entity.setSuccess(result);
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getBaseOrg
+	* @Description:
+	* @param @param parentId
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysOrgService#getBaseOrg(java.lang.Long) 
+	*/
+	@Override
+	public SysOrg getBaseOrg(Long parentId) {
+		return sysOrgDao.getBaseOrg(parentId);
+	}
+
 
 }

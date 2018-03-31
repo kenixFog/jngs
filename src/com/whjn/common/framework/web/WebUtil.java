@@ -129,10 +129,16 @@ public class WebUtil {
 	public static String analyseCurrUser(HttpServletRequest request){
 		SysUser usi=getCurrUserInfo(request);
 		if (usi!=null){
-			System.out.println("currUser['userId']="+usi.getId()+";currUser['userName']='"
-					+usi.getUserName()+"';currUser['realName']='"+usi.getRealName()+"';");
+			System.out.println(
+					  "currUser['userId']="+usi.getId()+";"
+					+ "currUser['userName']='"+usi.getUserName()+"';"
+					+ "currUser['realName']='"+usi.getRealName()+"';"
+					+ "currUser['baseOrgName']='" + usi.getBaseOrg().getOrgName()+"';"
+					+ "currUser['orgName']='" + usi.getOrg().getOrgName());
 			return "currUser['userId']="+usi.getId()+";currUser['userName']='"
-				+usi.getUserName()+"';currUser['realName']='"+usi.getRealName()+"';";
+				+usi.getUserName()+"';currUser['realName']='"+usi.getRealName()+"';"
+				+ "currUser['baseOrgId']='" + usi.getBaseOrg().getId()+"';"
+				+ "currUser['orgId']='" + usi.getOrg().getId()+"';";
 		}else return "";
 	}
 	

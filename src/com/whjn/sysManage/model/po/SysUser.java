@@ -48,8 +48,11 @@ public class SysUser extends BaseParameter{
 	
 	@ManyToOne(cascade =  {CascadeType.REFRESH})// 指定多对一关系
 	@JoinColumn(name="ORGID")                       
-    //一个用户对应于一个基准组织
-	private SysOrg org ;
+	private SysOrg org ;//上级组织结构
+	
+	@ManyToOne(cascade =  {CascadeType.REFRESH})// 指定多对一关系
+	@JoinColumn(name="BASEORGID")                       
+	private SysOrg baseOrg ;//根组织机构
 	
 	@Column(name = "TEL", length = 15, nullable = true)
 	private String tel; // 手机号
@@ -105,6 +108,16 @@ public class SysUser extends BaseParameter{
 		this.org = org;
 	}
 	
+	
+	
+	public SysOrg getBaseOrg() {
+		return baseOrg;
+	}
+
+	public void setBaseOrg(SysOrg baseOrg) {
+		this.baseOrg = baseOrg;
+	}
+
 	public String getTel() {
 		return tel;
 	}

@@ -63,5 +63,18 @@ public interface SysOrgService extends BaseService<SysOrg> {
 	*/
 	void delOrgByIds(SysOrg entity, Long[] ids);
 
+	/** 
+	* @Title: getBaseOrg 
+	* @Description: 根据当前组织获取根组织机构
+	* @param @param parentId
+	* @param @return  
+	* @return SysOrg    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年3月21日 上午10:47:25 
+	* @version V1.0   
+	*/
+	SysOrg getBaseOrg(Long parentId);
+
 	
 }

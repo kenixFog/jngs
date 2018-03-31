@@ -19,8 +19,9 @@ public interface EquipmentTypeService extends BaseService<EquipmentType> {
 	* @throws
 	* @date 2017年11月20日 下午4:26:00 
 	* @version V1.0   
+	 * @param orgId 
 	*/
-	List<EquipmentType> getEquipmentType(long parentId);
+	List<EquipmentType> getEquipmentType(long parentId, long orgId);
 
 	/** 
 	* @Title: getEquipmentTypeList 
@@ -33,8 +34,9 @@ public interface EquipmentTypeService extends BaseService<EquipmentType> {
 	* @throws
 	* @date 2018年3月13日 下午4:48:49 
 	* @version V1.0   
+	 * @param orgId 
 	*/
-	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId);
+	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId);
 
 
 }

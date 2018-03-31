@@ -35,10 +35,11 @@ public class EquipmentTypeDaoImpl extends BaseDaoImpl<EquipmentType> implements 
 	* @see com.whjn.sysManage.dao.SysComCodeDao#getComCodeTreeByParentId(long)
 	 */
 	@Override
-	public List<EquipmentType> getEquipmentType(long parentId) {
+	public List<EquipmentType> getEquipmentType(long parentId, long orgId) {
 		SQLQuery query = getSession()
-				.createSQLQuery("SELECT c.* FROM dfwdsj_equipmenttype c WHERE " + "c.parentid = ?  ");
+				.createSQLQuery("SELECT c.* FROM dfwdsj_equipmenttype c WHERE c.parentid = ?  and c.orgId = ?");
 		query.setParameter(0, parentId);
+		query.setParameter(1, orgId);
 		query.addEntity(EquipmentType.class);
 		return query.list();
 	}
@@ -52,13 +53,13 @@ public class EquipmentTypeDaoImpl extends BaseDaoImpl<EquipmentType> implements 
 	* @see com.whjn.dfwdsj.dao.EquipmentTypeDao#getEquipmentTypeList(com.whjn.dfwdsj.model.po.EquipmentType, java.lang.Integer) 
 	*/
 	@Override
-	public QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId) {
+	public QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId) {
 		QueryResult<EquipmentType> qr = new QueryResult<EquipmentType>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT et.id, et.parentId, et.code, et.name, et.isLeaf, et.createTime, ");
-		sb.append("et.lastEditTime FROM dfwdsj_equipmentType et WHERE parentId=? ");
+		sb.append("SELECT et.* FROM dfwdsj_equipmentType et WHERE parentId=? and orgId = ?");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, nodeId);
+		query.setParameter(1, orgId);
 		query.addEntity(EquipmentType.class);
 		List<EquipmentType> menuList =  query.list();
 		qr.setTotalCount((long) menuList.size());

@@ -1,5 +1,7 @@
 Ext.namespace("dawdsj.materialManage.category.panel");
 
+dawdsj.materialManage.category.panel.currentRecord=null;
+
 dawdsj.materialManage.category.panel.initGridPnl = function() {
 	var className = dawdsj.materialManage.category.panel;
 	var gridBbar = new Ext.PagingToolbar({
@@ -26,7 +28,13 @@ dawdsj.materialManage.category.panel.initGridPnl = function() {
 	    columns : [],
 		store : '',
 		plugins: editPlugin,
-	    bbar:gridBbar
+	    bbar:gridBbar,
+	    listeners : {
+			cellclick : function(grid, rowIndex, columnIndex, e) {
+				var record = grid.getStore().getAt(rowIndex); // 得到本行记录
+				dawdsj.materialManage.category.panel.currentRecord = record;
+			}
+		}
 	});
 	className.gridPnl=gridPnl;
 	return gridPnl;
@@ -41,16 +49,16 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
 	var cols = [];
 	// 请求地址
 	var url='';
-	if(record.raw.leaf =='1'){//叶子节点，显示分类字段列表
+	if(record.raw.leaf =='1'){//叶子节点，显示分类的字段列表
 		//获取字段列表
 		url = '/dfwdsj/equipment/getEquipmentFieldList';
 		fields.push({
 			name : 'id',
 			type : 'long'
 		}, {
-			name : 'typeId',
+			name : 'equipmentType.id',
 			type : 'long'
-		},  'fieldName', 'fieldCode','fieldType','fieldLength');
+		},  'fieldName', 'fieldCode','fieldType','fieldLength','fieldContent');
 		
 		
 		cols.push({ 
@@ -61,7 +69,7 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
         	align : 'right'
 	    },{ 
 	        text: '分类ID', 
-	        dataIndex: 'typeId', 
+	        dataIndex: 'equipmentType.id', 
 	        width:100, 
 	        hidden :true,
 	        align : 'right'
@@ -88,7 +96,8 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
                 valueField : "value",
         		displayField : "name",
     			store : dawdsj.materialManage.category.ZDLX,
-    			allowBlank : false
+    			allowBlank : false,
+    			
             }),
             renderer : function(value, p, r) {
 				return whjn.getNameByCode(value,dawdsj.materialManage.category.ZDLX);
@@ -98,6 +107,13 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
 	    	dataIndex: 'fieldLength', 
 	    	width:120,
 	    	editor:new Ext.form.NumberField()
+	    },{ 
+	    	text: '字段内容', 
+	    	dataIndex: 'fieldContent', 
+	    	width:120,
+	    	editor:new Ext.form.TextField({  
+                allowBlank:true  
+            })
 	    });
 		
 		
@@ -112,7 +128,8 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
 		}, {
 			name : 'parentId',
 			type : 'long'
-		},  'typeCode', 'typeName','isLeaf', 
+		},  'typeCode', 'typeName','isLeaf', 'sysOrg.orgName',
+		'createUser.realName','lastEditUser.realName',
 		{
 			name: 'createTime',
 			type : 'datetime',
@@ -163,6 +180,21 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
             renderer : function(value, p, r) {
 				return whjn.getNameByCode(value,dawdsj.materialManage.category.yesOrNoArray);
 			}
+	    },{ 
+	    	text: '创建人', 
+	    	dataIndex: 'createUser.realName' , 
+	    	width:90,
+	    	hidden :true
+	    },{ 
+	    	text: '最后修改人', 
+	    	dataIndex: 'lastEditUser.realName' , 
+	    	width:90,
+	    	hidden :true
+	    },{ 
+	    	text: '所属组织机构', 
+	    	dataIndex: 'sysOrg.orgName' , 
+	    	width:300,
+	    	sortable : false
 	    },{ 
 	    	text: '创建时间', 
 	    	dataIndex: 'createTime' , 

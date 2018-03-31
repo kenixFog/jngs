@@ -40,8 +40,8 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 	* @see com.whjn.sysManage.service.SysComCodeService#getComCodeTreeByParentId(long)
 	 */
 	@Override
-	public List<EquipmentType> getEquipmentType(long parentId) {
-		List<EquipmentType> TypeList = equipmentTypeDao.getEquipmentType(parentId);
+	public List<EquipmentType> getEquipmentType(long parentId,long orgId) {
+		List<EquipmentType> TypeList = equipmentTypeDao.getEquipmentType(parentId,orgId);
 		List resultList = new ArrayList();
 		for (int i = 0; i < TypeList.size(); i++) {
 			JSONObject jsonObject = new JSONObject();
@@ -67,8 +67,8 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 	* @see com.whjn.dfwdsj.service.EquipmentTypeService#getEquipmentTypeList(com.whjn.dfwdsj.model.po.EquipmentType, java.lang.Integer) 
 	*/
 	@Override
-	public QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId) {
-		QueryResult<EquipmentType> equipmentTypeList = equipmentTypeDao.getEquipmentTypeList(equipmentType, nodeId);
+	public QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId) {
+		QueryResult<EquipmentType> equipmentTypeList = equipmentTypeDao.getEquipmentTypeList(equipmentType, nodeId,orgId);
 		return equipmentTypeList;
 	}
 	

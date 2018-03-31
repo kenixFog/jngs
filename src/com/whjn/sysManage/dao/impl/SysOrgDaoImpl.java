@@ -79,5 +79,24 @@ public class SysOrgDaoImpl extends BaseDaoImpl<SysOrg> implements SysOrgDao {
 		query.setParameter(0, orgId);
 		return query.list();
 	}
+
+
+	/* (非 Javadoc) 
+	* @Title: getBaseOrg
+	* @Description:
+	* @param @param orgId
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysOrgDao#getBaseOrg(java.lang.Long) 
+	*/
+	@Override
+	public SysOrg getBaseOrg(Long parentId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT o.id, o.parentId, o.orgcode, o.orgname, o.type, o.attr,o.statue, o.createTime ");
+		sql.append(" FROM t_sys_org o WHERE FIND_IN_SET(id, getParentOrg(?)) AND o.parentId=-1 ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, parentId);
+		query.addEntity(SysOrg.class);
+		return (SysOrg) query.list().get(0);
+	}
 	
 }

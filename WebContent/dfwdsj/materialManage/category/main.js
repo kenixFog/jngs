@@ -15,7 +15,7 @@ dawdsj.materialManage.category.main.initMainPanel = function(){
 	//  					tooltip: atom.constant.addStuBtnTip,        //鼠标悬停在按钮上时的提示信息
 				handler : dawdsj.materialManage.category.main.add
 			},{
-				bizCode : "EDIT",
+				bizCode : "SAVE",
 				text:'保存',
 				iconCls : 'fa fa-floppy-o fa-lg',
 	//  					text : atom.constant.editStuBtnText,
@@ -48,21 +48,20 @@ dawdsj.materialManage.category.main.add = function(){
 	if(node.raw.leaf=='1'){//叶子节点，分类属性字段
 		data = {
 				id : '',
-				typeId: node.raw.id,
+				typeId:'',
 				fieldName:'',
 				fieldCode:'',
 				fieldType:'',
-				fieldLength:''
+				fieldLength:'',
+				fieldContent:''
 			};
 	} else{//非叶子节点，分类字段
 		data = {
 				id : '',
-				parentId: node.raw.id,
+				parentId:'',
 				typeName:'',
 				typeCode:'',
-				isLeaf:'',
-				createTime:'',
-				lastEditTime:''
+				isLeaf:''
 			};
 	}
 	
@@ -97,7 +96,8 @@ dawdsj.materialManage.category.main.save=function(){
 		Ext.Ajax.request({
 			url : webContextRoot + url,
 			params : {
-				paramArray:resultData
+				paramArray:resultData,
+				nodeId : node.raw.id
 			},
 			method : "POST",
 			success : function(response) {
@@ -124,12 +124,13 @@ dawdsj.materialManage.category.main.save=function(){
 			}
 		});
 	} else {
-		Ext.MessageBox.alert("提示", str);
+		whjn.dlg.warnTip('请确认新增或修改的参数有效！');
 	}
 }
 
 //删除已选中的数据
 dawdsj.materialManage.category.main.del=function(){
+	
 	
 	
 }

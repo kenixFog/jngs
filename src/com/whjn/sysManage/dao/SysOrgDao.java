@@ -50,5 +50,18 @@ public interface SysOrgDao extends BaseDao<SysOrg> {
 	*/
 	List<SysOrg> getOrgInfo(Integer orgId);
 
+	/** 
+	* @Title: getBaseOrg 
+	* @Description: 
+	* @param @param parentId
+	* @param @return  
+	* @return SysOrg    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年3月21日 上午10:49:17 
+	* @version V1.0   
+	*/
+	SysOrg getBaseOrg(Long parentId);
+
 
 }

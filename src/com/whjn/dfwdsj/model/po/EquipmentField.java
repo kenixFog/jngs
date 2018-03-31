@@ -20,7 +20,7 @@ import com.whjn.common.base.BaseParameter;
 @Entity
 @Table(name = "DFWDSJ_EQUIPMENTFIELD")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class EquipmentFiled extends BaseParameter {
+public class EquipmentField extends BaseParameter {
 
 	/**
 	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
@@ -30,56 +30,61 @@ public class EquipmentFiled extends BaseParameter {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
-	private int id;
+	private long id;
 	// 指定多对一关系
 	@ManyToOne(cascade = { CascadeType.REFRESH })
 	@JoinColumn(name = "TYPEID")
 	private EquipmentType equipmentType;
 	// 菜单名称
 	@Column(name = "FIELDNAME", length = 50, nullable = false)
-	private String filedName;
+	private String fieldName;
 	// 菜单编码
 	@Column(name = "FIELDCODE", length = 50, nullable = false)
 	private String fieldCode;
 	// 字段类型
 	@Column(name = "FIELDTYPE", nullable = false)
-	private short filedType;
+	private String fieldType;
 	// 字段长度
 	@Column(name = "FIELDLENGTH")
-	private int filedLength;
+	private int fieldLength;
+	// 字段内容（下拉框）
+	@Column(name = "FIELDCONTENT",length = 50)
+	private String fieldContent;
 	
 	
 	
-	public EquipmentFiled() {
+	public EquipmentField() {
 		super();
 	}
 
-	public EquipmentFiled(EquipmentType equipmentType, String filedName, String fieldCode, short filedType,
-			int filedLength) {
+	public EquipmentField(EquipmentType equipmentType, String fieldName, String fieldCode, String fieldType,
+			int fieldLength, String fieldContent) {
 		super();
 		this.equipmentType = equipmentType;
-		this.filedName = filedName;
+		this.fieldName = fieldName;
 		this.fieldCode = fieldCode;
-		this.filedType = filedType;
-		this.filedLength = filedLength;
+		this.fieldType = fieldType;
+		this.fieldLength = fieldLength;
+		this.fieldContent = fieldContent;
 	}
 
-	public EquipmentFiled(int id, EquipmentType equipmentType, String filedName, String fieldCode, short filedType,
-			int filedLength) {
+	public EquipmentField(long id, EquipmentType equipmentType, String fieldName, String fieldCode, String fieldType,
+			int fieldLength, String fieldContent) {
 		super();
 		this.id = id;
 		this.equipmentType = equipmentType;
-		this.filedName = filedName;
+		this.fieldName = fieldName;
 		this.fieldCode = fieldCode;
-		this.filedType = filedType;
-		this.filedLength = filedLength;
+		this.fieldType = fieldType;
+		this.fieldLength = fieldLength;
+		this.fieldContent = fieldContent;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -91,12 +96,12 @@ public class EquipmentFiled extends BaseParameter {
 		this.equipmentType = equipmentType;
 	}
 
-	public String getFiledName() {
-		return filedName;
+	public String getFieldName() {
+		return fieldName;
 	}
 
-	public void setFiledName(String filedName) {
-		this.filedName = filedName;
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
 	}
 
 	public String getFieldCode() {
@@ -107,20 +112,28 @@ public class EquipmentFiled extends BaseParameter {
 		this.fieldCode = fieldCode;
 	}
 
-	public short getFiledType() {
-		return filedType;
+	public String getFieldType() {
+		return fieldType;
 	}
 
-	public void setFiledType(short filedType) {
-		this.filedType = filedType;
+	public void setFieldType(String fieldType) {
+		this.fieldType = fieldType;
 	}
 
-	public int getFiledLength() {
-		return filedLength;
+	public int getFieldLength() {
+		return fieldLength;
 	}
 
-	public void setFiledLength(int filedLength) {
-		this.filedLength = filedLength;
+	public void setFieldLength(int fieldLength) {
+		this.fieldLength = fieldLength;
+	}
+	
+	public String getFieldContent() {
+		return fieldContent;
+	}
+	
+	public void setFieldContent(String fieldContent) {
+		this.fieldContent = fieldContent;
 	}
 
 }

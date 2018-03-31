@@ -109,8 +109,12 @@ public class SysUserController extends BaseController {
 			//检查用户名是否存在
 			SysUser checkUserName = sysUserService.getByProerties("userName", entity.getUserName());
 			if (null == checkUserName) {// 编码不存在
+				//上级组织机构
 				SysOrg sysOrg = sysOrgService.get(RequestUtils.getLongParameter(request, "orgId"));
+				//根组织机构
+				SysOrg sysBaseOrg = sysOrgService.getBaseOrg(sysOrg.getParentId());
 				entity.setOrg(sysOrg);
+				entity.setBaseOrg(sysBaseOrg);
 				entity.setCreateTime(new Date());
 				sysUserService.persist(entity);
 				entity.setSuccess(true);
