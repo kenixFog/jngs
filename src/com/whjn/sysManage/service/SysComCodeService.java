@@ -7,6 +7,9 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.BaseService;
 import com.whjn.sysManage.model.po.SysComCode;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 
 public interface SysComCodeService extends BaseService<SysComCode> {
 
@@ -91,6 +94,20 @@ public interface SysComCodeService extends BaseService<SysComCode> {
 	* @version V1.0   
 	*/
 	List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled);
+
+	/** 
+	* @Title: getComCodeByCode 
+	* @Description: 
+	* @param @param code
+	* @param @return  
+	* @return JSONObject    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年4月4日 下午3:10:36 
+	* @version V1.0   
+	*/
+//	JSONArray getComCodeByCode(String code);
+	List<SysComCode> getComCodeByCode(String code);
 
 
 }

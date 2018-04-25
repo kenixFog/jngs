@@ -136,4 +136,23 @@ public class SysComCodeDaoImpl extends BaseDaoImpl<SysComCode> implements SysCom
 		query.addEntity(SysComCode.class);
 		return query.list();
 	}
+
+	/* (非 Javadoc) 
+	* @Title: getComCodeByCode
+	* @Description:
+	* @param @param code
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysComCodeDao#getComCodeByCode(java.lang.String) 
+	*/
+	@Override
+	public List getComCodeByCode(String code) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT c.id, c.parentId, c.code, c.name, c.value,  c.createTime,");
+		sql.append(" c.lastEditTime, c.comments, c.type, c.statue FROM t_sys_comCode c ");
+		sql.append(" WHERE type = 2 AND c.parentId = ( SELECT id FROM t_sys_comCode WHERE CODE = ? ) ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, code);
+		query.addEntity(SysComCode.class);
+		return query.list();
+	}
 }

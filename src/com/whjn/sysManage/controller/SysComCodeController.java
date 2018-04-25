@@ -239,6 +239,54 @@ public class SysComCodeController extends BaseController {
 		writeJSON(response, sbf.append("}}").toString());
 	}
 
+	
+	
+	/**
+	 * @Title: getCommonCode
+	 * @Description: 根据页面传入公共代码的CODE获取对应的值
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            Exception
+	 * @return void
+	 * @author kenix
+	 * @throws @date
+	 *             2017年9月15日 上午9:52:44
+	 * @version V1.0
+	 */
+	@RequestMapping("/getComCodeByCode")
+	public void getComCodeByCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 获取前台传入的公共代码参数
+		String  code = request.getParameter("codeValue");
+		StringBuffer sbf = new StringBuffer();
+		sbf.append("[");
+		List<SysComCode> list= sysComCodeService.getComCodeByCode(code);
+		for(int i =0 ;i<list.size();i++) {
+			if(i==list.size()-1) {
+				sbf.append("['")
+				.append(list.get(i).getCode()).append("','").append(list.get(i).getValue()).append("','")
+				 .append(list.get(i).getName()).append("']");
+			} else {
+				sbf.append("['")
+				.append(list.get(i).getCode()).append("','").append(list.get(i).getValue()).append("','")
+				 .append(list.get(i).getName()).append("'],");
+			}
+		}
+		writeJSON(response, sbf.append("]").toString());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/***
 	 * 获取公共代码中的数据
 	 * 

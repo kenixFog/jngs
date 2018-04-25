@@ -2,7 +2,9 @@
 
 dawdsj.materialManage.equipment.entry.fieldInfo=null;
 
+dawdsj.materialManage.equipment.entry.img= webContextRoot + "/resources/img/qcIcon/123.jpg";
 
+dawdsj.materialManage.equipment.entry.objId = -1;
 /**
  * 对菜单窗口的显示方式进行控制
  */
@@ -26,8 +28,8 @@ dawdsj.materialManage.equipment.entry.createWin = function(titleText) {
 	
 	var winCfg = {
 		layout : 'fit',   	  // 布局样式
-		width : 900,	
-		height : 600,
+		width : 700,
+		height:500,
 		title : titleText,
 		resizable : false,	 // 不允许用户允许拖动窗体边角来控制窗口大小
 		autoScroll : true,   // 自动显示滚动条
@@ -59,140 +61,160 @@ dawdsj.materialManage.equipment.entry.createWin = function(titleText) {
  * @returns {Ext.form.FormPanel}
  */
 dawdsj.materialManage.equipment.entry.initInfoArea = function() {
-	
-	var field8 = Ext.create('Ext.form.field.Date', {  
-	    fieldLabel: '开始日期',  
-	    name: 'field8',  
-	    format: 'Y-m-d',  
-	    anchor: '90%',  
-	    allowBlank: false  
-	  
-	})  
-	  
-	 var field9 = Ext.create('Ext.form.field.Date', {  
-	    fieldLabel: '结束日期',  
-	    name: 'field9',  
-	    format: 'Y-m-d',  
-	    anchor: '90%',  
-	    allowBlank: false  
-	  
-	});  
-	  
-	var field10 = Ext.create('Ext.form.field.Text', {  
-	    name: 'field10',  
-	    id: 'field10',  
-	    fieldLabel: '出勤率',  
-	    readOnly: true,  
-	    anchor: '90%'  
-	  
-	});  
-	  
-	var field11 = Ext.create('Ext.form.field.Text', {  
-	    name: 'field11',  
-	    id: 'field11',  
-	    fieldLabel: '投诉次数',  
-	    readOnly: true,  
-	    anchor: '90%'  
-	  
-	});  
-	  
-	var field12 = Ext.create('Ext.form.field.Text', {  
-	    name: 'field12',  
-	    id: 'field12',  
-	    fieldLabel: '迟到次数',  
-	    readOnly: true,  
-	    anchor: '90%'  
-	  
-	});  
-	  
-	var field13 = Ext.create('Ext.form.field.Text', {  
-	    name: 'field13',  
-	    id: 'field13',  
-	    fieldLabel: '离岗次数',  
-	    readOnly: true,  
-	    anchor: '90%'  
-	  
-	});  
-	  
-	var field14 = Ext.create('Ext.form.field.Text', {  
-	    name: 'field14',  
-	    id: 'field14',  
-	    fieldLabel: '执法异常',  
-	    readOnly: true,  
-	    anchor: '90%'  
-	  
-	});  
-	  
-	var field15 = Ext.create('Ext.form.field.Text', {  
-	    name: 'field15',  
-	    id: 'field15',  
-	    fieldLabel: '其它异常',  
-	    readOnly: true,  
-	    anchor: '90%'  
-	  
-	});  
-	
-	
+	var fieldsInfo =  dawdsj.materialManage.equipment.entry.fieldInfo;
+	if(fieldsInfo.length==0){
+		whjn.dlg.errTip("该类型未配置相应属性字段，请先在器材分类中维护后进行操作！");
+		return;
+	}
 	var className = dawdsj.materialManage.equipment.entry;
 	var formPnl = new Ext.form.Panel({
 		bodyPadding: 20,
 		border : false,
 		anchor: '100%',  
-	    layout: 'column',  
+	    layout: 'column', 
+	    autoScroll:true,
 		fieldDefaults : {
 			labelAlign : 'left',
-			labelWidth : 100
+			labelWidth : 50
 		},
-		
 		items: [{  
 	        xtype: 'container',  
-	        columnWidth: .4,  
+	        columnWidth: .35,  
+			id:'col1',
 	        layout: 'anchor',  
-	        items: [field8,field10,field12]  
-	  
-	    },  
-	    {  
+	        items: []  
+	    },{  
 	        xtype: 'container',  
-	        columnWidth: .4, 
+	        columnWidth: .35,
+			id:'col2',
 	        layout: 'anchor',  
-	        items: [field9,field11,field13]  
-	  
+	        items: []  
+	    },{  
+	        xtype: 'container',  
+	        columnWidth: .3,
+			id:'col3',
+	        layout: 'anchor',  
+	        items: []  
 	    }]  
-	  
-		
-		
-//		
-//		items : [{
-//			id : 'id',
-//			xtype : 'hidden',
-//			name : 'id',
-//			value : dawdsj.materialManage.equipment.entry.currObjId
-//		},{
-//			xtype : 'textfield',
-//			name : 'roleCode',
-//			fieldLabel : '编码',
-//			style: 'margin-top:10px',
-//			allowBlank : false,
-//			maxLength : 50,
-//			maxLengthText : "最大长度不超过50个字符"
-//		},{
-//			xtype : 'textfield',
-//			name : 'roleName',
-//			fieldLabel : '名称',
-//			style: 'margin-top:10px',
-//			allowBlank : false,
-//			maxLength : 50,
-//			maxLengthText : "最大长度不超过50个字符"
-//		},{
-//			xtype : 'textareafield',
-//			name : 'comments',
-//			fieldLabel : '备注',
-//			style: 'margin-top:10px',
-//			height: 60,
-//			maxLength : 200,
-//			maxLengthText : "最大长度不超过200个字符"
-//		}]
 	});
+	
+	//第一列
+    var col1 = Ext.getCmp("col1");
+    //第二列
+    var col2 = Ext.getCmp("col2");
+    //第三列
+    var col3 = Ext.getCmp("col3");
+    
+	var flag =true;
+	for(var i = 0;i< fieldsInfo.length;i++){//编码,名称,类型,长度,默认值
+		var field;
+		var readOnly = false;
+		if(fieldsInfo[i][0]=='ID'){
+			readOnly = true;
+		}
+		if(fieldsInfo[i][2]=='textfield'){//文本框
+			field = {
+				xtype : 'textfield', 
+				name: fieldsInfo[i][0],
+				id: fieldsInfo[i][0],
+				readOnly:readOnly,
+				style: 'margin-top:10px',
+			    fieldLabel: fieldsInfo[i][1],  
+			    anchor: '80%'  
+			}; 
+		} else if(fieldsInfo[i][2]=='datetime'){//时间
+			field = {
+				xtype : 'datetime', 
+				name: fieldsInfo[i][0],
+				id: fieldsInfo[i][0],
+				readOnly:readOnly,
+				style: 'margin-top:10px',
+			    fieldLabel: fieldsInfo[i][1],  
+			    anchor: '80%'  
+			}; 
+		}else if(fieldsInfo[i][2]=='combo'){//下拉框
+			
+			Ext.regModel('model',{
+				fields:[
+					{name:'comCodeCode'},  
+				    {name:'comCodeValue'},  
+				    {name:'comCodeName'} 
+				    ]
+			});
+			var store = new Ext.data.Store({
+				model: 'model',
+			    proxy:{
+			    	url: webContextRoot+'/sys/comCode/getComCodeByCode',
+					type : 'ajax',
+					extraParams  : {
+						codeValue : fieldsInfo[i][4]
+					},
+					reader:new Ext.data.ArrayReader({model:'model'})
+			    }
+			}); 
+			
+			field = {
+				xtype : 'combo', 
+				name: fieldsInfo[i][0],
+				id: fieldsInfo[i][0],
+				triggerAction:'all',
+				queryMode:'remote',
+			    fieldLabel: fieldsInfo[i][1],  
+			    anchor: '80%',
+			    displayField:'comCodeName',
+			    valueField:'comCodeValue',
+			    readOnly:readOnly,
+			    style: 'margin-top:10px',
+				emptyText : '请选择...',
+				editable : false,
+				store: store
+			}; 
+		} else if(fieldsInfo[i][2]=='box'){//文件
+			var id = fieldsInfo[i][0];
+			field = [{
+	        	xtype : 'box',  
+				name : 'slt',
+				style: 'margin-top:10px',
+				fieldLabel:'缩略图',
+                id : id,  
+                border : true,
+                autoEl : {  
+                    width : 180,  
+                    height : 180, 
+                    tag : 'img',  
+                    src : dawdsj.materialManage.equipment.entry.img  
+              }  
+	        },{
+	        	xtype : 'button',
+				text :'选择图片',
+				handler : function() {
+					
+					var win = new dawdsj.materialManage.equipment.iconImg.uploadWin({
+						compId : id
+					});
+//					win.on('afterUpload', function(v) {
+//						templates.loginAndReg.register.headImgID = v.uuId;
+//						templates.loginAndReg.register.headImgSuffix = v.suffix;
+//					});
+				}
+	        }] 
+		}
+		
+		if(fieldsInfo[i][2]=='box'){
+			col3.add(field);
+		} else {
+			if(flag){
+				 col1.add(field);
+				 flag = false;
+			} else if(!flag){
+				 col2.add(field);
+				 flag = true;
+			}
+		}
+	}
+    col1.doLayout();
+    col2.doLayout();
+    col3.doLayout();
 	className.formPnl = formPnl;
 	return formPnl;
 }
@@ -219,29 +241,29 @@ dawdsj.materialManage.equipment.entry.setwinToolBar = function(titleText) {
  * @param titleText
  */
 dawdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
-	var className = dawdsj.materialManage.equipment.entry;
-	var formPnl = className.formPnl;
-	if ("编辑" == titleText) {
-		formPnl.getForm().load({
-			url : webContextRoot + '/sys/authority/getRoleInfo',
-			method : "post",
-			params : {
-				// 角色Id
-				roleId : className.currObjId,
-				nodeType : sysManage.authorityManage.role.tree.node.raw.nodeType
-
-			},
-			waitTitle : "提示",
-			waitMsg : "正在从服务器提取数据...",
-			failure : function(form, action) {
-				className.win.close();
-			},
-			success : function(form, action) {
-				Ext.getCmp("Id").setValue(action.result.data.ID);
-				Ext.getCmp("parentId").setValue(action.result.data.parentId);
-			}
-		});
-	}
+//	var className = dawdsj.materialManage.equipment.entry;
+//	var formPnl = className.formPnl;
+//	if ("编辑" == titleText) {
+//		formPnl.getForm().load({
+//			url : webContextRoot + '/sys/authority/getRoleInfo',
+//			method : "post",
+//			params : {
+//				// 角色Id
+//				roleId : className.currObjId,
+//				nodeType : sysManage.authorityManage.role.tree.node.raw.nodeType
+//
+//			},
+//			waitTitle : "提示",
+//			waitMsg : "正在从服务器提取数据...",
+//			failure : function(form, action) {
+//				className.win.close();
+//			},
+//			success : function(form, action) {
+//				Ext.getCmp("Id").setValue(action.result.data.ID);
+//				Ext.getCmp("parentId").setValue(action.result.data.parentId);
+//			}
+//		});
+//	}
 }
 
 
@@ -249,67 +271,74 @@ dawdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
  * 保存新增或编辑后的信息
  */
 dawdsj.materialManage.equipment.entry.saveHandler = function() {
-	var className = dawdsj.materialManage.equipment.entry;
-	//校验表单的正确性
-	var str = whjn.validateForm(className.formPnl);
-	var saveUrl='';
-	if (str == "") { //如果校验通过
-		var params = {};
-		var qryNames = [ "id",  "roleCode", "roleName", "comments"];
-		//循环遍历，获取表单信息
-		for ( var i = 0; i < qryNames.length; i++) {
-			var objTmp = className.formPnl.getForm().findField(qryNames[i]);
-			if (objTmp) {
-				if (objTmp.getXType() == 'datefield') {//如果是时间空间，直接获取时间格式的数据类型
-					params[qryNames[i]] = objTmp.getRawValue();
-				} else {
-					params[qryNames[i]] = objTmp.getValue();
-				}
-			}
-		}
-		params["nodeType"] = sysManage.authorityManage.role.tree.node.raw.nodeType;
-		params["nodeId"] = sysManage.authorityManage.role.tree.node.raw.id;
-		if(params["nodeType"] == 0){
-			saveUrl = webContextRoot + '/sys/authority/saveRoleTypeInfo'
-		}else {
-			saveUrl = webContextRoot + '/sys/authority/saveRoleInfo'
-		}
-		Ext.Ajax.request({
-			url : saveUrl,
-			params : params,
-			method : "POST",
-			success : function(response) {
-				if (response.responseText != '') {
-					var res = Ext.JSON.decode(response.responseText);
-					if (res.success) {
-						whjn.dlg.showMomentDlg("保存成功!");
-						dawdsj.materialManage.equipment.entry.closeHandler();
-						//获取数据列表窗口
-						var className = sysManage.authorityManage.role.panel;
-						//重新加载列表数据
-						className.loadRecord();
-						if(params["nodeType"] == 0){
-							//树面板
-							var treePnl = sysManage.authorityManage.role.tree.roleTree;
-							//点前选中的树节点
-							var node = sysManage.authorityManage.role.tree.node;
-							//设置需要加载的树节点Id
-							treePnl.getStore().proxy.extraParams.parentId = nnode.data.id;
-							//刷新当前的树节点
-							whjn.refreshTreePnl(treePnl, node.data.id);
-						}
-					} else {
-						whjn.dlg.errTip(res.message);
-					}
-				}
-			},
-			failure : function(response) {
-				whjn.dlg.errTip('操作失败！');
-			}
-		});
-	} else {
-		Ext.MessageBox.alert("提示", str);
-	}
+	  
+	 
+	
+	
+	
+	
+	
+//	var className = dawdsj.materialManage.equipment.entry;
+//	//校验表单的正确性
+//	var str = whjn.validateForm(className.formPnl);
+//	var saveUrl='';
+//	if (str == "") { //如果校验通过
+//		var params = {};
+//		var qryNames = [ "id",  "roleCode", "roleName", "comments"];
+//		//循环遍历，获取表单信息
+//		for ( var i = 0; i < qryNames.length; i++) {
+//			var objTmp = className.formPnl.getForm().findField(qryNames[i]);
+//			if (objTmp) {
+//				if (objTmp.getXType() == 'datefield') {//如果是时间空间，直接获取时间格式的数据类型
+//					params[qryNames[i]] = objTmp.getRawValue();
+//				} else {
+//					params[qryNames[i]] = objTmp.getValue();
+//				}
+//			}
+//		}
+//		params["nodeType"] = sysManage.authorityManage.role.tree.node.raw.nodeType;
+//		params["nodeId"] = sysManage.authorityManage.role.tree.node.raw.id;
+//		if(params["nodeType"] == 0){
+//			saveUrl = webContextRoot + '/sys/authority/saveRoleTypeInfo'
+//		}else {
+//			saveUrl = webContextRoot + '/sys/authority/saveRoleInfo'
+//		}
+//		Ext.Ajax.request({
+//			url : saveUrl,
+//			params : params,
+//			method : "POST",
+//			success : function(response) {
+//				if (response.responseText != '') {
+//					var res = Ext.JSON.decode(response.responseText);
+//					if (res.success) {
+//						whjn.dlg.showMomentDlg("保存成功!");
+//						dawdsj.materialManage.equipment.entry.closeHandler();
+//						//获取数据列表窗口
+//						var className = sysManage.authorityManage.role.panel;
+//						//重新加载列表数据
+//						className.loadRecord();
+//						if(params["nodeType"] == 0){
+//							//树面板
+//							var treePnl = sysManage.authorityManage.role.tree.roleTree;
+//							//点前选中的树节点
+//							var node = sysManage.authorityManage.role.tree.node;
+//							//设置需要加载的树节点Id
+//							treePnl.getStore().proxy.extraParams.parentId = nnode.data.id;
+//							//刷新当前的树节点
+//							whjn.refreshTreePnl(treePnl, node.data.id);
+//						}
+//					} else {
+//						whjn.dlg.errTip(res.message);
+//					}
+//				}
+//			},
+//			failure : function(response) {
+//				whjn.dlg.errTip('操作失败！');
+//			}
+//		});
+//	} else {
+//		Ext.MessageBox.alert("提示", str);
+//	}
 }
 
 /**

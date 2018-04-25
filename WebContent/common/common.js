@@ -495,4 +495,3 @@ whjn.getNameByCode=function(code,codeNameArray){
 	}
 	return "";
 }
-

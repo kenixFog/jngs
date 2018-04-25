@@ -80,4 +80,17 @@ public interface SysComCodeDao extends BaseDao<SysComCode> {
 	* @version V1.0   
 	*/
 	List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled);
+
+	/** 
+	* @Title: getComCodeByCode 
+	* @Description: 
+	* @param @param code
+	* @param @return  
+	* @return List    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年4月4日 下午3:14:57 
+	* @version V1.0   
+	*/
+	List getComCodeByCode(String code);
 }

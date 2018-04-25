@@ -172,8 +172,8 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
 	    	width:120,
 	    	editor: new Ext.form.ComboBox({  
                 editable : false,
-                valueField : "value",
-        		displayField : "name",
+                valueField : "name",
+        		displayField : "value",
     			store : dawdsj.materialManage.category.yesOrNoArray,
     			allowBlank : false
             }),

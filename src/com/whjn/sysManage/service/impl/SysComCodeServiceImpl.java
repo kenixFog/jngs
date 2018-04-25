@@ -18,6 +18,7 @@ import com.whjn.sysManage.dao.SysComCodeDao;
 import com.whjn.sysManage.model.po.SysComCode;
 import com.whjn.sysManage.service.SysComCodeService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 
@@ -141,6 +142,29 @@ public class SysComCodeServiceImpl extends BaseServiceImpl<SysComCode> implement
 	@Override
 	public List<SysComCode> getComCodeListByCode(String string, boolean includeDisabled) {
 		return sysComCodeDao.getComCodeListByCode(string, includeDisabled);
+	}
+
+
+	/* (非 Javadoc) 
+	* @Title: getComCodeByCode
+	* @Description:
+	* @param @param code
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysComCodeService#getComCodeByCode(java.lang.String) 
+	*/
+	@Override
+//	public JSONArray getComCodeByCode(String code) {
+		public List<SysComCode> getComCodeByCode(String code) {
+//		JSONArray result = new JSONArray();
+		List<SysComCode> list = sysComCodeDao.getComCodeByCode(code);
+//		for (int i = 0; i < list.size(); i++) {
+//			JSONObject jsonObject = new JSONObject();
+//			jsonObject.put("name", list.get(i).getName());
+//			jsonObject.put("code", list.get(i).getCode());
+//			jsonObject.put("value", list.get(i).getValue());
+//			result.add(jsonObject);
+//		}
+		return list;
 	}
 
 

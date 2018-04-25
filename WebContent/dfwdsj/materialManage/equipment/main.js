@@ -42,6 +42,7 @@ dawdsj.materialManage.equipment.main.initMainPanel = function(){
 
 //新增
 dawdsj.materialManage.equipment.main.add = function(){
+	dawdsj.materialManage.equipment.entry.objId = -1;
 	dawdsj.materialManage.equipment.entry.showWin("新增");
 }
 
