@@ -1,9 +1,9 @@
-Ext.namespace("dawdsj.materialManage.category.panel");
+Ext.namespace("dfwdsj.materialManage.category.panel");
 
-dawdsj.materialManage.category.panel.currentRecord=null;
+dfwdsj.materialManage.category.panel.currentRecord=null;
 
-dawdsj.materialManage.category.panel.initGridPnl = function() {
-	var className = dawdsj.materialManage.category.panel;
+dfwdsj.materialManage.category.panel.initGridPnl = function() {
+	var className = dfwdsj.materialManage.category.panel;
 	var gridBbar = new Ext.PagingToolbar({
 		pageSize : whjn.PS,
 		store : '',
@@ -32,7 +32,7 @@ dawdsj.materialManage.category.panel.initGridPnl = function() {
 	    listeners : {
 			cellclick : function(grid, rowIndex, columnIndex, e) {
 				var record = grid.getStore().getAt(rowIndex); // 得到本行记录
-				dawdsj.materialManage.category.panel.currentRecord = record;
+				dfwdsj.materialManage.category.panel.currentRecord = record;
 			}
 		}
 	});
@@ -42,7 +42,7 @@ dawdsj.materialManage.category.panel.initGridPnl = function() {
 
 //重新加载面板-动态列
 
-dawdsj.materialManage.category.panel.reCreatePnl = function(record){
+dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
 	// record对应的field
 	var fields = [];
 	// 表头
@@ -89,18 +89,18 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
             })
 	    },{ 
 	    	text: '字段类型', 
-	    	dataIndex: 'fieldType' , //dawdsj.materialManage.category.ZDLX
+	    	dataIndex: 'fieldType' , //dfwdsj.materialManage.category.ZDLX
 	    	width:120,
 	    	editor: new Ext.form.ComboBox({  
                 editable : false,
                 valueField : "value",
         		displayField : "name",
-    			store : dawdsj.materialManage.category.ZDLX,
+    			store : dfwdsj.materialManage.category.ZDLX,
     			allowBlank : false,
     			
             }),
             renderer : function(value, p, r) {
-				return whjn.getNameByCode(value,dawdsj.materialManage.category.ZDLX);
+				return whjn.getNameByCode(value,dfwdsj.materialManage.category.ZDLX);
 			}
 	    },{ 
 	    	text: '字段长度', 
@@ -174,11 +174,11 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
                 editable : false,
                 valueField : "name",
         		displayField : "value",
-    			store : dawdsj.materialManage.category.yesOrNoArray,
+    			store : dfwdsj.materialManage.category.yesOrNoArray,
     			allowBlank : false
             }),
             renderer : function(value, p, r) {
-				return whjn.getNameByCode(value,dawdsj.materialManage.category.yesOrNoArray);
+				return whjn.getNameByCode(value,dfwdsj.materialManage.category.yesOrNoArray);
 			}
 	    },{ 
 	    	text: '创建人', 
@@ -234,13 +234,13 @@ dawdsj.materialManage.category.panel.reCreatePnl = function(record){
 	    },
 	    listeners: {
 	    	'beforeload': function(store, opration, eOpts){
-	    		var node = dawdsj.materialManage.category.tree.node;
+	    		var node = dfwdsj.materialManage.category.tree.node;
 	    		this.proxy.extraParams.nodeId = node.raw.id;
 	    	}
 	    }
 	});
 	store.load();
-	var className = dawdsj.materialManage.category.panel;
+	var className = dfwdsj.materialManage.category.panel;
 	// 绑定PagingToolbar的store
 	className.gridBbar.bind(store);
 	// 重新配置grid,使用不同的Store和ColumnModel

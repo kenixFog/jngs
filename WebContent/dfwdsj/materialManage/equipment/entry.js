@@ -1,16 +1,16 @@
-﻿Ext.namespace("dawdsj.materialManage.equipment.entry");
+﻿Ext.namespace("dfwdsj.materialManage.equipment.entry");
 
-dawdsj.materialManage.equipment.entry.fieldInfo=null;
+dfwdsj.materialManage.equipment.entry.fieldInfo=null;
 
-dawdsj.materialManage.equipment.entry.img= webContextRoot + "/resources/img/qcIcon/123.jpg";
+dfwdsj.materialManage.equipment.entry.img= webContextRoot + "/resources/img/qcIcon/123.jpg";
 
-dawdsj.materialManage.equipment.entry.objId = -1;
+dfwdsj.materialManage.equipment.entry.objId = -1;
 /**
  * 对菜单窗口的显示方式进行控制
  */
-dawdsj.materialManage.equipment.entry.showWin = function(titleText) {
+dfwdsj.materialManage.equipment.entry.showWin = function(titleText) {
 	//命名空间
-	var className = dawdsj.materialManage.equipment.entry;
+	var className = dfwdsj.materialManage.equipment.entry;
 	className.win = className.createWin(titleText);
 	//根据条件控制工具栏按钮
 	className.setwinToolBar(titleText);
@@ -24,7 +24,7 @@ dawdsj.materialManage.equipment.entry.showWin = function(titleText) {
  * 生成二级窗口
  * @returns {Ext.Window}
  */
-dawdsj.materialManage.equipment.entry.createWin = function(titleText) {
+dfwdsj.materialManage.equipment.entry.createWin = function(titleText) {
 	
 	var winCfg = {
 		layout : 'fit',   	  // 布局样式
@@ -41,15 +41,15 @@ dawdsj.materialManage.equipment.entry.createWin = function(titleText) {
 				text : whjn.constant.saveBtnText,
 				iconCls : 'fa fa-floppy-o fa-lg',
 				bizCode : 'save',
-				handler : dawdsj.materialManage.equipment.entry.saveHandler
+				handler : dfwdsj.materialManage.equipment.entry.saveHandler
 			}, {
 				text : whjn.constant.closeBtnText,
 				iconCls : 'fa fa-times-circle fa-lg',
 				bizCode : 'close',
-				handler : dawdsj.materialManage.equipment.entry.closeHandler
+				handler : dfwdsj.materialManage.equipment.entry.closeHandler
 			} ],
 		},
-		items : dawdsj.materialManage.equipment.entry.initInfoArea()
+		items : dfwdsj.materialManage.equipment.entry.initInfoArea()
 	};
 	var win = new Ext.Window(winCfg);
 	return win;
@@ -60,13 +60,13 @@ dawdsj.materialManage.equipment.entry.createWin = function(titleText) {
  * 初始化表单信息
  * @returns {Ext.form.FormPanel}
  */
-dawdsj.materialManage.equipment.entry.initInfoArea = function() {
-	var fieldsInfo =  dawdsj.materialManage.equipment.entry.fieldInfo;
+dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
+	var fieldsInfo =  dfwdsj.materialManage.equipment.entry.fieldInfo;
 	if(fieldsInfo.length==0){
 		whjn.dlg.errTip("该类型未配置相应属性字段，请先在器材分类中维护后进行操作！");
 		return;
 	}
-	var className = dawdsj.materialManage.equipment.entry;
+	var className = dfwdsj.materialManage.equipment.entry;
 	var formPnl = new Ext.form.Panel({
 		bodyPadding: 20,
 		border : false,
@@ -182,14 +182,14 @@ dawdsj.materialManage.equipment.entry.initInfoArea = function() {
                     width : 180,  
                     height : 180, 
                     tag : 'img',  
-                    src : dawdsj.materialManage.equipment.entry.img  
+                    src : dfwdsj.materialManage.equipment.entry.img  
               }  
 	        },{
 	        	xtype : 'button',
 				text :'选择图片',
 				handler : function() {
 					
-					var win = new dawdsj.materialManage.equipment.iconImg.uploadWin({
+					dfwdsj.materialManage.equipment.iconImg.uploadWin({
 						compId : id
 					});
 //					win.on('afterUpload', function(v) {
@@ -223,8 +223,8 @@ dawdsj.materialManage.equipment.entry.initInfoArea = function() {
  * 设置工具栏按钮
  * @param titleText
  */
-dawdsj.materialManage.equipment.entry.setwinToolBar = function(titleText) {
-	var className = dawdsj.materialManage.equipment.entry;
+dfwdsj.materialManage.equipment.entry.setwinToolBar = function(titleText) {
+	var className = dfwdsj.materialManage.equipment.entry;
 	var toolBar = className.win.getDockedItems('toolbar[dock="top"]');
 	var funcObjs = null;
 	//根据不同操作，控制工具栏按钮
@@ -240,8 +240,8 @@ dawdsj.materialManage.equipment.entry.setwinToolBar = function(titleText) {
  * 加载窗体的表单信息
  * @param titleText
  */
-dawdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
-//	var className = dawdsj.materialManage.equipment.entry;
+dfwdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
+//	var className = dfwdsj.materialManage.equipment.entry;
 //	var formPnl = className.formPnl;
 //	if ("编辑" == titleText) {
 //		formPnl.getForm().load({
@@ -270,7 +270,7 @@ dawdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
 /**
  * 保存新增或编辑后的信息
  */
-dawdsj.materialManage.equipment.entry.saveHandler = function() {
+dfwdsj.materialManage.equipment.entry.saveHandler = function() {
 	  
 	 
 	
@@ -278,7 +278,7 @@ dawdsj.materialManage.equipment.entry.saveHandler = function() {
 	
 	
 	
-//	var className = dawdsj.materialManage.equipment.entry;
+//	var className = dfwdsj.materialManage.equipment.entry;
 //	//校验表单的正确性
 //	var str = whjn.validateForm(className.formPnl);
 //	var saveUrl='';
@@ -312,7 +312,7 @@ dawdsj.materialManage.equipment.entry.saveHandler = function() {
 //					var res = Ext.JSON.decode(response.responseText);
 //					if (res.success) {
 //						whjn.dlg.showMomentDlg("保存成功!");
-//						dawdsj.materialManage.equipment.entry.closeHandler();
+//						dfwdsj.materialManage.equipment.entry.closeHandler();
 //						//获取数据列表窗口
 //						var className = sysManage.authorityManage.role.panel;
 //						//重新加载列表数据
@@ -344,7 +344,7 @@ dawdsj.materialManage.equipment.entry.saveHandler = function() {
 /**
  * 关闭按钮事件
  */
-dawdsj.materialManage.equipment.entry.closeHandler = function() {
-	dawdsj.materialManage.equipment.entry.win.close();
+dfwdsj.materialManage.equipment.entry.closeHandler = function() {
+	dfwdsj.materialManage.equipment.entry.win.close();
 }
 

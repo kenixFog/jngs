@@ -1,6 +1,6 @@
-Ext.namespace("dawdsj.materialManage.equipment.test");
+Ext.namespace("dfwdsj.materialManage.equipment.test");
 
-dawdsj.materialManage.equipment.test.uploadWin =function(){
+dfwdsj.materialManage.equipment.test.uploadWin =function(){
 	var winCfg = {
 			layout : 'fit',   	  // 布局样式
 			width : 800,	

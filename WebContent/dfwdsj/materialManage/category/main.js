@@ -1,6 +1,6 @@
-Ext.namespace("dawdsj.materialManage.category.main");
+Ext.namespace("dfwdsj.materialManage.category.main");
 
-dawdsj.materialManage.category.main.initMainPanel = function(){  
+dfwdsj.materialManage.category.main.initMainPanel = function(){  
 	//定义面板
 	var mainPanel = Ext.create('Ext.Panel',{
 		layout : 'border',                //布局类型 
@@ -13,7 +13,7 @@ dawdsj.materialManage.category.main.initMainPanel = function(){
 	//  					text : atom.constant.addStuBtnText,         //按钮上显示的文字
 	  			iconCls : 'fa fa-plus fa-lg',                  //一个样式类，提供在按钮上显示的图标
 	//  					tooltip: atom.constant.addStuBtnTip,        //鼠标悬停在按钮上时的提示信息
-				handler : dawdsj.materialManage.category.main.add
+				handler : dfwdsj.materialManage.category.main.add
 			},{
 				bizCode : "SAVE",
 				text:'保存',
@@ -21,29 +21,29 @@ dawdsj.materialManage.category.main.initMainPanel = function(){
 	//  					text : atom.constant.editStuBtnText,
 	//  					iconCls : 'btnIconEdit',
 	//  					tooltip: atom.constant.editStuBtnTip,
-	  			handler : dawdsj.materialManage.category.main.save
+	  			handler : dfwdsj.materialManage.category.main.save
 			}, {
 				bizCode : "DELE",
 				text:'删除',
 				iconCls : 'fa fa-trash-o fa-lg', 
 	//  					text : atom.constant.delStuBtnText,
 	//  					tooltip: atom.constant.delStuBtnTip,
-				handler : dawdsj.materialManage.category.main.del
+				handler : dfwdsj.materialManage.category.main.del
 			}]
 		},
 		items:[             							
-				dawdsj.materialManage.category.tree.initTree(),        
-				dawdsj.materialManage.category.panel.initGridPnl()
+				dfwdsj.materialManage.category.tree.initTree(),        
+				dfwdsj.materialManage.category.panel.initGridPnl()
 		      ]
 	});
-	dawdsj.materialManage.category.main.mainPnl = mainPanel;
+	dfwdsj.materialManage.category.main.mainPnl = mainPanel;
 	return mainPanel;
 }	
 
 //新增
-dawdsj.materialManage.category.main.add = function(){
-	var className = dawdsj.materialManage.category.panel;
-	var node = dawdsj.materialManage.category.tree.node;
+dfwdsj.materialManage.category.main.add = function(){
+	var className = dfwdsj.materialManage.category.panel;
+	var node = dfwdsj.materialManage.category.tree.node;
 	var data = [];
 	if(node.raw.leaf=='1'){//叶子节点，分类属性字段
 		data = {
@@ -80,10 +80,10 @@ dawdsj.materialManage.category.main.add = function(){
 
 
 //保存新增或编辑的数据
-dawdsj.materialManage.category.main.save=function(){
-	var className = dawdsj.materialManage.category.panel;
+dfwdsj.materialManage.category.main.save=function(){
+	var className = dfwdsj.materialManage.category.panel;
 	//点前选中的树节点
-	var node = dawdsj.materialManage.category.tree.node;
+	var node = dfwdsj.materialManage.category.tree.node;
 	var url='';
 	if(node.raw.leaf=='1'){
 		url = '/dfwdsj/equipment/saveEquipmentField';
@@ -91,7 +91,7 @@ dawdsj.materialManage.category.main.save=function(){
 		url = '/dfwdsj/equipment/saveEquipmentType';
 	}
 	var modifiedItems = className.gridPnl.getStore().getModifiedRecords();
-	var resultData = dawdsj.materialManage.category.main.convertRecordsToJson(modifiedItems);
+	var resultData = dfwdsj.materialManage.category.main.convertRecordsToJson(modifiedItems);
 	if(modifiedItems.length != 0){
 		Ext.Ajax.request({
 			url : webContextRoot + url,
@@ -105,11 +105,11 @@ dawdsj.materialManage.category.main.save=function(){
 					var res = Ext.JSON.decode(response.responseText);
 					if (res.success) {
 						whjn.dlg.showMomentDlg("保存成功!");
-						var className = dawdsj.materialManage.category.panel;
+						var className = dfwdsj.materialManage.category.panel;
 						var store = className.gridPnl.getStore();
 						store.load();
 						//树面板
-						var treePnl = dawdsj.materialManage.category.tree.qcTree;
+						var treePnl = dfwdsj.materialManage.category.tree.qcTree;
 						//设置需要加载的树节点Id
 						treePnl.getStore().proxy.extraParams.parentId = node.data.id;
 						//刷新当前的树节点
@@ -129,14 +129,14 @@ dawdsj.materialManage.category.main.save=function(){
 }
 
 //删除已选中的数据
-dawdsj.materialManage.category.main.del=function(){
+dfwdsj.materialManage.category.main.del=function(){
 	
 	
 	
 }
 
 //行记录转为json字符串
-dawdsj.materialManage.category.main.convertRecordsToJson = function(items){
+dfwdsj.materialManage.category.main.convertRecordsToJson = function(items){
 	if (items.length == 0) {
         return '[]';
     }

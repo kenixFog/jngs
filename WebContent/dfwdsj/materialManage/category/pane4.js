@@ -1,11 +1,11 @@
-Ext.namespace("dawdsj.materialManage.category.panel");
+Ext.namespace("dfwdsj.materialManage.category.panel");
 
-dawdsj.materialManage.category.panel.initPanel = function() {
+dfwdsj.materialManage.category.panel.initPanel = function() {
 	var panel = new Ext.Panel({
 		region : 'center',
 		layout : 'border',
 		items:[
-			dawdsj.materialManage.category.panel.initGridPnl()
+			dfwdsj.materialManage.category.panel.initGridPnl()
 		]
 	});
 	return panel;
@@ -13,7 +13,7 @@ dawdsj.materialManage.category.panel.initPanel = function() {
 
 
 
-dawdsj.materialManage.category.panel.getStore = function(){
+dfwdsj.materialManage.category.panel.getStore = function(){
 	
 	Ext.define('MenuModel', {
 		extend : 'Ext.data.Model',
@@ -56,7 +56,7 @@ dawdsj.materialManage.category.panel.getStore = function(){
 	    },
 	    listeners: {
 	    	'beforeload': function(store, opration, eOpts){
-	    		var node = dawdsj.materialManage.category.tree.node;
+	    		var node = dfwdsj.materialManage.category.tree.node;
 	    		this.proxy.extraParams.nodeId = node.raw.id;
 	    	}
 	    }
@@ -65,8 +65,8 @@ dawdsj.materialManage.category.panel.getStore = function(){
 }
 
 
-dawdsj.materialManage.category.panel.initGridPnl = function() {
-	var className = dawdsj.materialManage.category.panel;
+dfwdsj.materialManage.category.panel.initGridPnl = function() {
+	var className = dfwdsj.materialManage.category.panel;
 	var store = className.getStore();
 	var typeGridPnl = Ext.create("Ext.grid.Panel", {
 	    xtype: "grid",
@@ -121,7 +121,7 @@ dawdsj.materialManage.category.panel.initGridPnl = function() {
 	    listeners: {
 //	        itemdblclick: function (me, record, item, index, e, eOpts) {
 //	        	 //双击事件的操作
-//	        	dawdsj.materialManage.category.main.edit();
+//	        	dfwdsj.materialManage.category.main.edit();
 //	        }
 	    },
 	    bbar:new Ext.PagingToolbar({
@@ -136,8 +136,8 @@ dawdsj.materialManage.category.panel.initGridPnl = function() {
 	return typeGridPnl;
 }
 
-dawdsj.materialManage.category.panel.loadRecord = function(){
-	var className = dawdsj.materialManage.category.panel;
+dfwdsj.materialManage.category.panel.loadRecord = function(){
+	var className = dfwdsj.materialManage.category.panel;
 	var store = className.typeGridPnl.getStore();
 	store.load();
 }

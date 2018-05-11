@@ -1,1 +1,1 @@
-﻿Ext.namespace("dawdsj.materialManage.category.entry");
+﻿Ext.namespace("dfwdsj.materialManage.category.entry");

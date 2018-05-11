@@ -1,9 +1,9 @@
-﻿Ext.namespace("dawdsj.materialManage.equipment.tree");
+﻿Ext.namespace("dfwdsj.materialManage.equipment.tree");
 
 //选中的树节点
-dawdsj.materialManage.equipment.tree.node = null;
+dfwdsj.materialManage.equipment.tree.node = null;
 
-dawdsj.materialManage.equipment.tree.initTree = function() {
+dfwdsj.materialManage.equipment.tree.initTree = function() {
 	 var qcTreeStore = Ext.create('Ext.data.TreeStore', {  
 	        autoLoad : true,  
 	        proxy : {  
@@ -29,11 +29,11 @@ dawdsj.materialManage.equipment.tree.initTree = function() {
 	            'expand' : function(node,eOpts){
 	            	var item = this.getNodeById(node.raw.id);
 	            	//选中当前菜单
-	            	dawdsj.materialManage.equipment.tree.qcTree.getSelectionModel().select(item);
+	            	dfwdsj.materialManage.equipment.tree.qcTree.getSelectionModel().select(item);
 				}
 	        }  
 	    });
-	 dawdsj.materialManage.equipment.tree.qcTreeStore=qcTreeStore;
+	 dfwdsj.materialManage.equipment.tree.qcTreeStore=qcTreeStore;
 	 var qcTree = Ext.create('Ext.tree.Panel', {
 			id : 'menuTree',
 			region : 'west',
@@ -48,9 +48,9 @@ dawdsj.materialManage.equipment.tree.initTree = function() {
 			store : qcTreeStore,
 			listeners : {
 				'select' : function(e, record){
-//					var className = dawdsj.materialManage.equipment.panel;
+//					var className = dfwdsj.materialManage.equipment.panel;
 //					//保存当前树节点信息至页面全局变量
-//					dawdsj.materialManage.equipment.tree.node =  record;
+//					dfwdsj.materialManage.equipment.tree.node =  record;
 //					className.loadRecord();
 					if(record.raw.leaf=='1'){
 						Ext.Ajax.request({
@@ -62,11 +62,11 @@ dawdsj.materialManage.equipment.tree.initTree = function() {
 							success : function(response, options) {
 								var res = Ext.JSON.decode(response.responseText);
 								//保存当前树节点信息至页面全局变量
-								dawdsj.materialManage.equipment.tree.node =  record;
+								dfwdsj.materialManage.equipment.tree.node =  record;
 								//对应类型的属性字段
-								dawdsj.materialManage.equipment.entry.fieldInfo = res.data['fieldsInfo']
+								dfwdsj.materialManage.equipment.entry.fieldInfo = res.data['fieldsInfo']
 								//重新创建面板
-								dawdsj.materialManage.equipment.panel.reCreatePnl(record,res.data);
+								dfwdsj.materialManage.equipment.panel.reCreatePnl(record,res.data);
 							},
 							failure : function() {
 							}
@@ -75,6 +75,6 @@ dawdsj.materialManage.equipment.tree.initTree = function() {
 				}
 			}
 		});
-	dawdsj.materialManage.equipment.tree.qcTree = qcTree;
+	dfwdsj.materialManage.equipment.tree.qcTree = qcTree;
 	return qcTree;
 }

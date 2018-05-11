@@ -1,9 +1,9 @@
-﻿Ext.namespace("dawdsj.materialManage.category.tree");
+﻿Ext.namespace("dfwdsj.materialManage.category.tree");
 
 //选中的树节点
-dawdsj.materialManage.category.tree.node = null;
+dfwdsj.materialManage.category.tree.node = null;
 
-dawdsj.materialManage.category.tree.initTree = function() {
+dfwdsj.materialManage.category.tree.initTree = function() {
 	 var qcTreeStore = Ext.create('Ext.data.TreeStore', {  
 	        autoLoad : true,  
 	        proxy : {  
@@ -29,11 +29,11 @@ dawdsj.materialManage.category.tree.initTree = function() {
 	            'expand' : function(node,eOpts){
 	            	var item = this.getNodeById(node.raw.id);
 	            	//选中当前菜单
-	            	dawdsj.materialManage.category.tree.qcTree.getSelectionModel().select(item);
+	            	dfwdsj.materialManage.category.tree.qcTree.getSelectionModel().select(item);
 				}
 	        }  
 	    });
-	 dawdsj.materialManage.category.tree.qcTreeStore=qcTreeStore;
+	 dfwdsj.materialManage.category.tree.qcTreeStore=qcTreeStore;
 	 var qcTree = Ext.create('Ext.tree.Panel', {
 			id : 'menuTree',
 			region : 'west',
@@ -49,20 +49,20 @@ dawdsj.materialManage.category.tree.initTree = function() {
 			listeners : {
 				'select' : function(e, record){
 					
-//					var className = dawdsj.materialManage.category.panel;
+//					var className = dfwdsj.materialManage.category.panel;
 //					//保存当前树节点信息至页面全局变量
-//					dawdsj.materialManage.category.tree.node =  record;
+//					dfwdsj.materialManage.category.tree.node =  record;
 //					className.loadRecord();
 					
 					
 					//保存当前树节点信息至页面全局变量
-					dawdsj.materialManage.category.tree.node =  record;
+					dfwdsj.materialManage.category.tree.node =  record;
 					//重新创建面板
-					dawdsj.materialManage.category.panel.reCreatePnl(record);
+					dfwdsj.materialManage.category.panel.reCreatePnl(record);
 					
 				}
 			}
 		});
-	dawdsj.materialManage.category.tree.qcTree = qcTree;
+	dfwdsj.materialManage.category.tree.qcTree = qcTree;
 	return qcTree;
 }

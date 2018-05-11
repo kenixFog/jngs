@@ -1,9 +1,9 @@
-Ext.namespace("dawdsj.materialManage.equipment.panel");
+Ext.namespace("dfwdsj.materialManage.equipment.panel");
 
-dawdsj.materialManage.equipment.panel.currentRecord=null;
+dfwdsj.materialManage.equipment.panel.currentRecord=null;
 
-dawdsj.materialManage.equipment.panel.initGridPnl = function() {
-	var className = dawdsj.materialManage.equipment.panel;
+dfwdsj.materialManage.equipment.panel.initGridPnl = function() {
+	var className = dfwdsj.materialManage.equipment.panel;
 	var gridBbar = new Ext.PagingToolbar({
 		pageSize : whjn.PS,
 		store : '',
@@ -31,7 +31,7 @@ dawdsj.materialManage.equipment.panel.initGridPnl = function() {
 
 //重新加载面板-动态列
 
-dawdsj.materialManage.equipment.panel.reCreatePnl = function(record,data){
+dfwdsj.materialManage.equipment.panel.reCreatePnl = function(record,data){
 	// 字段数组
 	var fieldsInfo = data['fieldsInfo'];
 	// 字段
@@ -77,7 +77,7 @@ dawdsj.materialManage.equipment.panel.reCreatePnl = function(record,data){
 		    },
 		    listeners: {
 		    	'beforeload': function(store, opration, eOpts){
-		    		var node = dawdsj.materialManage.equipment.tree.node;
+		    		var node = dfwdsj.materialManage.equipment.tree.node;
 		    		this.proxy.extraParams.nodeId = node.raw.id;
 		    		this.proxy.extraParams.fields = fields;
 		    		
@@ -85,7 +85,7 @@ dawdsj.materialManage.equipment.panel.reCreatePnl = function(record,data){
 		    }
 		});
 		store.load();
-		var className = dawdsj.materialManage.equipment.panel;
+		var className = dfwdsj.materialManage.equipment.panel;
 		// 绑定PagingToolbar的store
 		className.gridBbar.bind(store);
 		// 重新配置grid,使用不同的Store和ColumnModel

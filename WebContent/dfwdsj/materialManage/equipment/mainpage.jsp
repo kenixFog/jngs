@@ -45,12 +45,12 @@
 				getCodeCfg : {
 					//
 					groupCode : ["GLOBAL_YES_NO"],
-					codeVar : ["dawdsj.materialManage.equipment.yesOrNoArray"]
+					codeVar : ["dfwdsj.materialManage.equipment.yesOrNoArray"]
 				},
 				//按钮的隐藏方式，disable（禁用，变灰），hide（禁用，隐藏）
 				btnCtrlMode : 'hide'
 		};
-	    whjn.openModule(dawdsj.materialManage.equipment.main.initMainPanel,null,
+	    whjn.openModule(dfwdsj.materialManage.equipment.main.initMainPanel,null,
 	    		mdlCfg);
 	})();
 	</script>

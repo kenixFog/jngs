@@ -1,19 +1,19 @@
-Ext.namespace("dawdsj.materialManage.equipment.iconImg");
+Ext.namespace("dfwdsj.materialManage.equipment.iconImg");
 
-dawdsj.materialManage.equipment.iconImg.img_src = null;
+dfwdsj.materialManage.equipment.iconImg.img_src = null;
 
-dawdsj.materialManage.equipment.iconImg.uploadWin = function(config){
+dfwdsj.materialManage.equipment.iconImg.uploadWin = function(config){
 	if(config.img_src){
-		dawdsj.materialManage.equipment.iconImg.img_src = config.img_src;
+		dfwdsj.materialManage.equipment.iconImg.img_src = config.img_src;
 	}else{
-		dawdsj.materialManage.equipment.iconImg.img_src = dawdsj.materialManage.equipment.entry.img;
+		dfwdsj.materialManage.equipment.iconImg.img_src = dfwdsj.materialManage.equipment.entry.img;
 	}
 	Ext.apply(this, config);
 	this.initUIComponents();
-	dawdsj.materialManage.equipment.iconImg.uploadWin.superclass.constructor.call(this);
+	dfwdsj.materialManage.equipment.iconImg.uploadWin.superclass.constructor.call(this);
 }
 
-Ext.extend(dawdsj.materialManage.equipment.iconImg.uploadWin,Ext.Window,{
+Ext.extend(dfwdsj.materialManage.equipment.iconImg.uploadWin,Ext.Window,{
 	/**
 	 * 调用头像上传控件的组件ID
 	 * @type 
@@ -97,7 +97,7 @@ Ext.extend(dawdsj.materialManage.equipment.iconImg.uploadWin,Ext.Window,{
 		                width : 180,  
 		                height : 180,  
 		                tag : 'img',  
-		                src : dawdsj.materialManage.equipment.iconImg.img_src,
+		                src : dfwdsj.materialManage.equipment.iconImg.img_src,
 						style : 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);',
 		                id : 'imageBrowse'  
 		            }   
@@ -150,7 +150,7 @@ Ext.extend(dawdsj.materialManage.equipment.iconImg.uploadWin,Ext.Window,{
 			url : whjn.webContextRoot+ '/loginAction.do?method=uploadImg',
 			method : "post",
 			params : {
-				qcId : dawdsj.materialManage.equipment.entry.objId,
+				qcId : dfwdsj.materialManage.equipment.entry.objId,
 				objTb : 'dfwdsj_equipment'
 			},
 			waitTitle : '提示',

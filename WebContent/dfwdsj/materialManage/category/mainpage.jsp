@@ -18,13 +18,13 @@
 				getCodeCfg : {
 					//
 					groupCode : [ "ZDLX","GLOBAL_YES_NO"],
-					codeVar : ["dawdsj.materialManage.category.ZDLX",
-							   "dawdsj.materialManage.category.yesOrNoArray"]
+					codeVar : ["dfwdsj.materialManage.category.ZDLX",
+							   "dfwdsj.materialManage.category.yesOrNoArray"]
 				},
 				//按钮的隐藏方式，disable（禁用，变灰），hide（禁用，隐藏）
 				btnCtrlMode : 'hide'
 		};
-	    whjn.openModule(dawdsj.materialManage.category.main.initMainPanel,null,
+	    whjn.openModule(dfwdsj.materialManage.category.main.initMainPanel,null,
 	    		mdlCfg);
 	})();
 	</script>

@@ -1,5 +1,6 @@
 package com.whjn.sysManage.model.po;
 
+import java.rmi.server.ObjID;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -51,6 +52,12 @@ public class SysFile extends BaseParameter {
 	// 文件
 	@Column(name = "content", nullable = false)
 	private byte content[];
+	// 业务数据Id
+	@Column(name = "objId", nullable = false)
+	private long objId;
+	// 业务表
+	@Column(name = "objTb", nullable = false)
+	private String objTb;
 	// 创建人
 	@JoinColumn(name = "CUSER")
 	@ManyToOne(cascade = { CascadeType.REFRESH }) // 指定多对一关系
@@ -88,6 +95,18 @@ public class SysFile extends BaseParameter {
 	}
 	public void setContent(byte[] content) {
 		this.content = content;
+	}
+	public long getObjId() {
+		return objId;
+	}
+	public void setObjId(long objId) {
+		this.objId = objId;
+	}
+	public String getObjTb() {
+		return objTb;
+	}
+	public void setObjTb(String objTb) {
+		this.objTb = objTb;
 	}
 	public SysUser getcUser() {
 		return cUser;
