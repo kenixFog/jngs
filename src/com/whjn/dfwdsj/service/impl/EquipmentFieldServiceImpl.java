@@ -65,4 +65,26 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	}
 
 
+
+
+	/* (非 Javadoc) 
+	* @Title: getByProerties
+	* @Description:
+	* @param @param propName
+	* @param @param propValue
+	* @param @param nodeId
+	* @param @return 
+	* @see com.whjn.dfwdsj.service.EquipmentFieldService#getByProerties(java.lang.String, java.lang.Object, java.lang.String) 
+	*/
+	@Override
+	public EquipmentField getByProerties(String propName, Object propValue, int nodeId) {
+		List<EquipmentField> list = equipmentFieldDao.getByProerties(propName,propValue,nodeId);
+		if(list.size()>0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
+
+
 }

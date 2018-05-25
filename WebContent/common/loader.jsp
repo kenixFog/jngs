@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@page import="com.whjn.common.framework.web.WebUtil"%>
 <%@page import="com.whjn.common.framework.domain.GlobalData"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/common/ext/examples/shared/include-ext.js"></script> --%> 
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/ext/bootstart.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/ext/locale/ext-lang-zh_CN.js"></script>
@@ -17,6 +18,7 @@
 /* Ext.namespace("whjn"); */
 
 webContextRoot = "<%=request.getContextPath()%>";
+appBaseUri = '${contextPath}';
 //设置ext扩展插件的路径，实现动态加载
 Ext.Loader.setPath("Ext.ux", webContextRoot+"/common/ext/ux");
 //定方位定射角 

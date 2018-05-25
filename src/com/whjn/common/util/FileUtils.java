@@ -21,6 +21,7 @@ import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.zip.ZipEntry;
@@ -1072,5 +1073,14 @@ public class FileUtils {
 		Pattern p = Pattern.compile(regEx);     
 		Matcher m = p.matcher(str);     
 		return m.replaceAll("").trim();     
+	}
+	
+	
+	public static String getRandomString(int i) {
+		StringBuffer sb = new StringBuffer();
+		for (int j = 0; j < i; j++) {
+			sb.append(String.valueOf(RandomUtils.nextInt(10)));
+		}
+		return sb.toString();
 	}
 }

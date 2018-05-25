@@ -298,8 +298,8 @@ public class EquipmentController extends BaseController {
 			JSONObject paramObj = paramArray.getJSONObject(i);
 			// ID为空时新增记录，否则修改记录
 			if (paramObj.get("id") == null || "".equals(paramObj.get("id"))) {// 新增
-				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"));
-				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"));
+				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),nodeId);
+				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"),nodeId);
 
 				if (null == checkCode && null == checkName) {
 					EquipmentType equipmentType = equipmentTypeService.getByProerties("id",nodeId);
@@ -326,8 +326,8 @@ public class EquipmentController extends BaseController {
 				Long id = Long.parseLong(paramObj.get("id").toString());
 				EquipmentField oldObj = equipmentFieldService.getByProerties("id",id);
 				// 根据新修改的编码去数据库查询数据
-				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"));
-				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"));
+				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),nodeId);
+				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"),nodeId);
 				if ((!oldObj.getFieldCode().equals(paramObj.get("fieldCode"))) && null != checkCode
 						&& null != checkName) {// 编码被修改
 					result.put("success", false);

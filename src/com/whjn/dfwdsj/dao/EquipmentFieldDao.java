@@ -38,4 +38,19 @@ public interface EquipmentFieldDao extends BaseDao<EquipmentField> {
 	*/
 	List<EquipmentField> getEquipmentFields(int typeId);
 
+	/** 
+	* @Title: getByProerties 
+	* @Description: 
+	* @param @param propName
+	* @param @param propValue
+	* @param @param nodeId
+	* @param @return  
+	* @return List<EquipmentField>    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月25日 下午2:39:36 
+	* @version V1.0   
+	*/
+	List<EquipmentField> getByProerties(String propName, Object propValue, int nodeId);
+
 }

@@ -2,13 +2,7 @@ Ext.namespace("dfwdsj.materialManage.equipment.iconImg");
 
 dfwdsj.materialManage.equipment.iconImg.img_src = null;
 
-dfwdsj.materialManage.equipment.iconImg.uploadWin = function(config){
-	
-	if(config.img_src){
-		dfwdsj.materialManage.equipment.iconImg.img_src = config.img_src;
-	}else{
-		dfwdsj.materialManage.equipment.iconImg.img_src = dfwdsj.materialManage.equipment.entry.img;
-	}
+dfwdsj.materialManage.equipment.iconImg.uploadWin = function(){
 	//命名空间
 	var className = dfwdsj.materialManage.equipment.iconImg;
 	className.win = className.createWin();
@@ -47,8 +41,8 @@ dfwdsj.materialManage.equipment.iconImg.createWin = function(){
 						text : whjn.constant.saveBtnText,
 						action : 'btn_save',
 						iconCls : 'fa fa-floppy-o fa-lg',
-						handler : function(btn) {
-							dfwdsj.materialManage.equipment.iconImg.saveUploadImg(btn, view);
+						handler : function(btn,compId) {
+							dfwdsj.materialManage.equipment.iconImg.saveUploadImg(btn);
 						}
 					}, {
 						text : whjn.constant.closeBtnText,
@@ -62,7 +56,6 @@ dfwdsj.materialManage.equipment.iconImg.createWin = function(){
 					id : 'uploadAttachment',
 					xtype : 'fileuploadfield',
 					fieldLabel : '选择文件',
-//					afterLabelTextTpl : '<span style="color:#FF0000;">*</span>',
 					buttonText : '请选择...',
 					name : 'uploadAttachment',
 					emptyText : '请选择图片',
@@ -130,7 +123,7 @@ dfwdsj.materialManage.equipment.iconImg.getImgSize = function(obj) {
         var file = fileSystem.GetFile (filePath);
         fileSize = file.Size;
     }else {
-    	var field = document.getElementById('uploadAttachment'); 
+       var field = document.getElementById('uploadAttachment'); 
    	 //取控件中的input元素  
        var inputs = field.getElementsByTagName('input');  
        var fileInput = null;  
@@ -167,78 +160,45 @@ dfwdsj.materialManage.equipment.iconImg.getImgTypeCheck = function(hz) {
 
 
 
-//Ext.define('Ext.ux.custom.ImageHtmlEditor', {
-//	extend : 'Ext.util.Observable',
-//	alias : 'widget.imagehtmleditor',
-//	langTitle : '插入图片',
-//	langIconCls : 'icon-image',
-//	init : function(view) {
-//		var scope = this;
-//		view.on('render', function() {
-//			scope.onRender(view);
-//		});
-//	},
-//
-//	/**
-//	 * 上传图片
-//	 */
-//	saveUploadImg : function(btn, view) {
-//		var scope = this;
-//		var windowObj = btn.up('window');// 获取Window对象
-//		var formObj = btn.up('form');// 获取Form对象
-//		if (formObj.isValid()) { // 验证Form表单
-//			formObj.form.doAction('submit', {
-//				url : appBaseUri + '/sys/forestrytype/uploadAttachement',
-//				method : 'POST',
-//				submitEmptyText : false,
-//				waitMsg : '正在上传图片,请稍候...',
-//				timeout : 60000, // 60s
-//				success : function(response, options) {
-//					var result = options.result;
-//					if (!result.success) {
-//						globalObject.errTip(result.msg);
-//						return;
-//					}
-//					var url = result.data;
-//					var content = formObj.getForm().findField("content").getValue();
-//					var width = formObj.getForm().findField("width").getValue();
-//					var height = formObj.getForm().findField("height").getValue();
-//					var values = {
-//						url : appBaseUri + '/static/img/upload/' + url,
-//						content : content,
-//						width : width,
-//						height : height
-//					};
-//					scope.insertImg(view, values);
-//					windowObj.close();// 关闭窗体
-//				},
-//				failure : function(response, options) {
-//					globalObject.errTip(options.result.msg);
-//				}
-//			});
-//		}
-//	},
-//
-//
-//	/**
-//	 * 插入图片
-//	 */
-//	insertImg : function(view, data) {
-//		var url = data.url;
-//		var content = data.content;
-//		var width = data.width;
-//		var height = data.height;
-//		var str = '<img src="' + url + '" border="0" ';
-//		if (content != undefined && content != null && content != '') {
-//			str += ' title="' + content + '" ';
-//		}
-//		if (width != undefined && width != null && width != 0) {
-//			str += ' width="' + width + '" ';
-//		}
-//		if (height != undefined && height != null && height != 0) {
-//			str += ' height="' + height + '" ';
-//		}
-//		str += ' />';
-//		view.insertAtCursor(str);
-//	}
-//});
+dfwdsj.materialManage.equipment.iconImg.saveUploadImg = function(btn){
+	var windowObj = btn.up('window');// 获取Window对象
+	var formObj = btn.up('form');// 获取Form对象
+	if (formObj.isValid()) { // 验证Form表单
+		formObj.form.doAction('submit', {
+			url : webContextRoot + '/sys/file/uploadAttachement',
+			method : 'POST',
+			submitEmptyText : false,
+			waitMsg : '正在上传图片,请稍候...',
+			timeout : 60000, // 60s
+			success : function(response, options) {
+				var result = options.result;
+				if (!result.success) {
+					globalObject.errTip(result.msg);
+					return;
+				}
+				var url = result.data;
+				Ext.get('slt').dom.src = appBaseUri + '/static/img/upload/' + url;
+				windowObj.close();// 关闭窗体
+			},
+			failure : function(response, options) {
+				whjn.dlg.errTip(options.result.msg);
+			}
+		});
+	}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

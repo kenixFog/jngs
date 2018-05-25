@@ -176,7 +176,7 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
 				name : 'slt',
 				style: 'margin-top:10px',
 				fieldLabel:'缩略图',
-                id : id,  
+                id : 'slt',  
                 border : true,
                 autoEl : {  
                     width : 180,  
@@ -188,14 +188,7 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
 	        	xtype : 'button',
 				text :'选择图片',
 				handler : function() {
-					
-					dfwdsj.materialManage.equipment.iconImg.uploadWin({
-						compId : id
-					});
-//					win.on('afterUpload', function(v) {
-//						templates.loginAndReg.register.headImgID = v.uuId;
-//						templates.loginAndReg.register.headImgSuffix = v.suffix;
-//					});
+					dfwdsj.materialManage.equipment.iconImg.uploadWin();
 				}
 	        }] 
 		}

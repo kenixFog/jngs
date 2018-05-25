@@ -49,9 +49,6 @@ public class SysFile extends BaseParameter {
 	// 文件大小
 	@Column(name = "FileSize", length = 50, nullable = false)
 	private long fileSize;
-	// 文件
-	@Column(name = "content", nullable = false)
-	private byte content[];
 	// 业务数据Id
 	@Column(name = "objId", nullable = false)
 	private long objId;
@@ -89,12 +86,6 @@ public class SysFile extends BaseParameter {
 	}
 	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
-	}
-	public byte[] getContent() {
-		return content;
-	}
-	public void setContent(byte[] content) {
-		this.content = content;
 	}
 	public long getObjId() {
 		return objId;

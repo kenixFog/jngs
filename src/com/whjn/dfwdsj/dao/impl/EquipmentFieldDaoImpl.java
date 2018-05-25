@@ -73,4 +73,28 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 		query.addEntity(EquipmentField.class);
 		return query.list();
 	}
+
+
+	/* (非 Javadoc) 
+	* @Title: getByProerties
+	* @Description:
+	* @param @param propName
+	* @param @param propValue
+	* @param @param nodeId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentFieldDao#getByProerties(java.lang.String, java.lang.Object, java.lang.String) 
+	*/
+	@Override
+	public List<EquipmentField> getByProerties(String propName, Object propValue, int nodeId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ed.id, ed.fieldCode, ed.fieldName, ed.fieldLength, ed.fieldType, ed.typeId, ");
+		sql.append("ed.fieldContent From dfwdsj_equipmentField ed WHERE ");
+		sql.append(propName).append("=? ");
+		sql.append("and ed.typeId = ?");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, propValue);
+		query.setParameter(1, nodeId);
+		query.addEntity(EquipmentField.class);
+		return query.list();
+	}
 }
