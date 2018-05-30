@@ -1,7 +1,6 @@
 package com.whjn.dfwdsj.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.whjn.common.base.ListView;
 import com.whjn.common.base.QueryResult;
@@ -20,12 +21,12 @@ import com.whjn.common.controller.BaseController;
 import com.whjn.common.framework.web.WebUtil;
 import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
+import com.whjn.dfwdsj.model.po.Equipment;
 import com.whjn.dfwdsj.model.po.EquipmentField;
 import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentFieldService;
 import com.whjn.dfwdsj.service.EquipmentService;
 import com.whjn.dfwdsj.service.EquipmentTypeService;
-import com.whjn.sysManage.model.po.SysComCode;
 import com.whjn.sysManage.model.po.SysUser;
 
 import net.sf.json.JSONArray;
@@ -185,7 +186,7 @@ public class EquipmentController extends BaseController {
 	@RequestMapping("/saveEquipmentType")
 	public void saveEquipmentType(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, Object> result = new HashMap<String, Object>();
-		long nodeId = Long.parseLong(request.getParameter("nodeId"));
+		int nodeId = Integer.parseInt(request.getParameter("nodeId"));
 		String obj = request.getParameter("paramArray");
 		// 获取前台传入的要保存或修改的参数
 		JSONArray paramArray = JSONArray.fromObject(obj);
@@ -271,8 +272,8 @@ public class EquipmentController extends BaseController {
 	}
 
 	/**
-	 * @Title: saveEquipmentType
-	 * @Description: 保存器材类型
+	 * @Title: saveEquipmentField
+	 * @Description: 保存器材类型字段
 	 * @param @param
 	 *            equipmentType
 	 * @param @param
@@ -347,6 +348,12 @@ public class EquipmentController extends BaseController {
 							Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
 							paramObj.get("fieldContent").toString());
 					equipmentFieldService.merge(equipmentField);
+					//旧编码
+					String oldFileCode = oldObj.getFieldCode();
+					//新编码
+					String newFiledCode = paramObj.get("fieldCode").toString();
+					//更新器材数据表中对应的字段编码
+					equipmentService.updateFieldCode(oldFileCode,newFiledCode,nodeId);
 					result.put("success", true);
 				}
 			}
@@ -380,6 +387,91 @@ public class EquipmentController extends BaseController {
 		getFieldTypeJSONArray(list,sbf);
 		writeJSON(response, sbf.append("]}}").toString());
 	}
+	
+	/**
+	* @Title: delEquipmentType 
+	* @Description: 删除器材类型
+	* @param @param entity
+	* @param @param request
+	* @param @param response
+	* @param @param ids
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月29日 上午9:13:54 
+	* @version V1.0
+	 */
+	@RequestMapping(value = "/delEquipmentType", method = { RequestMethod.POST, RequestMethod.GET })
+	public void delEquipmentType(EquipmentType entity, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("data") int[] ids) throws IOException {
+		boolean result = false;
+		for(int i = 0 ;i<ids.length;i++) {
+			List<EquipmentField> list = equipmentFieldService.getEquipmentFieldList(ids[i]);
+			if(list.size()>0 ) {
+				entity.setMessage("删除失败，所选节点ID为【"+ids[i]+"】下存在器材分类属性！");
+				entity.setSuccess(result);
+				break;
+			} else {
+				equipmentTypeService.delEquipmentType(entity, ids[i]);
+			}
+		}
+		writeJSON(response, entity);
+	}
+	
+	
+	/**
+	* @Title: delEquipmentField
+	* @Description: 删除器材类型字段
+	* @param @param entity
+	* @param @param request
+	* @param @param response
+	* @param @param ids
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月29日 上午9:13:54 
+	* @version V1.0
+	 */
+	@RequestMapping(value = "/delEquipmentField", method = { RequestMethod.POST, RequestMethod.GET })
+	public void delEquipmentField(EquipmentField entity, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("data") String[] fieldCodes) throws IOException {
+		//节点类型（当前选中的器材分类）
+		int typeId = Integer.parseInt(request.getParameter("typeId"));
+		equipmentFieldService.delEquipmentField(entity,fieldCodes,typeId);
+		writeJSON(response, entity);
+	}
+	
+	/**
+	 * 
+	* @Title: delEquipment 
+	* @Description: 删除器材
+	* @param @param entity
+	* @param @param request
+	* @param @param response
+	* @param @param ids
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月29日 下午2:52:32 
+	* @version V1.0
+	 */
+	@RequestMapping(value = "/delEquipment", method = { RequestMethod.POST, RequestMethod.GET })
+	public void delEquipment(Equipment entity, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("ids") Long[] ids) throws IOException {
+		int typeId = Integer.parseInt(request.getParameter("typeId"));
+		boolean result = equipmentService.delEquipment(ids, typeId);
+		entity.setSuccess(result);
+		if(!result) {//删除失败
+			entity.setMessage("删除失败，请与系统开发人员联系！");
+		}
+		writeJSON(response, entity);
+	}
+	
+	
+	
 	
 	/**
 	 * 

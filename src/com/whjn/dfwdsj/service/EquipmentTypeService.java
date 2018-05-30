@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.BaseService;
+import com.whjn.dfwdsj.model.po.Equipment;
 import com.whjn.dfwdsj.model.po.EquipmentType;
 
 
@@ -37,6 +38,20 @@ public interface EquipmentTypeService extends BaseService<EquipmentType> {
 	 * @param orgId 
 	*/
 	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId);
+
+	/** 
+	* @Title: delEquipmentType 
+	* @Description: 
+	* @param @param ids
+	* @param @return  
+	* @return boolean    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月29日 上午9:42:26 
+	* @version V1.0   
+	 * @param entity 
+	*/
+	void delEquipmentType(EquipmentType entity, int ids);
 
 
 }

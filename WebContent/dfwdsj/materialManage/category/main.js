@@ -130,8 +130,66 @@ dfwdsj.materialManage.category.main.save=function(){
 
 //删除已选中的数据
 dfwdsj.materialManage.category.main.del=function(){
-	
-	
+	var className = dfwdsj.materialManage.category.panel;
+	var sm = className.gridPnl.getSelectionModel();
+	if (sm.getCount() == 0) {//如果没有选中
+		whjn.dlg.infoTip("请选择需要删除的记录!");
+		return false;
+	} else {
+		//点前选中的树节点
+		var node = dfwdsj.materialManage.category.tree.node;
+		var ul='';
+		var msg = '您确定要删除选择的这些记录么？';
+		if(node.raw.leaf=='1'){
+			ul = '/dfwdsj/equipment/delEquipmentField';
+			msg = '删除该字段后，该器材对应的属性数据将被删除，确定要删除所选记录？';
+		} else {
+			ul = '/dfwdsj/equipment/delEquipmentType';
+		}
+		
+		var delURL = webContextRoot + ul;
+		Ext.MessageBox.confirm('确认', msg,
+			function(btn) {
+				//根据选择不同按钮进行操作
+				if (btn == 'yes') {//点击确定
+					//用来保存需要删除数据的ID
+					var data = [];
+					var sel = sm.getSelection();
+					for (var i = 0, r; r = sel[i]; i++) {
+						if(node.raw.leaf=='1'){
+							data.push(r.get("fieldCode"));
+						} else {
+							data.push(r.get("ID"));
+						}
+					}
+					Ext.Ajax.request({
+						url : delURL,
+						params : {
+							data : data.join(','),
+							typeId : node.raw.id
+						},
+						success : function(response) {
+							if (response.responseText != '') {
+								var res = Ext.JSON.decode(response.responseText);
+								if (res.success) {
+									whjn.dlg.showMomentDlg("删除成功!");
+									if(node.raw.leaf=='0'){
+										treePnl = dfwdsj.materialManage.category.tree.qcTree;
+										//刷新当前的树节点
+										whjn.refreshTreePnl(treePnl, node.raw.id);
+									} 
+									//重新加载列表数据
+									className.gridPnl.getStore().reload();
+									//树面板
+								} else {
+									whjn.dlg.errTip(res.message);
+								}
+							}
+						}
+					});
+				}
+		});
+	}
 	
 }
 

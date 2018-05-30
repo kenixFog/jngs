@@ -24,5 +24,33 @@ public interface EquipmentService extends BaseService<Equipment>{
 	*/
 	List getEquipments(Integer firstResult, Integer pageSize, Integer nodeId, String[] fields);
 
+	/** 
+	* @Title: delEquipment 
+	* @Description: 
+	* @param @param ids
+	* @param @return  
+	* @return boolean    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月29日 下午2:53:06 
+	* @version V1.0   
+	 * @param typeId 
+	*/
+	boolean delEquipment(Long[] ids, int typeId);
+
+	/** 
+	* @Title: updateFieldCode 
+	* @Description: 
+	* @param @param oldFileCode
+	* @param @param newFiledCode
+	* @param @param nodeId  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月30日 上午10:56:57 
+	* @version V1.0   
+	*/
+	void updateFieldCode(String oldFileCode, String newFiledCode, int nodeId);
+
 
 }

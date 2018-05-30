@@ -8,10 +8,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.impl.BaseServiceImpl;
+import com.whjn.dfwdsj.dao.EquipmentDao;
 import com.whjn.dfwdsj.dao.EquipmentFieldDao;
+import com.whjn.dfwdsj.model.po.Equipment;
 import com.whjn.dfwdsj.model.po.EquipmentField;
 import com.whjn.dfwdsj.service.EquipmentFieldService;
 
@@ -20,7 +23,12 @@ import com.whjn.dfwdsj.service.EquipmentFieldService;
 @Service
 public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> implements EquipmentFieldService {
 
+	@Resource
 	private EquipmentFieldDao equipmentFieldDao;
+	
+	@Resource
+	private EquipmentDao equipmentDao;
+
 
 	@Resource
 	public void setEquipmentFieldDao(EquipmentFieldDao equipmentFieldDao) {
@@ -84,6 +92,42 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 		} else {
 			return null;
 		}
+	}
+
+
+
+
+	/* (非 Javadoc) 
+	* @Title: delEquipmentField
+	* @Description:
+	* @param @param ids
+	* @param @param typeId 
+	* @see com.whjn.dfwdsj.service.EquipmentFieldService#delEquipmentField(java.lang.Long[], int) 
+	*/
+	@Transactional
+	@Override
+	public void delEquipmentField(EquipmentField entity, String[] fieldCodes, int typeId) {
+		boolean result = false;
+		for(int i=0; i<fieldCodes.length;i++) {
+			result = equipmentDao.delEquipmentList(fieldCodes[i], typeId);
+			result = equipmentFieldDao.delEquipmentFieldList(fieldCodes[i], typeId);
+		}
+		entity.setSuccess(result);
+	}
+
+
+
+
+	/* (非 Javadoc) 
+	* @Title: getEquipmentFieldList
+	* @Description:
+	* @param @param i
+	* @param @return 
+	* @see com.whjn.dfwdsj.service.EquipmentFieldService#getEquipmentFieldList(int) 
+	*/
+	@Override
+	public List<EquipmentField> getEquipmentFieldList(int typeId) {
+		return equipmentFieldDao.getEquipmentFieldList(typeId);
 	}
 
 

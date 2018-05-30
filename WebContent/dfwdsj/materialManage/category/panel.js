@@ -53,7 +53,7 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
 		//获取字段列表
 		url = '/dfwdsj/equipment/getEquipmentFieldList';
 		fields.push({
-			name : 'id',
+			name : 'ID',
 			type : 'long'
 		}, {
 			name : 'equipmentType.id',
@@ -64,7 +64,7 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
 		cols.push({ 
         	text: 'ID', 
         	hidden : true,
-        	dataIndex: 'id', 
+        	dataIndex: 'ID', 
         	width:100, 
         	align : 'right'
 	    },{ 
@@ -123,7 +123,7 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
 		url = '/dfwdsj/equipment/getEquipmentTypeList';
 		
 		fields.push({
-			name : 'id',
+			name : 'ID',
 			type : 'long'
 		}, {
 			name : 'parentId',
@@ -143,7 +143,7 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
 		cols.push({ 
         	text: 'ID', 
         	hidden : true,
-        	dataIndex: 'id', 
+        	dataIndex: 'ID', 
         	width:100, 
         	align : 'right'
 	    },{ 

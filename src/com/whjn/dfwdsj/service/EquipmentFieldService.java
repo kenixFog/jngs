@@ -60,4 +60,34 @@ public interface EquipmentFieldService extends BaseService<EquipmentField> {
 	* @version V1.0
 	 */
 	EquipmentField getByProerties(String propName, Object propValue, int nodeId);
+
+
+
+	/** 
+	* @Title: delEquipmentField 
+	* @Description: 
+	* @param @param ids
+	* @param @param typeId  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月30日 上午10:23:02 
+	* @version V1.0   
+	*/
+	void delEquipmentField(EquipmentField entity,String[] fieldCodes, int typeId);
+
+
+
+	/** 
+	* @Title: getEquipmentFieldList 
+	* @Description: 
+	* @param @param i
+	* @param @return  
+	* @return EquipmentField    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年5月30日 下午2:57:47 
+	* @version V1.0   
+	*/
+	List<EquipmentField> getEquipmentFieldList(int i);
 }

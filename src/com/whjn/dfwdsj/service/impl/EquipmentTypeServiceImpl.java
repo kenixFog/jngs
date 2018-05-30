@@ -8,10 +8,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.dfwdsj.dao.EquipmentTypeDao;
+import com.whjn.dfwdsj.model.po.Equipment;
+import com.whjn.dfwdsj.model.po.EquipmentField;
 import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentTypeService;
 import com.whjn.sysManage.model.po.SysMenu;
@@ -70,6 +73,27 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 	public QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId) {
 		QueryResult<EquipmentType> equipmentTypeList = equipmentTypeDao.getEquipmentTypeList(equipmentType, nodeId,orgId);
 		return equipmentTypeList;
+	}
+
+
+	/* (非 Javadoc) 
+	* @Title: delEquipmentType
+	* @Description:
+	* @param @param ids
+	* @param @return 
+	* @see com.whjn.dfwdsj.service.EquipmentTypeService#delEquipmentType(java.lang.Long[]) 
+	*/
+	@Transactional
+	@Override
+	public void delEquipmentType(EquipmentType entity, int ids) {
+		boolean result = false;
+		List<EquipmentType> typeList = (List<EquipmentType>) queryByProerties("parentId", ids);
+		if(typeList.size()>0) {
+			entity.setMessage("删除失败，所选节点ID为【"+ids+"】下存在分类子节点！");
+		} else {
+			result = deleteByPK(ids);
+		}
+		entity.setSuccess(result);
 	}
 	
 

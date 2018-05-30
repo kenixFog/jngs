@@ -97,4 +97,40 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 		query.addEntity(EquipmentField.class);
 		return query.list();
 	}
+
+
+	/* (非 Javadoc) 
+	* @Title: delEquipmentFieldList
+	* @Description:
+	* @param @param string
+	* @param @param typeId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentFieldDao#delEquipmentFieldList(java.lang.String, int) 
+	*/
+	@Override
+	public boolean delEquipmentFieldList(String fieldCode, int typeId) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("delete from dfwdsj_equipmentfield where fieldcode =?  and typeId = ? ");
+		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		query.setParameter(0, fieldCode);
+		query.setParameter(1, typeId);
+		return query.executeUpdate() > 0 ? true : false;
+	}
+
+
+	/* (非 Javadoc) 
+	* @Title: getEquipmentFieldList
+	* @Description:
+	* @param @param typeId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentFieldDao#getEquipmentFieldList(int) 
+	*/
+	@Override
+	public List<EquipmentField> getEquipmentFieldList(int typeId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ed.id From dfwdsj_equipmentField ed WHERE ed.typeId = ?");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, typeId);
+		return query.list();
+	}
 }
