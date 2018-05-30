@@ -54,7 +54,7 @@ dfwdsj.materialManage.equipment.main.add = function(){
 	dfwdsj.materialManage.equipment.entry.showWin("新增");
 }
 
-//新增
+//编辑或查看
 dfwdsj.materialManage.equipment.main.add = function(){
 	dfwdsj.materialManage.equipment.entry.objId = "-1";
 	dfwdsj.materialManage.equipment.entry.showWin("新增");
