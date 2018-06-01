@@ -27,6 +27,7 @@ import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentFieldService;
 import com.whjn.dfwdsj.service.EquipmentService;
 import com.whjn.dfwdsj.service.EquipmentTypeService;
+import com.whjn.sysManage.model.po.SysMenu;
 import com.whjn.sysManage.model.po.SysUser;
 
 import net.sf.json.JSONArray;
@@ -324,7 +325,7 @@ public class EquipmentController extends BaseController {
 			} else {// 更新
 				// 根据ID获取原数据
 				System.out.println(paramObj.get("id").getClass().getTypeName());
-				Long id = Long.parseLong(paramObj.get("id").toString());
+				Integer id = Integer.parseInt(paramObj.get("id").toString());
 				EquipmentField oldObj = equipmentFieldService.getByProerties("id",id);
 				// 根据新修改的编码去数据库查询数据
 				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),nodeId);
@@ -470,7 +471,60 @@ public class EquipmentController extends BaseController {
 		writeJSON(response, entity);
 	}
 	
-	
+	/**
+	 * @Title: saveEquipment
+	 * @Description: 保存器材信息
+	 * @param @param
+	 *            entity
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2017年11月28日 下午3:52:40
+	 * @version V1.0
+	 */
+	@RequestMapping(value = "/saveEquipment", method = { RequestMethod.POST, RequestMethod.GET })
+	public void saveEquipment(@RequestParam("fields") String[] fields, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		//器材类型Id
+		int typeId = Integer.parseInt(request.getParameter("typeId"));
+		
+//		String[] fields = new String[] {request.getParameter("fields")};
+		System.out.println(fields.length);
+//		if (entity.getId() == -1) {// ID为-1代表新增
+//			// 根据编码获取数据
+//			SysMenu checkCode = sysMenuService.getByProerties("menuCode", entity.getMenuCode());
+//			if (entity.getType() == 2 || null == checkCode) {// 新增按钮，或编码不重复，则直接新增
+//				entity.setCreateTime(new Date());
+//				entity.setLastEditTime(new Date());
+//				sysMenuService.persist(entity);
+//				entity.setSuccess(true);
+//			} else {
+//				entity.setSuccess(false);
+//				entity.setMessage("保存失败，编码已存在，请重新输入！");
+//			}
+//		} else {// 修改
+//			// 根据ID获取原数据
+//			SysMenu oldObj = sysMenuService.getByProerties("id", entity.getId());
+//			// 根据新修改的编码去数据库查询数据
+//			SysMenu checkCode = sysMenuService.getByProerties("menuCode", entity.getMenuCode());
+//			if ((!oldObj.getMenuCode().equals(entity.getMenuCode())) && entity.getType() != 2 && null != checkCode) {// 编码被修改
+//				entity.setSuccess(false);
+//				entity.setMessage("保存失败，编码已存在，请重新输入！");
+//			} else {
+//				entity.setCreateTime(oldObj.getCreateTime());
+//				entity.setLastEditTime(new Date());
+//				sysMenuService.merge(entity);
+//				entity.setSuccess(true);
+//			}
+//		}
+//		writeJSON(response, entity);
+	}
 	
 	
 	/**

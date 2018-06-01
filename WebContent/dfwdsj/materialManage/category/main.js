@@ -159,7 +159,7 @@ dfwdsj.materialManage.category.main.del=function(){
 						if(node.raw.leaf=='1'){
 							data.push(r.get("fieldCode"));
 						} else {
-							data.push(r.get("ID"));
+							data.push(r.get("id"));
 						}
 					}
 					Ext.Ajax.request({

@@ -264,74 +264,62 @@ dfwdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
  * 保存新增或编辑后的信息
  */
 dfwdsj.materialManage.equipment.entry.saveHandler = function() {
-	  
-	 
+
+	var fieldsInfo =  dfwdsj.materialManage.equipment.entry.fieldInfo;
+	var fields=new Array();
+	for(var i = 0;i< fieldsInfo.length;i++){//编码,名称,类型,长度,默认值
+		if(fieldsInfo[i][2].indexOf('box') > -1){//包含图片字段，排除掉，单独保存
+//			fieldsInfo.remove(i);
+		} else {
+			fields.push(fieldsInfo[i][0]);
+		}
+	}
 	
 	
-	
-	
-	
-//	var className = dfwdsj.materialManage.equipment.entry;
-//	//校验表单的正确性
-//	var str = whjn.validateForm(className.formPnl);
-//	var saveUrl='';
-//	if (str == "") { //如果校验通过
-//		var params = {};
-//		var qryNames = [ "id",  "roleCode", "roleName", "comments"];
-//		//循环遍历，获取表单信息
-//		for ( var i = 0; i < qryNames.length; i++) {
-//			var objTmp = className.formPnl.getForm().findField(qryNames[i]);
-//			if (objTmp) {
-//				if (objTmp.getXType() == 'datefield') {//如果是时间空间，直接获取时间格式的数据类型
-//					params[qryNames[i]] = objTmp.getRawValue();
-//				} else {
-//					params[qryNames[i]] = objTmp.getValue();
-//				}
-//			}
-//		}
-//		params["nodeType"] = sysManage.authorityManage.role.tree.node.raw.nodeType;
-//		params["nodeId"] = sysManage.authorityManage.role.tree.node.raw.id;
-//		if(params["nodeType"] == 0){
-//			saveUrl = webContextRoot + '/sys/authority/saveRoleTypeInfo'
-//		}else {
-//			saveUrl = webContextRoot + '/sys/authority/saveRoleInfo'
-//		}
-//		Ext.Ajax.request({
-//			url : saveUrl,
-//			params : params,
-//			method : "POST",
-//			success : function(response) {
-//				if (response.responseText != '') {
-//					var res = Ext.JSON.decode(response.responseText);
-//					if (res.success) {
-//						whjn.dlg.showMomentDlg("保存成功!");
-//						dfwdsj.materialManage.equipment.entry.closeHandler();
-//						//获取数据列表窗口
-//						var className = sysManage.authorityManage.role.panel;
-//						//重新加载列表数据
-//						className.loadRecord();
-//						if(params["nodeType"] == 0){
-//							//树面板
-//							var treePnl = sysManage.authorityManage.role.tree.roleTree;
-//							//点前选中的树节点
-//							var node = sysManage.authorityManage.role.tree.node;
-//							//设置需要加载的树节点Id
-//							treePnl.getStore().proxy.extraParams.parentId = nnode.data.id;
-//							//刷新当前的树节点
-//							whjn.refreshTreePnl(treePnl, node.data.id);
-//						}
-//					} else {
-//						whjn.dlg.errTip(res.message);
-//					}
-//				}
-//			},
-//			failure : function(response) {
-//				whjn.dlg.errTip('操作失败！');
-//			}
-//		});
-//	} else {
-//		Ext.MessageBox.alert("提示", str);
-//	}
+	var className = dfwdsj.materialManage.equipment.entry;
+	//校验表单的正确性
+	var str = whjn.validateForm(className.formPnl);
+	if (str == "") { //如果校验通过
+		var params = {};
+		//循环遍历，获取表单信息
+		for ( var i = 0; i < fields.length; i++) {
+			var objTmp = className.formPnl.getForm().findField(fields[i]);
+			if (objTmp) {
+				if (objTmp.getXType() == 'datefield') {//如果是时间，直接获取时间格式的数据类型
+					params[fields[i]] = objTmp.getRawValue();
+				} else {
+					params[fields[i]] = objTmp.getValue();
+				}
+			}
+		}
+		params["typeId"] = dfwdsj.materialManage.equipment.tree.node.raw.id;
+		params["fields"] = fields;
+		Ext.Ajax.request({
+			url : webContextRoot + '/dfwdsj/equipment/saveEquipment',
+			params : params,
+			method : "POST",
+			success : function(response) {
+				if (response.responseText != '') {
+					var res = Ext.JSON.decode(response.responseText);
+					if (res.success) {
+						whjn.dlg.showMomentDlg("保存成功!");
+						dfwdsj.materialManage.equipment.entry.closeHandler();
+						//获取数据列表窗口
+						var className = dfwdsj.materialManage.equipment.panel;
+						//重新加载列表数据
+						className.gridPnl.reload();
+					} else {
+						whjn.dlg.errTip(res.message);
+					}
+				}
+			},
+			failure : function(response) {
+				whjn.dlg.errTip('操作失败！');
+			}
+		});
+	} else {
+		Ext.MessageBox.alert("提示", str);
+	}
 }
 
 /**
