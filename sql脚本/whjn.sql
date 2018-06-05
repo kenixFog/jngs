@@ -27,7 +27,7 @@ CREATE TABLE `dfwdsj_equipment` (
   `qcId` int(11) NOT NULL,
   `typeId` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1026 DEFAULT CHARSET=utf8;
 
 /*Data for the table `dfwdsj_equipment` */
 
@@ -35,7 +35,11 @@ insert  into `dfwdsj_equipment`(`ID`,`propertyField`,`propertyValue`,`qcId`,`typ
 (1,'ID','1',1,3),
 (2,'name','射孔枪测试1',1,3),
 (3,'code','SQKCS1',1,3),
-(10,'km','13',1,3);
+(4,'km','13',1,3),
+(1011,'ID','1011',1011,3),
+(1012,'name','123',1011,3),
+(1013,'code','123',1011,3),
+(1014,'km','13',1011,3);
 
 /*Table structure for table `dfwdsj_equipmentfield` */
 
@@ -52,19 +56,20 @@ CREATE TABLE `dfwdsj_equipmentfield` (
   PRIMARY KEY (`ID`),
   KEY `FK7A55902526FF8ECF` (`TYPEID`),
   CONSTRAINT `FK7A55902526FF8ECF` FOREIGN KEY (`TYPEID`) REFERENCES `dfwdsj_equipmenttype` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8;
 
 /*Data for the table `dfwdsj_equipmentfield` */
 
 insert  into `dfwdsj_equipmentfield`(`ID`,`FIELDCODE`,`FIELDLENGTH`,`FIELDNAME`,`FIELDTYPE`,`TYPEID`,`FIELDCONTENT`) values 
 (1,'ID',50,'ID','textfield',3,''),
 (2,'name',150,'名称','textfield',3,''),
-(3,'ID',50,'ID','textfield',4,'11111'),
-(4,'code',150,'编码','textfield',3,''),
-(5,'name',150,'名称','textfield',4,''),
-(6,'code',150,'编码','textfield',4,''),
-(7,'km',100,'孔密','combo',3,'SKQ_KM'),
-(8,'slt',100,'缩略图','box',3,NULL);
+(3,'code',150,'编码','textfield',3,''),
+(4,'km',100,'孔密','combo',3,'SKQ_KM'),
+(5,'slt',100,'缩略图','box',3,NULL),
+(1006,'ID',50,'ID','textfield',1005,NULL),
+(1007,'name',150,'名称','textfield',1005,NULL),
+(1008,'code',150,'编码','textfield',1005,NULL),
+(1009,'slt',100,'缩略图','box',1005,NULL);
 
 /*Table structure for table `dfwdsj_equipmenttype` */
 
@@ -88,14 +93,28 @@ CREATE TABLE `dfwdsj_equipmenttype` (
   CONSTRAINT `FK1CBF0A8F26832AE4` FOREIGN KEY (`CUSER`) REFERENCES `t_sys_user` (`ID`),
   CONSTRAINT `FK1CBF0A8F269F59E6` FOREIGN KEY (`EUSER`) REFERENCES `t_sys_user` (`ID`),
   CONSTRAINT `FK1CBF0A8FCD924C18` FOREIGN KEY (`ORGID`) REFERENCES `t_sys_org` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1007 DEFAULT CHARSET=utf8;
 
 /*Data for the table `dfwdsj_equipmenttype` */
 
 insert  into `dfwdsj_equipmenttype`(`ID`,`CREATETIME`,`ISLEAF`,`LASTEDITTIME`,`PARENTID`,`CODE`,`NAME`,`ORGID`,`CUSER`,`EUSER`) values 
 (1,'2018-03-12 16:23:51',0,'2018-03-21 17:24:56',-1,'SKQ','射孔枪',1,1,1),
 (3,'2018-03-12 16:24:43',1,'2018-03-22 16:43:28',1,'SKQ_A','射孔枪A型',1,1,1),
-(4,'2018-03-12 16:25:18',1,'2018-03-20 18:03:20',1,'SKQ_B','射孔枪B型',1,1,NULL);
+(1005,'2018-06-05 16:19:08',1,'2018-06-05 16:19:08',1,'SKQ_B','射孔枪B型',1,1,1);
+
+/*Table structure for table `t_sys_autoid` */
+
+DROP TABLE IF EXISTS `t_sys_autoid`;
+
+CREATE TABLE `t_sys_autoid` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_sys_autoid` */
+
+insert  into `t_sys_autoid`(`ID`) values 
+(1015);
 
 /*Table structure for table `t_sys_comcode` */
 
@@ -457,7 +476,7 @@ CREATE TABLE `t_sys_user` (
 /*Data for the table `t_sys_user` */
 
 insert  into `t_sys_user`(`ID`,`CREATETIME`,`EMAIL`,`LASTLOGINTIME`,`PASSWORD`,`REALNAME`,`STATUE`,`TEL`,`USERNAME`,`ORGID`,`BASEORGID`) values 
-(1,'2017-09-01 16:33:48','414737645@qq.com','2018-05-30 16:23:47','e10adc3949ba59abbe56e057f20f883e','陈才',1,'18706730558','admin',14,1),
+(1,'2017-09-01 16:33:48','414737645@qq.com','2018-06-05 17:23:21','e10adc3949ba59abbe56e057f20f883e','陈才',1,'18706730558','admin',14,1),
 (2,'2018-01-04 10:42:53',NULL,'2018-01-04 10:48:12','e10adc3949ba59abbe56e057f20f883e','kenix',1,NULL,'test',14,1);
 
 /* Function  structure for function  `getParentOrg` */
