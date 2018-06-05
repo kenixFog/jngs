@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.config.YamlProcessor.ResolutionMethod;
 
+import com.whjn.common.base.QueryResult;
+import com.whjn.dfwdsj.model.po.Equipment;
+
 import net.sf.json.JSONArray;
 
 public class JsonUtil {
@@ -92,5 +95,22 @@ public class JsonUtil {
 		} else {
 			return "{\"totalRecord\":0, \"data\":[]}";
 		}
+	}
+
+	/** 
+	* @Title: fillListJsonString 
+	* @Description: 
+	* @param @param fields
+	* @param @param queryResult
+	* @param @return  
+	* @return String    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月5日 下午5:07:02 
+	* @version V1.0   
+	*/
+	public static String fillListJsonString(String[] fields, QueryResult<?> queryResult) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -18,6 +18,7 @@ import com.whjn.dfwdsj.model.po.EquipmentField;
 import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentTypeService;
 import com.whjn.sysManage.model.po.SysMenu;
+import com.whjn.sysManage.model.po.SysUser;
 
 import net.sf.json.JSONObject;
 
@@ -70,7 +71,7 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 	* @see com.whjn.dfwdsj.service.EquipmentTypeService#getEquipmentTypeList(com.whjn.dfwdsj.model.po.EquipmentType, java.lang.Integer) 
 	*/
 	@Override
-	public QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId) {
+	public QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, long nodeId, long orgId) {
 		QueryResult<EquipmentType> equipmentTypeList = equipmentTypeDao.getEquipmentTypeList(equipmentType, nodeId,orgId);
 		return equipmentTypeList;
 	}
@@ -85,7 +86,7 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 	*/
 	@Transactional
 	@Override
-	public void delEquipmentType(EquipmentType entity, int ids) {
+	public void delEquipmentType(EquipmentType entity, long ids) {
 		boolean result = false;
 		List<EquipmentType> typeList = (List<EquipmentType>) queryByProerties("parentId", ids);
 		if(typeList.size()>0) {
@@ -94,6 +95,25 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 			result = deleteByPK(ids);
 		}
 		entity.setSuccess(result);
+	}
+
+
+	/* (非 Javadoc) 
+	* @Title: insertFieldType
+	* @Description:
+	* @param @param id
+	* @param @param name
+	* @param @param code
+	* @param @param isLeaf
+	* @param @param nodeId
+	* @param @param user 
+	* @see com.whjn.dfwdsj.service.EquipmentTypeService#insertFieldType(java.lang.Long, java.lang.String, java.lang.String, short, int, com.whjn.sysManage.model.po.SysUser) 
+	*/
+	@Transactional
+	@Override
+	public void insertType(long id, String name, String code, short isLeaf, long nodeId, SysUser user) {
+		// TODO Auto-generated method stub
+		equipmentTypeDao.insertType(id,name,code,isLeaf, nodeId,user);
 	}
 	
 

@@ -3,6 +3,7 @@ package com.whjn.dfwdsj.service.impl;
 
 
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.whjn.common.base.QueryResult;
+import com.whjn.common.dao.DataBaseDao;
+import com.whjn.common.service.DataBaseService;
 import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.dfwdsj.dao.EquipmentDao;
 import com.whjn.dfwdsj.dao.EquipmentFieldDao;
@@ -29,7 +32,11 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	@Resource
 	private EquipmentDao equipmentDao;
 
+	@Resource
+	private DataBaseDao  dataBaseDao;
 
+	@Resource
+	private DataBaseService dataBaseService;
 	@Resource
 	public void setEquipmentFieldDao(EquipmentFieldDao equipmentFieldDao) {
 		this.equipmentFieldDao = equipmentFieldDao;
@@ -48,7 +55,7 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	* @see com.whjn.dfwdsj.service.EquipmentTypeService#getEquipmentTypeList(com.whjn.dfwdsj.model.po.EquipmentType, java.lang.Integer) 
 	*/
 	@Override
-	public QueryResult<EquipmentField> getEquipmentFieldList(EquipmentField equipmentField, Integer nodeId) {
+	public QueryResult<EquipmentField> getEquipmentFieldList(EquipmentField equipmentField, long nodeId) {
 		QueryResult<EquipmentField> equipmentFieldList = equipmentFieldDao.getEquipmentFieldList(equipmentField, nodeId);
 		return equipmentFieldList;
 	}
@@ -68,7 +75,7 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	* @see com.whjn.dfwdsj.service.EquipmentFieldService#getEquipmentFields(int) 
 	*/
 	@Override
-	public List<EquipmentField> getEquipmentFields(int typeId) {
+	public List<EquipmentField> getEquipmentFields(long typeId) {
 		return equipmentFieldDao.getEquipmentFields(typeId);
 	}
 
@@ -85,7 +92,7 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	* @see com.whjn.dfwdsj.service.EquipmentFieldService#getByProerties(java.lang.String, java.lang.Object, java.lang.String) 
 	*/
 	@Override
-	public EquipmentField getByProerties(String propName, Object propValue, int nodeId) {
+	public EquipmentField getByProerties(String propName, Object propValue, long nodeId) {
 		List<EquipmentField> list = equipmentFieldDao.getByProerties(propName,propValue,nodeId);
 		if(list.size()>0) {
 			return list.get(0);
@@ -106,7 +113,7 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	*/
 	@Transactional
 	@Override
-	public void delEquipmentField(EquipmentField entity, String[] fieldCodes, int typeId) {
+	public void delEquipmentField(EquipmentField entity, String[] fieldCodes, long typeId) {
 		boolean result = false;
 		for(int i=0; i<fieldCodes.length;i++) {
 			result = equipmentDao.delEquipmentList(fieldCodes[i], typeId);
@@ -126,8 +133,29 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	* @see com.whjn.dfwdsj.service.EquipmentFieldService#getEquipmentFieldList(int) 
 	*/
 	@Override
-	public List<EquipmentField> getEquipmentFieldList(int typeId) {
+	public List<EquipmentField> getEquipmentFieldList(long typeId) {
 		return equipmentFieldDao.getEquipmentFieldList(typeId);
+	}
+
+
+
+
+	/* (非 Javadoc) 
+	* @Title: insertField
+	* @Description:
+	* @param @param code
+	* @param @param name
+	* @param @param length
+	* @param @param fileType
+	* @param @param typeId 
+	* @see com.whjn.dfwdsj.service.EquipmentFieldService#insertField(java.lang.String, java.lang.String, int, java.lang.String, int) 
+	*/
+	@Transactional
+	@Override
+	public void insertField(String code, String name, int length, String fieldType, long typeId) {
+		//获取当前要插入的字段ID
+		long Id = dataBaseService.getId();
+		equipmentFieldDao.insertField(Id,code,name,length,fieldType,typeId);
 	}
 
 

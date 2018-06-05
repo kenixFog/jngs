@@ -234,29 +234,33 @@ dfwdsj.materialManage.equipment.entry.setwinToolBar = function(titleText) {
  * @param titleText
  */
 dfwdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
-//	var className = dfwdsj.materialManage.equipment.entry;
-//	var formPnl = className.formPnl;
-//	if ("编辑" == titleText) {
-//		formPnl.getForm().load({
-//			url : webContextRoot + '/sys/authority/getRoleInfo',
-//			method : "post",
-//			params : {
-//				// 角色Id
-//				roleId : className.currObjId,
-//				nodeType : sysManage.authorityManage.role.tree.node.raw.nodeType
-//
-//			},
-//			waitTitle : "提示",
-//			waitMsg : "正在从服务器提取数据...",
-//			failure : function(form, action) {
-//				className.win.close();
-//			},
-//			success : function(form, action) {
+	if ("编辑" == titleText || "查看" == titleText ) {
+		var fieldsInfo =  dfwdsj.materialManage.equipment.entry.fieldInfo;
+		var fields = new Array();
+		for(var i = 0;i< fieldsInfo.length;i++){//编码,名称,类型,长度,默认值
+			fields.push(fieldsInfo[i][0]);
+		}
+		var className = dfwdsj.materialManage.equipment.entry;
+		var formPnl = className.formPnl;
+		formPnl.getForm().load({
+			url : webContextRoot + '/dfwdsj/equipment/getEquipmentInfo',
+			method : "post",
+			params : {
+				objId : className.objId,
+				fields : fields
+			},
+			waitTitle : "提示",
+			waitMsg : "正在从服务器提取数据...",
+			failure : function(form, action) {
+				className.win.close();
+			},
+			success : function(form, action) {
+				
 //				Ext.getCmp("Id").setValue(action.result.data.ID);
 //				Ext.getCmp("parentId").setValue(action.result.data.parentId);
-//			}
-//		});
-//	}
+			}
+		});
+	}
 }
 
 
@@ -307,7 +311,7 @@ dfwdsj.materialManage.equipment.entry.saveHandler = function() {
 						//获取数据列表窗口
 						var className = dfwdsj.materialManage.equipment.panel;
 						//重新加载列表数据
-						className.gridPnl.reload();
+						className.gridPnl.getStore().reload();
 					} else {
 						whjn.dlg.errTip(res.message);
 					}

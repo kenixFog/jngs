@@ -28,7 +28,7 @@ public class Equipment extends BaseParameter {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
-	private int id;
+	private long id;
 	// 属性
 	@Column(name = "propertyField", length = 50, nullable = false)
 	private String propertyField;
@@ -37,20 +37,36 @@ public class Equipment extends BaseParameter {
 	private String propertyValue;
 	// 器材id
 	@Column(name = "qcId", nullable = false)
-	private int qcId;
+	private long qcId;
 	// 类型id
 	@Column(name = "typeId")
-	private int typeId;
+	private long typeId;
 
 	public Equipment() {
 		super();
 	}
 
-	public int getId() {
+	/**  
+	* @Description:  
+	* @param @param id
+	* @param @param field
+	* @param @param fieldValue
+	* @param @param qcId
+	* @param @param typeId    
+	*/
+	public Equipment(long id, String field, String fieldValue, long qcId, long typeId) {
+		this.id= id;
+		this.propertyField = field;
+		this.propertyValue = fieldValue;
+		this.qcId = qcId;
+		this.typeId = typeId;
+	}
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -70,19 +86,19 @@ public class Equipment extends BaseParameter {
 		this.propertyValue = propertyValue;
 	}
 
-	public int getQcId() {
+	public long getQcId() {
 		return qcId;
 	}
 
-	public void setQcId(int qcId) {
+	public void setQcId(long qcId) {
 		this.qcId = qcId;
 	}
 
-	public int getTypeId() {
+	public long getTypeId() {
 		return typeId;
 	}
 
-	public void setTypeId(int typeId) {
+	public void setTypeId(long typeId) {
 		this.typeId = typeId;
 	}
 	

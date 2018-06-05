@@ -23,7 +23,7 @@ public interface EquipmentFieldDao extends BaseDao<EquipmentField> {
 	* @date 2018年3月13日 下午4:50:06 
 	* @version V1.0   
 	*/
-	QueryResult<EquipmentField> getEquipmentFieldList(EquipmentField equipmentField, Integer nodeId);
+	QueryResult<EquipmentField> getEquipmentFieldList(EquipmentField equipmentField, long nodeId);
 
 	/** 
 	* @Title: getEquipmentFields 
@@ -36,7 +36,7 @@ public interface EquipmentFieldDao extends BaseDao<EquipmentField> {
 	* @date 2018年3月27日 下午2:34:52 
 	* @version V1.0   
 	*/
-	List<EquipmentField> getEquipmentFields(int typeId);
+	List<EquipmentField> getEquipmentFields(long typeId);
 
 	/** 
 	* @Title: getByProerties 
@@ -51,7 +51,7 @@ public interface EquipmentFieldDao extends BaseDao<EquipmentField> {
 	* @date 2018年5月25日 下午2:39:36 
 	* @version V1.0   
 	*/
-	List<EquipmentField> getByProerties(String propName, Object propValue, int nodeId);
+	List<EquipmentField> getByProerties(String propName, Object propValue, long nodeId);
 
 	/** 
 	* @Title: delEquipmentFieldList 
@@ -65,7 +65,7 @@ public interface EquipmentFieldDao extends BaseDao<EquipmentField> {
 	* @date 2018年5月30日 上午11:47:18 
 	* @version V1.0   
 	*/
-	boolean delEquipmentFieldList(String string, int typeId);
+	boolean delEquipmentFieldList(String string, long typeId);
 
 	/** 
 	* @Title: getEquipmentFieldList 
@@ -78,6 +78,22 @@ public interface EquipmentFieldDao extends BaseDao<EquipmentField> {
 	* @date 2018年5月30日 下午2:59:38 
 	* @version V1.0   
 	*/
-	List<EquipmentField> getEquipmentFieldList(int typeId);
+	List<EquipmentField> getEquipmentFieldList(long typeId);
+
+	/** 
+	* @Title: insertField 
+	* @Description: 
+	* @param @param code
+	* @param @param name
+	* @param @param length
+	* @param @param fieldType
+	* @param @param typeId  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月5日 上午11:56:06 
+	* @version V1.0   
+	*/
+	void insertField(long id, String code, String name, int length, String fieldType, long typeId);
 
 }

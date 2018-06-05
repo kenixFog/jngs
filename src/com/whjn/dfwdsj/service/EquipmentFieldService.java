@@ -27,7 +27,7 @@ public interface EquipmentFieldService extends BaseService<EquipmentField> {
 	* @date 2018年3月20日 上午9:21:57 
 	* @version V1.0
 	 */
-	QueryResult<EquipmentField> getEquipmentFieldList(EquipmentField equipmentField, Integer nodeId);
+	QueryResult<EquipmentField> getEquipmentFieldList(EquipmentField equipmentField, long nodeId);
 
 
 
@@ -42,7 +42,7 @@ public interface EquipmentFieldService extends BaseService<EquipmentField> {
 	* @date 2018年3月27日 下午2:33:35 
 	* @version V1.0   
 	*/
-	List<EquipmentField> getEquipmentFields(int typeId);
+	List<EquipmentField> getEquipmentFields(long typeId);
 
 
 	/**
@@ -59,7 +59,7 @@ public interface EquipmentFieldService extends BaseService<EquipmentField> {
 	* @date 2018年5月25日 下午2:36:26 
 	* @version V1.0
 	 */
-	EquipmentField getByProerties(String propName, Object propValue, int nodeId);
+	EquipmentField getByProerties(String propName, Object propValue, long nodeId);
 
 
 
@@ -74,7 +74,7 @@ public interface EquipmentFieldService extends BaseService<EquipmentField> {
 	* @date 2018年5月30日 上午10:23:02 
 	* @version V1.0   
 	*/
-	void delEquipmentField(EquipmentField entity,String[] fieldCodes, int typeId);
+	void delEquipmentField(EquipmentField entity,String[] fieldCodes, long typeId);
 
 
 
@@ -89,5 +89,23 @@ public interface EquipmentFieldService extends BaseService<EquipmentField> {
 	* @date 2018年5月30日 下午2:57:47 
 	* @version V1.0   
 	*/
-	List<EquipmentField> getEquipmentFieldList(int i);
+	List<EquipmentField> getEquipmentFieldList(long typeId);
+
+
+
+	/** 
+	* @Title: insertField 
+	* @Description: 
+	* @param @param string
+	* @param @param string2
+	* @param @param intValue
+	* @param @param string3
+	* @param @param id  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月5日 上午11:54:19 
+	* @version V1.0   
+	*/
+	void insertField(String code, String name, int length, String fileType, long typeId);
 }

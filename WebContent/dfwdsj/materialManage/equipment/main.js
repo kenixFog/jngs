@@ -50,14 +50,41 @@ dfwdsj.materialManage.equipment.main.initMainPanel = function(){
 
 //新增
 dfwdsj.materialManage.equipment.main.add = function(){
-	dfwdsj.materialManage.equipment.entry.objId = "-1";
 	dfwdsj.materialManage.equipment.entry.showWin("新增");
 }
 
-//编辑或查看
-dfwdsj.materialManage.equipment.main.add = function(){
-	dfwdsj.materialManage.equipment.entry.objId = "-1";
-	dfwdsj.materialManage.equipment.entry.showWin("新增");
+//查看
+dfwdsj.materialManage.equipment.main.view = function(){
+	//定义命名空间
+	var className = dfwdsj.materialManage.equipment;
+	//器材面板
+	var gridPnl = className.panel.gridPnl;
+	// 判断选择的记录条数
+	var rec = className.main.getSelected(gridPnl);
+	if (rec) {
+		//获取菜单Id
+		className.entry.objId = rec[0].data.ID;
+		alert(className.entry.objId);
+		//调用编辑二级页面
+		className.entry.showWin("查看");
+	}
+}
+
+//编辑
+dfwdsj.materialManage.equipment.main.edit = function(){
+	//定义命名空间
+	var className = dfwdsj.materialManage.equipment;
+	//器材面板
+	var gridPnl = className.panel.gridPnl;
+	// 判断选择的记录条数
+	var rec = className.main.getSelected(gridPnl);
+	if (rec) {
+		//获取菜单Id
+		className.entry.objId = rec[0].data.ID;
+		alert(className.entry.objId);
+		//调用编辑二级页面
+		className.entry.showWin("编辑");
+	}
 }
 
 //保存新增或编辑的数据
@@ -151,6 +178,26 @@ dfwdsj.materialManage.equipment.main.del=function(){
 				}
 		});
 	}
-	
-	
+}
+
+
+/**
+ * 判断选择的信息是否单选
+ * @returns {记录(rec)}
+ */
+dfwdsj.materialManage.equipment.main.getSelected = function(grid){
+	//选择条数大于一
+	if (grid.getSelectionModel().getCount() > 1) {
+		Ext.MessageBox.alert("提示", "一次只能选择一条记录!");
+		return null;
+	}
+	// 没有选择
+	if (grid.getSelectionModel().getCount() < 1) {
+		Ext.MessageBox.alert("提示", "请选择一条记录!");
+		return null;
+	} else {//只选择一条
+		//获取这条记录
+		var rec = grid.getSelectionModel().getSelection();
+		return rec;
+	}
 }

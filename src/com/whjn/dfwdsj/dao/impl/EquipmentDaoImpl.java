@@ -1,13 +1,16 @@
 package com.whjn.dfwdsj.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
+import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.dfwdsj.dao.EquipmentDao;
 import com.whjn.dfwdsj.model.po.Equipment;
+import com.whjn.dfwdsj.model.po.EquipmentType;
 
 @Repository
 public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements EquipmentDao {
@@ -42,7 +45,7 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 	 * java.lang.Integer, java.lang.Integer, java.lang.String[])
 	 */
 	@Override
-	public List getEquipments(Integer firstResult, Integer pageSize, Integer nodeId, String[] fields) {
+	public List getEquipments(Integer firstResult, Integer pageSize, long nodeId, String[] fields) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT ");
 		for (int i = 0; i < fields.length; i++) {
@@ -82,7 +85,7 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 	 * @see com.whjn.dfwdsj.dao.EquipmentDao#delEquipment(java.lang.Long[], int)
 	 */
 	@Override
-	public boolean delEquipment(Long[] ids, int typeId) {
+	public boolean delEquipment(long[] ids, long typeId) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("delete from dfwdsj_equipment where qcId in(  ");
 		for (int i = 0; i < ids.length; i++) {
@@ -110,7 +113,7 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 	* @see com.whjn.dfwdsj.dao.EquipmentDao#updateFieldCode(java.lang.String, java.lang.String, int) 
 	*/
 	@Override
-	public void updateFieldCode(String oldFileCode, String newFiledCode, int nodeId) {
+	public void updateFieldCode(String oldFileCode, String newFiledCode, long nodeId) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("update dfwdsj_equipment set propertyField = ? where propertyField=? and typeId = ? ");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
@@ -129,13 +132,121 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 	* @see com.whjn.dfwdsj.dao.EquipmentDao#delEquipmentList(java.lang.String, int) 
 	*/
 	@Override
-	public boolean delEquipmentList(String fieldCode, int typeId) {
+	public boolean delEquipmentList(String fieldCode, long typeId) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("delete from dfwdsj_equipment where propertyField =?  and typeId = ? ");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, fieldCode);
 		query.setParameter(1, typeId);
 		return query.executeUpdate() > 0 ? true : false;
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getByProerties
+	* @Description:
+	* @param @param propName
+	* @param @param propValue
+	* @param @param typeId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentDao#getByProerties(java.lang.String, java.lang.String, int) 
+	*/
+	@Override
+	public List<Equipment> getByProerties(String propName, String propValue, long typeId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT id, propertyField, propertyValue, qcId, typeId ");
+		sql.append("From dfwdsj_equipment WHERE propertyField = ? and propertyValue = ? and typeId = ? ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, propName);
+		query.setParameter(1, propValue);
+		query.setParameter(2, typeId);
+		query.addEntity(Equipment.class);
+		return query.list();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getOldDate
+	* @Description:
+	* @param @param string
+	* @param @param qcId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentDao#getOldDate(java.lang.String, long) 
+	*/
+	@Override
+	public List<Equipment> getOldDate(String string, long qcId, long typeId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT id, propertyField, propertyValue, qcId, typeId ");
+		sql.append("From dfwdsj_equipment WHERE propertyField = ? and qcId = ? and typeId = ? ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, string);
+		query.setParameter(1, qcId);
+		query.setParameter(2, typeId);
+		query.addEntity(Equipment.class);
+		return query.list();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: updateEquipment
+	* @Description:
+	* @param @param string
+	* @param @param string2
+	* @param @param qcId
+	* @param @param typeId 
+	* @see com.whjn.dfwdsj.dao.EquipmentDao#updateEquipment(java.lang.String, java.lang.String, long, int) 
+	*/
+	@Override
+	public void updateEquipment(String field, String vaule, long qcId, long typeId) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("update dfwdsj_equipment set propertyValue = ? where propertyField=? and qcId = ? and typeId = ? ");
+		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		query.setParameter(0, vaule);
+		query.setParameter(1, field);
+		query.setParameter(2, qcId);
+		query.setParameter(3, typeId);
+		query.executeUpdate();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: insertEquipment
+	* @Description:
+	* @param @param id
+	* @param @param string
+	* @param @param string2
+	* @param @param qcId
+	* @param @param typeId 
+	* @see com.whjn.dfwdsj.dao.EquipmentDao#insertEquipment(long, java.lang.String, java.lang.String, long, int) 
+	*/
+	@Override
+	public void insertEquipment(long id, String field, String value, long qcId, long typeId) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("insert into dfwdsj_equipment values(?,?,?,?,?)");
+		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		query.setParameter(0, id);
+		query.setParameter(1, field);
+		query.setParameter(2, value);
+		query.setParameter(3, qcId);
+		query.setParameter(4, typeId);
+		query.executeUpdate();
+		
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getEquipmentList
+	* @Description:
+	* @param @param qcId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentDao#getEquipmentList(com.whjn.dfwdsj.model.po.Equipment, long) 
+	*/
+	@Override
+	public QueryResult<Equipment> getEquipmentList(long qcId) {
+		QueryResult<Equipment> qr = new QueryResult<Equipment>();
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT  *  FROM  dfwdsj_equipment  WHERE qcId = ? ");
+		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		query.setParameter(0, qcId);
+		query.addEntity(Equipment.class);
+		List<EquipmentType> menuList = query.list();
+		qr.setResultList(query.list());
+		return qr;
 	}
 
 }

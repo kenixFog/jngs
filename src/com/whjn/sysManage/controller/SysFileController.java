@@ -1,11 +1,8 @@
 package com.whjn.sysManage.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -45,21 +42,19 @@ public class SysFileController extends BaseController {
 				json.put("msg", requestContext.getMessage("g_fileTooLarge"));
 			} else {
 				try {
+					// 类型Id
+					long typeId  = RequestUtils.getLongParameter(request, "typeId");
 					// 数据Id
-					Integer objId = RequestUtils.getIntParameter(request, "objId");
+					long objId = RequestUtils.getLongParameter(request, "objId");
 					// 业务表
 					String objTb = RequestUtils.getStringParameter(request, "objTb");
-					// 更新或插入标识
-					String instOrUd = RequestUtils.getStringParameter(request, "instOrUd");
-					// 文件路径
-					String filePath1 = RequestUtils.getStringParameter(request, "filePath");
-					// 获取文件的路径
+					// 源文件名称
 					String originalFilename = file.getOriginalFilename();
-
+					// 新文件名称
 					String fileName = sdf.format(new Date()) + FileUtils.getRandomString(3)
 							+ originalFilename.substring(originalFilename.lastIndexOf("."));
 					File filePath = new File(getClass().getClassLoader().getResource("/").getPath().replace(
-							"/WEB-INF/classes/", "/static/img/upload/" + DateFormatUtils.format(new Date(), "yyyyMM")));
+							"/WEB-INF/classes/", "/static/img/upload/" + typeId));
 					if (!filePath.exists()) {
 						filePath.mkdirs();
 					}

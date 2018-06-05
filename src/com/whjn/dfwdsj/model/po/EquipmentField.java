@@ -30,7 +30,7 @@ public class EquipmentField extends BaseParameter {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
-	private int id;
+	private long id;
 	// 指定多对一关系
 	@ManyToOne(cascade = { CascadeType.REFRESH })
 	@JoinColumn(name = "TYPEID")
@@ -68,7 +68,7 @@ public class EquipmentField extends BaseParameter {
 		this.fieldContent = fieldContent;
 	}
 
-	public EquipmentField(int id, EquipmentType equipmentType, String fieldName, String fieldCode, String fieldType,
+	public EquipmentField(long id, EquipmentType equipmentType, String fieldName, String fieldCode, String fieldType,
 			int fieldLength, String fieldContent) {
 		super();
 		this.id = id;
@@ -80,11 +80,11 @@ public class EquipmentField extends BaseParameter {
 		this.fieldContent = fieldContent;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

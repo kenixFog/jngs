@@ -29,7 +29,6 @@ import com.whjn.common.base.BaseParameter;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.BaseDao;
 import com.whjn.common.util.BeanUtil;
-import com.whjn.common.util.PageUtil;
 
 public class BaseDaoImpl<E> implements BaseDao<E> {
 

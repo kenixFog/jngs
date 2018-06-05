@@ -5,6 +5,7 @@ import java.util.List;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.BaseDao;
 import com.whjn.dfwdsj.model.po.EquipmentType;
+import com.whjn.sysManage.model.po.SysUser;
 
 
 public interface EquipmentTypeDao extends BaseDao<EquipmentType> {
@@ -36,6 +37,23 @@ public interface EquipmentTypeDao extends BaseDao<EquipmentType> {
 	* @version V1.0   
 	 * @param orgId 
 	*/
-	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId);
+	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, long nodeId, long orgId);
+
+	/** 
+	* @Title: insertType 
+	* @Description: 
+	* @param @param id
+	* @param @param name
+	* @param @param code
+	* @param @param isLeaf
+	* @param @param nodeId
+	* @param @param user  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月5日 下午12:29:25 
+	* @version V1.0   
+	*/
+	void insertType(long id, String name, String code, short isLeaf, long nodeId, SysUser user);
 
 }

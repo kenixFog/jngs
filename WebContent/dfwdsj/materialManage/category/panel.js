@@ -30,9 +30,13 @@ dfwdsj.materialManage.category.panel.initGridPnl = function() {
 		plugins: editPlugin,
 	    bbar:gridBbar,
 	    listeners : {
-			cellclick : function(grid, rowIndex, columnIndex, e) {
-				var record = grid.getStore().getAt(rowIndex); // 得到本行记录
-				dfwdsj.materialManage.category.panel.currentRecord = record;
+			'cellclick' : function(grid, rowIndex, columnIndex, e) {
+				var fieldName = grid.getHeaderAtIndex(columnIndex).dataIndex;
+				var data = e.get(fieldName);
+				if(data == "ID"||data == "name"||data == "code"||data == "slt") {
+					whjn.dlg.errTip("ID,name,code,slt编码不允许修改！");
+					return false;  
+				}
 			}
 		}
 	});

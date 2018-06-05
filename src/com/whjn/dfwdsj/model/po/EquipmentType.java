@@ -38,7 +38,7 @@ public class EquipmentType extends BaseParameter {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
-	private int id;
+	private long id;
 	// 菜单名称
 	@Column(name = "NAME", length = 50, nullable = false)
 	private String typeName;
@@ -50,7 +50,7 @@ public class EquipmentType extends BaseParameter {
 	private short isLeaf;
 	// 父节点ID
 	@Column(name = "PARENTID")
-	private int parentId;
+	private long parentId;
 	// 创建时间
 	@Column(name = "CREATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -76,7 +76,7 @@ public class EquipmentType extends BaseParameter {
 		super();
 	}
 
-	public EquipmentType(int id, String typeName, String typeCode, short isLeaf, int parentId, SysOrg sysOrg, SysUser cUser,
+	public EquipmentType(long id, String typeName, String typeCode, short isLeaf, long parentId, SysOrg sysOrg, SysUser cUser,
 			SysUser eUser, Date createTime,
 			Date lastEditTime) {
 		super();
@@ -106,11 +106,11 @@ public class EquipmentType extends BaseParameter {
 		this.lastEditTime = lastEditTime;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -130,11 +130,11 @@ public class EquipmentType extends BaseParameter {
 		this.typeCode = typeCode;
 	}
 
-	public int getParentId() {
+	public long getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(int parentId) {
+	public void setParentId(long parentId) {
 		this.parentId = parentId;
 	}
 

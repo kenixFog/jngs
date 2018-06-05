@@ -6,6 +6,7 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.BaseService;
 import com.whjn.dfwdsj.model.po.Equipment;
 import com.whjn.dfwdsj.model.po.EquipmentType;
+import com.whjn.sysManage.model.po.SysUser;
 
 
 public interface EquipmentTypeService extends BaseService<EquipmentType> {
@@ -37,7 +38,7 @@ public interface EquipmentTypeService extends BaseService<EquipmentType> {
 	* @version V1.0   
 	 * @param orgId 
 	*/
-	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, Integer nodeId, long orgId);
+	QueryResult<EquipmentType> getEquipmentTypeList(EquipmentType equipmentType, long nodeId, long orgId);
 
 	/** 
 	* @Title: delEquipmentType 
@@ -51,7 +52,24 @@ public interface EquipmentTypeService extends BaseService<EquipmentType> {
 	* @version V1.0   
 	 * @param entity 
 	*/
-	void delEquipmentType(EquipmentType entity, int ids);
+	void delEquipmentType(EquipmentType entity, long ids);
+
+	/** 
+	* @Title: insertFieldType 
+	* @Description: 
+	* @param @param id
+	* @param @param name
+	* @param @param code
+	* @param @param isLeaf
+	* @param @param nodeId
+	* @param @param user  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月5日 下午12:28:16 
+	* @version V1.0   
+	*/
+	void insertType(long id, String name, String code, short isLeaf, long nodeId, SysUser user);
 
 
 }

@@ -19,6 +19,7 @@ import com.whjn.common.base.ListView;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.framework.web.WebUtil;
+import com.whjn.common.service.DataBaseService;
 import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
 import com.whjn.dfwdsj.model.po.Equipment;
@@ -42,22 +43,28 @@ public class EquipmentController extends BaseController {
 
 	@Resource
 	private EquipmentFieldService equipmentFieldService;
-	
+
 	@Resource
 	private EquipmentService equipmentService;
 
+	@Resource
+	private DataBaseService dataBaseService;
+
 	/**
 	 * 
-	* @Title: getEquipmentType 
-	* @Description: 
-	* @param @param request
-	* @param @param response
-	* @param @throws IOException  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年3月27日 下午5:19:52 
-	* @version V1.0
+	 * @Title: getEquipmentType
+	 * @Description:
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年3月27日 下午5:19:52
+	 * @version V1.0
 	 */
 	@RequestMapping("/getEquipmentType")
 	public void getEquipmentType(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -71,16 +78,19 @@ public class EquipmentController extends BaseController {
 
 	/**
 	 * 
-	* @Title: getEquipmentTypeList 
-	* @Description: 
-	* @param @param request
-	* @param @param response
-	* @param @throws IOException  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年3月27日 下午5:19:48 
-	* @version V1.0
+	 * @Title: getEquipmentTypeList
+	 * @Description:
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年3月27日 下午5:19:48
+	 * @version V1.0
 	 */
 	@RequestMapping("/getEquipmentTypeList")
 	public void getEquipmentTypeList(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -106,16 +116,19 @@ public class EquipmentController extends BaseController {
 
 	/**
 	 * 
-	* @Title: getEquipmentFieldList 
-	* @Description: 
-	* @param @param request
-	* @param @param response
-	* @param @throws IOException  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年3月27日 下午5:19:45 
-	* @version V1.0
+	 * @Title: getEquipmentFieldList
+	 * @Description:
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年3月27日 下午5:19:45
+	 * @version V1.0
 	 */
 	@RequestMapping("/getEquipmentFieldList")
 	public void getEquipmentFieldList(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -134,19 +147,22 @@ public class EquipmentController extends BaseController {
 		typeListView.setTotalRecord(queryResult.getTotalCount());
 		writeJSON(response, typeListView);
 	}
-	
+
 	/**
 	 * 
-	* @Title: getEquipments 
-	* @Description: 
-	* @param @param request
-	* @param @param response
-	* @param @throws IOException  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年3月27日 下午5:19:41 
-	* @version V1.0
+	 * @Title: getEquipments
+	 * @Description:
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年3月27日 下午5:19:41
+	 * @version V1.0
 	 */
 	@RequestMapping("/getEquipments")
 	public void getEquipments(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -156,11 +172,11 @@ public class EquipmentController extends BaseController {
 		// 每页显示条目数
 		Integer pageSize = Integer.valueOf(request.getParameter("limit"));
 		// 节点Id
-		Integer nodeId = RequestUtils.getIntParameter(request, "nodeId");
+		long nodeId = RequestUtils.getLongParameter(request, "nodeId");
 		// 字段
 		String[] fields = RequestUtils.getStringParameters(request, "fields");
 		ListView typeListView = new ListView();
-		if(fields.length>0) {
+		if (fields.length > 0) {
 			List list = equipmentService.getEquipments(firstResult, pageSize, nodeId, fields);
 			result = JsonUtil.fillGridList(fields, list);
 		}
@@ -187,7 +203,7 @@ public class EquipmentController extends BaseController {
 	@RequestMapping("/saveEquipmentType")
 	public void saveEquipmentType(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, Object> result = new HashMap<String, Object>();
-		int nodeId = Integer.parseInt(request.getParameter("nodeId"));
+		long nodeId = Long.parseLong(request.getParameter("nodeId"));
 		String obj = request.getParameter("paramArray");
 		// 获取前台传入的要保存或修改的参数
 		JSONArray paramArray = JSONArray.fromObject(obj);
@@ -212,11 +228,30 @@ public class EquipmentController extends BaseController {
 					// 当前用户
 					SysUser user = WebUtil.getCurrUserInfo(request);
 
-					EquipmentType equipmentType = new EquipmentType(paramObj.get("typeName").toString(),
-							paramObj.get("typeCode").toString(),
-							Short.valueOf(paramObj.get("isLeaf").toString()).shortValue(), nodeId, user.getBaseOrg(),
-							user, user, new Date(), new Date());
-					equipmentTypeService.persist(equipmentType);
+					// 获取要插入的Id
+					Long id = dataBaseService.getId();
+
+					String name = paramObj.get("typeName").toString();
+
+					String code = paramObj.get("typeCode").toString();
+
+					short isLeaf = Short.valueOf(paramObj.get("isLeaf").toString()).shortValue();
+
+					equipmentTypeService.insertType(id, name, code, isLeaf, nodeId, user);
+
+					if (isLeaf == 1) {// 根节点，默认增加三个字段
+						equipmentFieldService.insertField("ID", "ID", 50, "textfield", id);
+						equipmentFieldService.insertField("name", "名称", 150, "textfield", id);
+						equipmentFieldService.insertField("code", "编码", 150, "textfield", id);
+						equipmentFieldService.insertField("slt", "缩略图", 100, "box", id);
+					}
+					// EquipmentType equipmentType = new
+					// EquipmentType(paramObj.get("typeName").toString(),
+					// paramObj.get("typeCode").toString(),
+					// Short.valueOf(paramObj.get("isLeaf").toString()).shortValue(), nodeId,
+					// user.getBaseOrg(),
+					// user, user, new Date(), new Date());
+					// equipmentTypeService.persist(equipmentType);
 					result.put("success", true);
 				} else {
 					result.put("success", false);
@@ -245,25 +280,18 @@ public class EquipmentController extends BaseController {
 				// 获取当前节点下，是否存已经存在要保存的name
 				EquipmentType checkName = equipmentTypeService.getByProerties(typeName, typeNameValue);
 
-				if((!oldObj.getTypeCode().equals(paramObj.get("typeCode")))&& null != checkCode){
+				if ((!oldObj.getTypeCode().equals(paramObj.get("typeCode"))) && null != checkCode) {
 					result.put("message", "保存失败，编码[" + paramObj.get("typeCode") + "]已存在，请重新输入！");
 					break;
-				} else if((!oldObj.getTypeName().equals(paramObj.get("typeName"))) && null != checkName){
+				} else if ((!oldObj.getTypeName().equals(paramObj.get("typeName"))) && null != checkName) {
 					result.put("message", "保存失败，名称[" + paramObj.get("typeName") + "]已存在，请重新输入！");
 					break;
-				} else {//保存数据
+				} else {// 保存数据
 					SysUser user = WebUtil.getCurrUserInfo(request);
-					EquipmentType equipmentType = new EquipmentType(
-							oldObj.getId(),
-							paramObj.get("typeName").toString(), 
+					EquipmentType equipmentType = new EquipmentType(oldObj.getId(), paramObj.get("typeName").toString(),
 							paramObj.get("typeCode").toString(),
-							Short.valueOf(paramObj.get("isLeaf").toString()).shortValue(),
-							nodeId,
-							oldObj.getSysOrg(),
-							oldObj.getCreateUser(),
-							user,
-							oldObj.getCreateTime(),
-							new Date());
+							Short.valueOf(paramObj.get("isLeaf").toString()).shortValue(), nodeId, oldObj.getSysOrg(),
+							oldObj.getCreateUser(), user, oldObj.getCreateTime(), new Date());
 					equipmentTypeService.merge(equipmentType);
 					result.put("success", true);
 				}
@@ -292,7 +320,7 @@ public class EquipmentController extends BaseController {
 	@RequestMapping("/saveEquipmentField")
 	public void saveEquipmentField(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, Object> result = new HashMap<String, Object>();
-		int nodeId = Integer.parseInt(request.getParameter("nodeId"));
+		long nodeId = Long.parseLong(request.getParameter("nodeId"));
 		String obj = request.getParameter("paramArray");
 		// 获取前台传入的要保存或修改的参数
 		JSONArray paramArray = JSONArray.fromObject(obj);
@@ -300,17 +328,24 @@ public class EquipmentController extends BaseController {
 			JSONObject paramObj = paramArray.getJSONObject(i);
 			// ID为空时新增记录，否则修改记录
 			if (paramObj.get("id") == null || "".equals(paramObj.get("id"))) {// 新增
-				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),nodeId);
-				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"),nodeId);
+				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),
+						nodeId);
+				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"),
+						nodeId);
 
 				if (null == checkCode && null == checkName) {
-					EquipmentType equipmentType = equipmentTypeService.getByProerties("id",nodeId);
-					EquipmentField equipmentField = new EquipmentField(equipmentType,
-							  paramObj.get("fieldName").toString(), paramObj.get("fieldCode").toString(),
-							paramObj.get("fieldType").toString(),
+					EquipmentType equipmentType = equipmentTypeService.getByProerties("id", nodeId);
+
+					equipmentFieldService.insertField(paramObj.get("fieldCode").toString(),
+							paramObj.get("fieldName").toString(),
 							Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
-							paramObj.get("fieldContent").toString());
-					equipmentFieldService.persist(equipmentField);
+							paramObj.get("fieldType").toString(), nodeId);
+					// EquipmentField equipmentField = new EquipmentField(equipmentType,
+					// paramObj.get("fieldName").toString(), paramObj.get("fieldCode").toString(),
+					// paramObj.get("fieldType").toString(),
+					// Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
+					// paramObj.get("fieldContent").toString());
+					// equipmentFieldService.persist(equipmentField);
 					result.put("success", true);
 				} else {
 					result.put("success", false);
@@ -326,10 +361,12 @@ public class EquipmentController extends BaseController {
 				// 根据ID获取原数据
 				System.out.println(paramObj.get("id").getClass().getTypeName());
 				Integer id = Integer.parseInt(paramObj.get("id").toString());
-				EquipmentField oldObj = equipmentFieldService.getByProerties("id",id);
+				EquipmentField oldObj = equipmentFieldService.getByProerties("id", id);
 				// 根据新修改的编码去数据库查询数据
-				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),nodeId);
-				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"),nodeId);
+				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),
+						nodeId);
+				EquipmentField checkName = equipmentFieldService.getByProerties("fieldName", paramObj.get("fieldName"),
+						nodeId);
 				if ((!oldObj.getFieldCode().equals(paramObj.get("fieldCode"))) && null != checkCode
 						&& null != checkName) {// 编码被修改
 					result.put("success", false);
@@ -341,20 +378,20 @@ public class EquipmentController extends BaseController {
 					}
 					break;
 				} else {
-					EquipmentType equipmentType = equipmentTypeService.getByProerties("id",nodeId);
+					EquipmentType equipmentType = equipmentTypeService.getByProerties("id", nodeId);
 					EquipmentField equipmentField = new EquipmentField(
-							Integer.valueOf(paramObj.get("id").toString()).intValue(), equipmentType,
+							Long.valueOf(paramObj.get("id").toString()).longValue(), equipmentType,
 							paramObj.get("fieldName").toString(), paramObj.get("fieldCode").toString(),
 							paramObj.get("fieldType").toString(),
 							Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
 							paramObj.get("fieldContent").toString());
 					equipmentFieldService.merge(equipmentField);
-					//旧编码
+					// 旧编码
 					String oldFileCode = oldObj.getFieldCode();
-					//新编码
+					// 新编码
 					String newFiledCode = paramObj.get("fieldCode").toString();
-					//更新器材数据表中对应的字段编码
-					equipmentService.updateFieldCode(oldFileCode,newFiledCode,nodeId);
+					// 更新器材数据表中对应的字段编码
+					equipmentService.updateFieldCode(oldFileCode, newFiledCode, nodeId);
 					result.put("success", true);
 				}
 			}
@@ -362,20 +399,21 @@ public class EquipmentController extends BaseController {
 		writeJSON(response, result);
 	}
 
-	
-	
 	/**
 	 * 
-	* @Title: getEquipmentFields 
-	* @Description: 
-	* @param @param request
-	* @param @param response
-	* @param @throws Exception  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年3月27日 下午2:31:33 
-	* @version V1.0
+	 * @Title: getEquipmentFields
+	 * @Description:
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            Exception
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年3月27日 下午2:31:33
+	 * @version V1.0
 	 */
 	@RequestMapping("/getEquipmentFields")
 	public void getEquipmentFields(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -385,32 +423,37 @@ public class EquipmentController extends BaseController {
 		sbf.append("{success:true,data:{");
 		List<EquipmentField> list = equipmentFieldService.getEquipmentFields(typeId);
 		sbf.append("'fieldsInfo':[");
-		getFieldTypeJSONArray(list,sbf);
+		getFieldTypeJSONArray(list, sbf);
 		writeJSON(response, sbf.append("]}}").toString());
 	}
-	
+
 	/**
-	* @Title: delEquipmentType 
-	* @Description: 删除器材类型
-	* @param @param entity
-	* @param @param request
-	* @param @param response
-	* @param @param ids
-	* @param @throws IOException  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年5月29日 上午9:13:54 
-	* @version V1.0
+	 * @Title: delEquipmentType
+	 * @Description: 删除器材类型
+	 * @param @param
+	 *            entity
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @param
+	 *            ids
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年5月29日 上午9:13:54
+	 * @version V1.0
 	 */
 	@RequestMapping(value = "/delEquipmentType", method = { RequestMethod.POST, RequestMethod.GET })
 	public void delEquipmentType(EquipmentType entity, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("data") int[] ids) throws IOException {
 		boolean result = false;
-		for(int i = 0 ;i<ids.length;i++) {
+		for (int i = 0; i < ids.length; i++) {
 			List<EquipmentField> list = equipmentFieldService.getEquipmentFieldList(ids[i]);
-			if(list.size()>0 ) {
-				entity.setMessage("删除失败，所选节点ID为【"+ids[i]+"】下存在器材分类属性！");
+			if (list.size() > 0) {
+				entity.setMessage("删除失败，所选节点ID为【" + ids[i] + "】下存在器材分类属性！");
 				entity.setSuccess(result);
 				break;
 			} else {
@@ -419,58 +462,67 @@ public class EquipmentController extends BaseController {
 		}
 		writeJSON(response, entity);
 	}
-	
-	
+
 	/**
-	* @Title: delEquipmentField
-	* @Description: 删除器材类型字段
-	* @param @param entity
-	* @param @param request
-	* @param @param response
-	* @param @param ids
-	* @param @throws IOException  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年5月29日 上午9:13:54 
-	* @version V1.0
+	 * @Title: delEquipmentField
+	 * @Description: 删除器材类型字段
+	 * @param @param
+	 *            entity
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @param
+	 *            ids
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年5月29日 上午9:13:54
+	 * @version V1.0
 	 */
 	@RequestMapping(value = "/delEquipmentField", method = { RequestMethod.POST, RequestMethod.GET })
 	public void delEquipmentField(EquipmentField entity, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("data") String[] fieldCodes) throws IOException {
-		//节点类型（当前选中的器材分类）
+		// 节点类型（当前选中的器材分类）
 		int typeId = Integer.parseInt(request.getParameter("typeId"));
-		equipmentFieldService.delEquipmentField(entity,fieldCodes,typeId);
+		equipmentFieldService.delEquipmentField(entity, fieldCodes, typeId);
 		writeJSON(response, entity);
 	}
-	
+
 	/**
 	 * 
-	* @Title: delEquipment 
-	* @Description: 删除器材
-	* @param @param entity
-	* @param @param request
-	* @param @param response
-	* @param @param ids
-	* @param @throws IOException  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年5月29日 下午2:52:32 
-	* @version V1.0
+	 * @Title: delEquipment
+	 * @Description: 删除器材
+	 * @param @param
+	 *            entity
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @param
+	 *            ids
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年5月29日 下午2:52:32
+	 * @version V1.0
 	 */
 	@RequestMapping(value = "/delEquipment", method = { RequestMethod.POST, RequestMethod.GET })
 	public void delEquipment(Equipment entity, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("ids") Long[] ids) throws IOException {
-		int typeId = Integer.parseInt(request.getParameter("typeId"));
+			@RequestParam("ids") long[] ids) throws IOException {
+		long typeId = Long.parseLong(request.getParameter("typeId"));
 		boolean result = equipmentService.delEquipment(ids, typeId);
 		entity.setSuccess(result);
-		if(!result) {//删除失败
+		if (!result) {// 删除失败
 			entity.setMessage("删除失败，请与系统开发人员联系！");
 		}
 		writeJSON(response, entity);
 	}
-	
+
 	/**
 	 * @Title: saveEquipment
 	 * @Description: 保存器材信息
@@ -487,57 +539,69 @@ public class EquipmentController extends BaseController {
 	 * @throws @date
 	 *             2017年11月28日 下午3:52:40
 	 * @version V1.0
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "/saveEquipment", method = { RequestMethod.POST, RequestMethod.GET })
-	public void saveEquipment(@RequestParam("fields") String[] fields, HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-		//器材类型Id
+	public void saveEquipment(@RequestParam("fields") String[] fields, Equipment entity, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		// 器材类型Id
 		int typeId = Integer.parseInt(request.getParameter("typeId"));
-		
-//		String[] fields = new String[] {request.getParameter("fields")};
-		System.out.println(fields.length);
-//		if (entity.getId() == -1) {// ID为-1代表新增
-//			// 根据编码获取数据
-//			SysMenu checkCode = sysMenuService.getByProerties("menuCode", entity.getMenuCode());
-//			if (entity.getType() == 2 || null == checkCode) {// 新增按钮，或编码不重复，则直接新增
-//				entity.setCreateTime(new Date());
-//				entity.setLastEditTime(new Date());
-//				sysMenuService.persist(entity);
-//				entity.setSuccess(true);
-//			} else {
-//				entity.setSuccess(false);
-//				entity.setMessage("保存失败，编码已存在，请重新输入！");
-//			}
-//		} else {// 修改
-//			// 根据ID获取原数据
-//			SysMenu oldObj = sysMenuService.getByProerties("id", entity.getId());
-//			// 根据新修改的编码去数据库查询数据
-//			SysMenu checkCode = sysMenuService.getByProerties("menuCode", entity.getMenuCode());
-//			if ((!oldObj.getMenuCode().equals(entity.getMenuCode())) && entity.getType() != 2 && null != checkCode) {// 编码被修改
-//				entity.setSuccess(false);
-//				entity.setMessage("保存失败，编码已存在，请重新输入！");
-//			} else {
-//				entity.setCreateTime(oldObj.getCreateTime());
-//				entity.setLastEditTime(new Date());
-//				sysMenuService.merge(entity);
-//				entity.setSuccess(true);
-//			}
-//		}
-//		writeJSON(response, entity);
+		// 用于存放器材信息
+		Map<String, String> paramMap = new HashMap<String, String>();
+		// 获取新增或修改的器材信息
+		for (int i = 0; i < fields.length; i++) {
+			paramMap.put(fields[i], request.getParameter(fields[i]));
+		}
+		if (request.getParameter("ID") == "" || null == request.getParameter("ID")) {// 新增
+			// 查询数据库是否已经存在编码
+			Equipment checkCode = equipmentService.getByProerties("code", paramMap.get("code"), typeId);
+			// 查询数据库是否已经存在名称
+			Equipment checkName = equipmentService.getByProerties("name", paramMap.get("name"), typeId);
+			if (null == checkCode && null == checkName) {
+				equipmentService.insertEquipment(fields, paramMap, typeId);
+				entity.setSuccess(true);
+			} else {
+				entity.setSuccess(false);
+				entity.setMessage("保存失败，编码或名称已存在，请重新输入！");
+			}
+		} else {// 修改
+			// 前台传到后台的器材Id
+			long qcId = Long.parseLong(request.getParameter("ID"));
+			// 获取旧编码
+			Equipment oldCode = equipmentService.getOldDate("code", qcId, typeId);
+			// 获取旧名称
+			Equipment oldName = equipmentService.getOldDate("code", qcId, typeId);
+			// 根据新修改编码查询数据库是否已经存在编码
+			Equipment checkCode = equipmentService.getByProerties("code", paramMap.get("code"), typeId);
+			// 根据新修改名称查询数据库是否已经存在名称
+			Equipment checkName = equipmentService.getByProerties("name", paramMap.get("name"), typeId);
+			if (!(oldCode.getPropertyValue().equals(paramMap.get("code"))) && null != checkCode) {// 新修改的编码已存在
+				entity.setSuccess(false);
+				entity.setMessage("保存失败，编码已存在，请重新输入！");
+			} else if (!(oldName.getPropertyValue().equals(paramMap.get("name"))) && null != checkName) {// 新修改的名称已存在
+				entity.setSuccess(false);
+				entity.setMessage("保存失败，名称已存在，请重新输入！");
+			} else {
+				equipmentService.updateEquipment(fields, paramMap, qcId, typeId);
+				entity.setSuccess(true);
+			}
+		}
+		writeJSON(response, entity);
 	}
-	
-	
+
 	/**
 	 * 
-	* @Title: getFieldTypeJSONArray 
-	* @Description: 拼接器材分类字段（[编码,名称,类型,长度,默认值]）
-	* @param @param FieldEntryList
-	* @param @param sbf  
-	* @return void    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年3月27日 下午3:46:29 
-	* @version V1.0
+	 * @Title: getFieldTypeJSONArray
+	 * @Description: 拼接器材分类字段（[编码,名称,类型,长度,默认值]）
+	 * @param @param
+	 *            FieldEntryList
+	 * @param @param
+	 *            sbf
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2018年3月27日 下午3:46:29
+	 * @version V1.0
 	 */
 	private static void getFieldTypeJSONArray(List<EquipmentField> FieldEntryList, StringBuffer sbf) {
 		boolean b = false;
@@ -550,10 +614,36 @@ public class EquipmentController extends BaseController {
 					sbf.append(",");
 				else
 					b = true;
-				 sbf.append("['").append(de.getFieldCode()).append("','").append(de.getFieldName()).append("','")
-				 .append(de.getFieldType()).append("','").append(de.getFieldLength()).append("','")
-				 .append(de.getFieldContent()).append("']");
+				sbf.append("['").append(de.getFieldCode()).append("','").append(de.getFieldName()).append("','")
+						.append(de.getFieldType()).append("','").append(de.getFieldLength()).append("','")
+						.append(de.getFieldContent()).append("']");
 			}
 		}
 	}
+
+	/**
+	 * @Title: getMenuInfo
+	 * @Description: 获取菜单信息
+	 * @param @param
+	 *            request
+	 * @param @param
+	 *            response
+	 * @param @throws
+	 *            IOException
+	 * @return void
+	 * @author Chen Cai
+	 * @throws @date
+	 *             2017年11月28日 下午3:52:33
+	 * @version V1.0
+	 */
+	@RequestMapping("/getEquipmentInfo")
+	public void getEquipmentInfo(@RequestParam("fields") String[] fields, 
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
+		long qcId = RequestUtils.getLongParameter(request, "objId");
+		System.out.println(qcId);
+		QueryResult<Equipment> queryResult = equipmentService.getEquipmentList(qcId);
+		String result = JsonUtil.fillListJsonString(fields, queryResult);
+		writeJSON(response, result);
+	}
+
 }
