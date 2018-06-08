@@ -65,7 +65,7 @@ public interface EquipmentService extends BaseService<Equipment>{
 	* @date 2018年6月5日 上午10:27:06 
 	* @version V1.0   
 	*/
-	void insertEquipment(String[] fields, Map<String, String> paramMap, long typeId);
+	long insertEquipment(String[] fields, Map<String, String> paramMap, long typeId);
 
 	/** 
 	* @Title: getByProerties 
@@ -122,8 +122,9 @@ public interface EquipmentService extends BaseService<Equipment>{
 	* @throws
 	* @date 2018年6月5日 下午5:07:29 
 	* @version V1.0   
+	 * @param fields 
 	*/
-	QueryResult<Equipment> getEquipmentList(long qcId);
+	QueryResult<Equipment> getEquipmentList(String[] fields, long qcId);
 
 
 }

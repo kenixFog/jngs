@@ -48,11 +48,11 @@ dfwdsj.materialManage.equipment.tree.initTree = function() {
 			store : qcTreeStore,
 			listeners : {
 				'select' : function(e, record){
-//					var className = dfwdsj.materialManage.equipment.panel;
-//					//保存当前树节点信息至页面全局变量
-//					dfwdsj.materialManage.equipment.tree.node =  record;
-//					className.loadRecord();
+					var className = dfwdsj.materialManage.equipment.main.mainPnl;
+					var toolBar = className.getDockedItems('toolbar[dock="top"]');
+					var funcObjs = null;
 					if(record.raw.leaf=='1'){
+						funcObjs = [ 'ADD', 'VIEW','EDIT', 'DELE'];
 						Ext.Ajax.request({
 							url:  webContextRoot + '/dfwdsj/equipment/getEquipmentFields',//请求  ,
 							method : 'POST',
@@ -71,7 +71,10 @@ dfwdsj.materialManage.equipment.tree.initTree = function() {
 							failure : function() {
 							}
 						});
+					} else {
+						funcObjs = [];
 					}
+					whjn.enableFuncBtn(toolBar, null, null, "disable", null, funcObjs);
 				}
 			}
 		});

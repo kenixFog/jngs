@@ -10,34 +10,25 @@ dfwdsj.materialManage.equipment.main.initMainPanel = function(){
 			items:[{             
 				bizCode : "ADD",  //按钮的编码
 				text:'新增',
-	//  					text : atom.constant.addStuBtnText,         //按钮上显示的文字
 	  			iconCls : 'fa fa-plus fa-lg',                  //一个样式类，提供在按钮上显示的图标
-	//  					tooltip: atom.constant.addStuBtnTip,        //鼠标悬停在按钮上时的提示信息
 				handler : dfwdsj.materialManage.equipment.main.add
 			},{
 				bizCode : "VIEW",
 				text:'查看',
 				iconCls : 'fa fa-floppy-o fa-lg',
-	//  					text : atom.constant.editStuBtnText,
-	//  					iconCls : 'btnIconEdit',
-	//  					tooltip: atom.constant.editStuBtnTip,
 	  			handler : dfwdsj.materialManage.equipment.main.view
 			}, {
 				bizCode : "EDIT",
 				text:'编辑',
 				iconCls : 'fa fa-floppy-o fa-lg',
-	//  					text : atom.constant.editStuBtnText,
-	//  					iconCls : 'btnIconEdit',
-	//  					tooltip: atom.constant.editStuBtnTip,
 	  			handler : dfwdsj.materialManage.equipment.main.edit
 			}, {
 				bizCode : "DELE",
 				text:'删除',
 				iconCls : 'fa fa-trash-o fa-lg', 
-	//  					text : atom.constant.delStuBtnText,
-	//  					tooltip: atom.constant.delStuBtnTip,
 				handler : dfwdsj.materialManage.equipment.main.del
-			}]
+			}
+			]
 		},
 		items:[      							
 				dfwdsj.materialManage.equipment.tree.initTree(),        
@@ -50,6 +41,8 @@ dfwdsj.materialManage.equipment.main.initMainPanel = function(){
 
 //新增
 dfwdsj.materialManage.equipment.main.add = function(){
+	dfwdsj.materialManage.equipment.entry.objId=-1;
+	dfwdsj.materialManage.equipment.entry.imgId=-1;
 	dfwdsj.materialManage.equipment.entry.showWin("新增");
 }
 
@@ -64,7 +57,6 @@ dfwdsj.materialManage.equipment.main.view = function(){
 	if (rec) {
 		//获取菜单Id
 		className.entry.objId = rec[0].data.ID;
-		alert(className.entry.objId);
 		//调用编辑二级页面
 		className.entry.showWin("查看");
 	}
@@ -81,7 +73,6 @@ dfwdsj.materialManage.equipment.main.edit = function(){
 	if (rec) {
 		//获取菜单Id
 		className.entry.objId = rec[0].data.ID;
-		alert(className.entry.objId);
 		//调用编辑二级页面
 		className.entry.showWin("编辑");
 	}
@@ -180,6 +171,11 @@ dfwdsj.materialManage.equipment.main.del=function(){
 	}
 }
 
+//关闭
+//dfwdsj.materialManage.equipment.main.close=function(btn){
+//	var tabPnl = dfwdsj.materialManage.equipment.main.mainPnl.up('TabPanel');// 获取tabPnl对象
+//	tabPnl.close();
+//}
 
 /**
  * 判断选择的信息是否单选
@@ -201,3 +197,4 @@ dfwdsj.materialManage.equipment.main.getSelected = function(grid){
 		return rec;
 	}
 }
+

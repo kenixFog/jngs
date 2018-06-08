@@ -10,6 +10,7 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.dfwdsj.dao.EquipmentDao;
 import com.whjn.dfwdsj.model.po.Equipment;
+import com.whjn.dfwdsj.model.po.EquipmentField;
 import com.whjn.dfwdsj.model.po.EquipmentType;
 
 @Repository
@@ -59,7 +60,23 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 		}
 		sb.append(" FROM  dfwdsj_equipment de WHERE de.typeId = ? AND de.qcId is not null GROUP BY de.qcId");
 
-		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT ");
+		for (int j = 0; j < fields.length; j++) {
+			if(fields[j].equals("slt")) {
+				sql.append("ifnull(f.oldFileName, '无') slt ");
+			} else {
+				sql.append("qc.");
+				sql.append(fields[j]);
+			}
+			if (j != fields.length - 1) {// 不是最后一个添加逗号
+				sql.append(", ");
+			}
+		}
+		sql.append(" from( ");
+		sql.append(sb);
+		sql.append(" ) qc left join t_sys_file f on qc.id = f.objId and f.objTb = 'dfwdsj_equipment' ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
 		query.setParameter(0, nodeId);
 		List equipmentList = query.list();
 		if (equipmentList.size() > 0) {
@@ -237,15 +254,19 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 	* @see com.whjn.dfwdsj.dao.EquipmentDao#getEquipmentList(com.whjn.dfwdsj.model.po.Equipment, long) 
 	*/
 	@Override
-	public QueryResult<Equipment> getEquipmentList(long qcId) {
+	public QueryResult<Equipment> getEquipmentList(String[] fields, long qcId) {
 		QueryResult<Equipment> qr = new QueryResult<Equipment>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT  *  FROM  dfwdsj_equipment  WHERE qcId = ? ");
+		sb.append("SELECT qc.id, qc.propertyField, qc.propertyValue ");
+		sb.append("From dfwdsj_equipment qc WHERE qc.qcId= ? ");
+		sb.append(" union ");
+		sb.append("SELECT id, 'slt' AS propertyField ,f.fileName AS propertyValue " );
+		sb.append("FROM t_sys_file f WHERE objId= ? AND objTb = 'dfwdsj_equipment' ");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, qcId);
-		query.addEntity(Equipment.class);
-		List<EquipmentType> menuList = query.list();
-		qr.setResultList(query.list());
+		query.setParameter(1, qcId);
+		List<Equipment> equipmentList = query.list();
+		qr.setResultList(equipmentList);
 		return qr;
 	}
 

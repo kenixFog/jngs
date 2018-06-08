@@ -1,7 +1,5 @@
 Ext.namespace("dfwdsj.materialManage.equipment.iconImg");
 
-dfwdsj.materialManage.equipment.iconImg.img_src = null;
-
 dfwdsj.materialManage.equipment.iconImg.uploadWin = function(){
 	//命名空间
 	var className = dfwdsj.materialManage.equipment.iconImg;
@@ -161,6 +159,12 @@ dfwdsj.materialManage.equipment.iconImg.getImgTypeCheck = function(hz) {
 
 
 dfwdsj.materialManage.equipment.iconImg.saveUploadImg = function(btn){
+	var updateOrInsert = "insert";
+	if(dfwdsj.materialManage.equipment.entry.img == 
+		"/resources/img/qcIcon/123.jpg"){//默认图片，表示新增
+		updateOrInsert = "update";
+	} 
+	var className = dfwdsj.materialManage.equipment.entry;
 	var windowObj = btn.up('window');// 获取Window对象
 	var formObj = btn.up('form');// 获取Form对象
 	if (formObj.isValid()) { // 验证Form表单
@@ -170,14 +174,20 @@ dfwdsj.materialManage.equipment.iconImg.saveUploadImg = function(btn){
 			submitEmptyText : false,
 			waitMsg : '正在上传图片,请稍候...',
 			timeout : 60000, // 60s
+			params : {
+				objId : className.objId,
+				objTb: "dfwdsj_equipment",
+				fileId : className.imgId,
+				updateOrInsert : updateOrInsert
+			},
 			success : function(response, options) {
 				var result = options.result;
-				if (!result.success) {
-					globalObject.errTip(result.msg);
-					return;
-				}
 				var url = result.data;
-				Ext.get('slt').dom.src = appBaseUri + '/static/img/upload/' + url;
+				Ext.get('slt').dom.src = appBaseUri + url;
+				//获取数据列表窗口
+				var className = dfwdsj.materialManage.equipment.panel;
+				//重新加载列表数据
+				className.gridPnl.getStore().reload();
 				windowObj.close();// 关闭窗体
 			},
 			failure : function(response, options) {

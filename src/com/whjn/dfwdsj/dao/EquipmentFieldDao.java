@@ -94,6 +94,6 @@ public interface EquipmentFieldDao extends BaseDao<EquipmentField> {
 	* @date 2018年6月5日 上午11:56:06 
 	* @version V1.0   
 	*/
-	void insertField(long id, String code, String name, int length, String fieldType, long typeId);
+	void insertField(long id, String code, String name, int length, String fieldType, long typeId, short allowBlank);
 
 }

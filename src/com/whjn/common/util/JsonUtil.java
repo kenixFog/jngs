@@ -97,20 +97,4 @@ public class JsonUtil {
 		}
 	}
 
-	/** 
-	* @Title: fillListJsonString 
-	* @Description: 
-	* @param @param fields
-	* @param @param queryResult
-	* @param @return  
-	* @return String    
-	* @author Chen Cai
-	* @throws
-	* @date 2018年6月5日 下午5:07:02 
-	* @version V1.0   
-	*/
-	public static String fillListJsonString(String[] fields, QueryResult<?> queryResult) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -152,10 +152,10 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	*/
 	@Transactional
 	@Override
-	public void insertField(String code, String name, int length, String fieldType, long typeId) {
+	public void insertField(String code, String name, int length, String fieldType, long typeId,short allowBlank) {
 		//获取当前要插入的字段ID
 		long Id = dataBaseService.getId();
-		equipmentFieldDao.insertField(Id,code,name,length,fieldType,typeId);
+		equipmentFieldDao.insertField(Id,code,name,length,fieldType,typeId,allowBlank);
 	}
 
 

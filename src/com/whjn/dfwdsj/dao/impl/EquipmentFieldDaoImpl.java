@@ -46,7 +46,7 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 		QueryResult<EquipmentField> qr = new QueryResult<EquipmentField>();
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT ed.id, ed.fieldCode, ed.fieldName, ed.fieldLength, ed.fieldType, ed.typeId, ");
-		sb.append("ed.fieldContent From dfwdsj_equipmentField ed WHERE typeId=? ");
+		sb.append("ed.fieldContent,ed.allowBlank From dfwdsj_equipmentField ed WHERE typeId=? ");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, nodeId);
 		query.addEntity(EquipmentField.class);
@@ -79,7 +79,7 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 	public List<EquipmentField> getEquipmentFields(long typeId) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ed.id, ed.fieldCode, ed.fieldName, ed.fieldLength, ed.fieldType, ed.typeId, ");
-		sql.append("ed.fieldContent From dfwdsj_equipmentField ed WHERE typeId=? ");
+		sql.append("ed.fieldContent, ed.allowBlank From dfwdsj_equipmentField ed WHERE typeId=? ");
 		SQLQuery query = getSession().createSQLQuery(sql.toString());
 		query.setParameter(0, typeId);
 		query.addEntity(EquipmentField.class);
@@ -108,7 +108,7 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 	public List<EquipmentField> getByProerties(String propName, Object propValue, long nodeId) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ed.id, ed.fieldCode, ed.fieldName, ed.fieldLength, ed.fieldType, ed.typeId, ");
-		sql.append("ed.fieldContent From dfwdsj_equipmentField ed WHERE ");
+		sql.append("ed.fieldContent, ed.allowBlank From dfwdsj_equipmentField ed WHERE ");
 		sql.append(propName).append("=? ");
 		sql.append("and ed.typeId = ?");
 		SQLQuery query = getSession().createSQLQuery(sql.toString());
@@ -188,9 +188,9 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 	 * java.lang.String, int, java.lang.String, int)
 	 */
 	@Override
-	public void insertField(long id, String code, String name, int length, String fieldType, long typeId) {
+	public void insertField(long id, String code, String name, int length, String fieldType, long typeId, short allowBlank) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("insert into dfwdsj_equipmentfield(id,fieldcode,fieldname,fieldlength,fieldtype,typeId) values(?,?,?,?,?,?)");
+		sb.append("insert into dfwdsj_equipmentfield(id,fieldcode,fieldname,fieldlength,fieldtype,typeId,allowBlank) values(?,?,?,?,?,?,?)");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, id);
 		query.setParameter(1, code);
@@ -198,6 +198,7 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 		query.setParameter(3, length);
 		query.setParameter(4, fieldType);
 		query.setParameter(5, typeId);
+		query.setParameter(6, allowBlank);
 		query.executeUpdate();
 	}
 }

@@ -136,7 +136,8 @@ public interface EquipmentDao extends BaseDao<Equipment> {
 	* @throws
 	* @date 2018年6月5日 下午5:08:51 
 	* @version V1.0   
+	 * @param fields 
 	*/
-	QueryResult<Equipment> getEquipmentList(long qcId);
+	QueryResult<Equipment> getEquipmentList(String[] fields, long qcId);
 
 }

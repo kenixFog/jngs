@@ -2,7 +2,9 @@
 
 dfwdsj.materialManage.equipment.entry.fieldInfo=null;
 
-dfwdsj.materialManage.equipment.entry.img= webContextRoot + "/resources/img/qcIcon/123.jpg";
+dfwdsj.materialManage.equipment.entry.img="/resources/img/qcIcon/default.png";
+
+dfwdsj.materialManage.equipment.entry.imgId = -1;
 
 dfwdsj.materialManage.equipment.entry.objId = -1;
 /**
@@ -106,7 +108,7 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
     var col3 = Ext.getCmp("col3");
     
 	var flag =true;
-	for(var i = 0;i< fieldsInfo.length;i++){//编码,名称,类型,长度,默认值
+	for(var i = 0;i< fieldsInfo.length;i++){//编码,名称,类型,长度,默认值,是否必填
 		var field;
 		var readOnly = false;
 		if(fieldsInfo[i][0]=='ID'){
@@ -117,6 +119,7 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
 				xtype : 'textfield', 
 				name: fieldsInfo[i][0],
 				id: fieldsInfo[i][0],
+				allowBlank : fieldsInfo[i][5],
 				readOnly:readOnly,
 				style: 'margin-top:10px',
 			    fieldLabel: fieldsInfo[i][1],  
@@ -127,6 +130,7 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
 				xtype : 'datetime', 
 				name: fieldsInfo[i][0],
 				id: fieldsInfo[i][0],
+				allowBlank : fieldsInfo[i][5],
 				readOnly:readOnly,
 				style: 'margin-top:10px',
 			    fieldLabel: fieldsInfo[i][1],  
@@ -158,6 +162,7 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
 				name: fieldsInfo[i][0],
 				id: fieldsInfo[i][0],
 				triggerAction:'all',
+				allowBlank : fieldsInfo[i][5],
 				queryMode:'remote',
 			    fieldLabel: fieldsInfo[i][1],  
 			    anchor: '80%',
@@ -182,10 +187,12 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
                     width : 180,  
                     height : 180, 
                     tag : 'img',  
-                    src : dfwdsj.materialManage.equipment.entry.img  
+                    src : webContextRoot + dfwdsj.materialManage.equipment.entry.img  
               }  
 	        },{
+	        	id : 'chosePic',
 	        	xtype : 'button',
+	        	hidden : dfwdsj.materialManage.equipment.entry.objId == -1 ? true : false,
 				text :'选择图片',
 				handler : function() {
 					dfwdsj.materialManage.equipment.iconImg.uploadWin();
@@ -223,7 +230,9 @@ dfwdsj.materialManage.equipment.entry.setwinToolBar = function(titleText) {
 	//根据不同操作，控制工具栏按钮
 	if ("新增" == titleText || "编辑" == titleText) {
 		funcObjs = [ 'save', 'close' ];
-	} 
+	} else {
+		funcObjs = [ 'close' ];
+	}
 	if (funcObjs == null)
 		funcObjs = [];
 	whjn.enableFuncBtn(toolBar, null, null, "hide", null, funcObjs);
@@ -233,8 +242,10 @@ dfwdsj.materialManage.equipment.entry.setwinToolBar = function(titleText) {
  * 加载窗体的表单信息
  * @param titleText
  */
-dfwdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
-	if ("编辑" == titleText || "查看" == titleText ) {
+dfwdsj.materialManage.equipment.entry.setwinForm = function() {
+	if (dfwdsj.materialManage.equipment.entry.objId==-1) {//新增，不加载数据
+		return;
+	}else{//id存在，加载数据
 		var fieldsInfo =  dfwdsj.materialManage.equipment.entry.fieldInfo;
 		var fields = new Array();
 		for(var i = 0;i< fieldsInfo.length;i++){//编码,名称,类型,长度,默认值
@@ -255,12 +266,21 @@ dfwdsj.materialManage.equipment.entry.setwinForm = function(titleText) {
 				className.win.close();
 			},
 			success : function(form, action) {
-				
-//				Ext.getCmp("Id").setValue(action.result.data.ID);
-//				Ext.getCmp("parentId").setValue(action.result.data.parentId);
+				var data = action.result.data;
+				//图片路径
+				var url = dfwdsj.materialManage.equipment.entry.img;
+				if(data.sltId == -1){
+					url = dfwdsj.materialManage.equipment.entry.img;
+				} else {
+					url = data.slt;
+					sltId = data.sltId;
+				}
+				dfwdsj.materialManage.equipment.entry.imgId = data.sltId;
+				Ext.get('slt').dom.src = appBaseUri + url;
 			}
 		});
 	}
+	
 }
 
 
@@ -306,8 +326,10 @@ dfwdsj.materialManage.equipment.entry.saveHandler = function() {
 				if (response.responseText != '') {
 					var res = Ext.JSON.decode(response.responseText);
 					if (res.success) {
+						dfwdsj.materialManage.equipment.entry.objId = res.id;
 						whjn.dlg.showMomentDlg("保存成功!");
-						dfwdsj.materialManage.equipment.entry.closeHandler();
+						Ext.getCmp("chosePic").show();
+						dfwdsj.materialManage.equipment.entry.setwinForm();
 						//获取数据列表窗口
 						var className = dfwdsj.materialManage.equipment.panel;
 						//重新加载列表数据

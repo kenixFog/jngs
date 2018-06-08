@@ -92,7 +92,7 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment> implements 
 	*/
 	@Transactional
 	@Override
-	public void insertEquipment(String[] fields, Map<String, String> paramMap, long typeId) {
+	public long insertEquipment(String[] fields, Map<String, String> paramMap, long typeId) {
 		//获取当前要插入的器材ID
 		long qcId = dataBaseService.getId();
 		//当前要插入的ID
@@ -109,6 +109,7 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment> implements 
 //			this.persist(equipment);
 			equipmentDao.insertEquipment(Id,fields[i],paramMap.get(fields[i]),qcId,typeId);
 		}
+		return qcId;
 	}
 
 	/* (非 Javadoc) 
@@ -172,8 +173,8 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment> implements 
 	* @see com.whjn.dfwdsj.service.EquipmentService#getEquipmentList(com.whjn.dfwdsj.model.po.Equipment, long) 
 	*/
 	@Override
-	public QueryResult<Equipment> getEquipmentList(long qcId) {
-		QueryResult<Equipment> equipmentList = equipmentDao.getEquipmentList(qcId);
+	public QueryResult<Equipment> getEquipmentList(String[] fields, long qcId) {
+		QueryResult<Equipment> equipmentList = equipmentDao.getEquipmentList(fields,qcId);
 		return equipmentList;
 	}
 

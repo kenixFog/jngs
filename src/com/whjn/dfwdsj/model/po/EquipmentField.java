@@ -50,6 +50,9 @@ public class EquipmentField extends BaseParameter {
 	// 字段内容（下拉框）
 	@Column(name = "FIELDCONTENT",length = 50)
 	private String fieldContent;
+	// 是否允许为空
+	@Column(name = "allowBlank",length = 50)
+	private short allowBlank;
 	
 	
 	
@@ -136,4 +139,13 @@ public class EquipmentField extends BaseParameter {
 		this.fieldContent = fieldContent;
 	}
 
+	public short getAllowBlank() {
+		return allowBlank;
+	}
+
+	public void setAllowBlank(short allowBlank) {
+		this.allowBlank = allowBlank;
+	}
+	
+	
 }

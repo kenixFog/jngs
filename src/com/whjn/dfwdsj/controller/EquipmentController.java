@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.framework.web.WebUtil;
 import com.whjn.common.service.DataBaseService;
+import com.whjn.common.util.FileUtils;
 import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
 import com.whjn.dfwdsj.model.po.Equipment;
@@ -28,7 +30,6 @@ import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentFieldService;
 import com.whjn.dfwdsj.service.EquipmentService;
 import com.whjn.dfwdsj.service.EquipmentTypeService;
-import com.whjn.sysManage.model.po.SysMenu;
 import com.whjn.sysManage.model.po.SysUser;
 
 import net.sf.json.JSONArray;
@@ -240,10 +241,10 @@ public class EquipmentController extends BaseController {
 					equipmentTypeService.insertType(id, name, code, isLeaf, nodeId, user);
 
 					if (isLeaf == 1) {// 根节点，默认增加三个字段
-						equipmentFieldService.insertField("ID", "ID", 50, "textfield", id);
-						equipmentFieldService.insertField("name", "名称", 150, "textfield", id);
-						equipmentFieldService.insertField("code", "编码", 150, "textfield", id);
-						equipmentFieldService.insertField("slt", "缩略图", 100, "box", id);
+						equipmentFieldService.insertField("ID", "ID", 50, "textfield", id, (short) 1);
+						equipmentFieldService.insertField("name", "名称", 150, "textfield", id, (short) 0);
+						equipmentFieldService.insertField("code", "编码", 150, "textfield", id, (short) 0);
+						equipmentFieldService.insertField("slt", "缩略图", 100, "box", id, (short) 1);
 					}
 					// EquipmentType equipmentType = new
 					// EquipmentType(paramObj.get("typeName").toString(),
@@ -339,7 +340,8 @@ public class EquipmentController extends BaseController {
 					equipmentFieldService.insertField(paramObj.get("fieldCode").toString(),
 							paramObj.get("fieldName").toString(),
 							Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
-							paramObj.get("fieldType").toString(), nodeId);
+							paramObj.get("fieldType").toString(), nodeId,
+							Short.valueOf(paramObj.get("allowBlank").toString()).shortValue());
 					// EquipmentField equipmentField = new EquipmentField(equipmentType,
 					// paramObj.get("fieldName").toString(), paramObj.get("fieldCode").toString(),
 					// paramObj.get("fieldType").toString(),
@@ -558,7 +560,8 @@ public class EquipmentController extends BaseController {
 			// 查询数据库是否已经存在名称
 			Equipment checkName = equipmentService.getByProerties("name", paramMap.get("name"), typeId);
 			if (null == checkCode && null == checkName) {
-				equipmentService.insertEquipment(fields, paramMap, typeId);
+				long qcId = equipmentService.insertEquipment(fields, paramMap, typeId);
+				entity.setId(qcId);
 				entity.setSuccess(true);
 			} else {
 				entity.setSuccess(false);
@@ -641,9 +644,64 @@ public class EquipmentController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
 		long qcId = RequestUtils.getLongParameter(request, "objId");
 		System.out.println(qcId);
-		QueryResult<Equipment> queryResult = equipmentService.getEquipmentList(qcId);
-		String result = JsonUtil.fillListJsonString(fields, queryResult);
+		QueryResult<Equipment> queryResult = equipmentService.getEquipmentList(fields, qcId);
+		String result = fillListJsonString(queryResult);
 		writeJSON(response, result);
+	}
+	
+	/** 
+	* @Title: fillListJsonString 
+	* @Description: 
+	* @param @param fields
+	* @param @param queryResult
+	* @param @return  
+	* @return String    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月5日 下午5:07:02 
+	* @version V1.0   
+	*/
+	public  String fillListJsonString(QueryResult<?> queryResult) {
+		List list = queryResult.getResultList();
+		boolean flag = false;//用于判断是否存在slt字段
+		if (list.size() > 0) {
+			StringBuffer sbf = new StringBuffer();
+			sbf.append("{success:true,data:{");
+			for(int i = 0;i < list.size();i++) {
+				Object[] obj = (Object[]) list.get(i);
+				String filed = obj[1].toString();
+				String value= obj[2].toString();
+				if(obj[1].equals("slt")) {
+					flag = true;
+					// 缩略图名称
+					String fileName = value;
+					// 文件类型
+					String fileType = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length())
+							.toLowerCase();
+					// 文件目录
+					String fileList = FileUtils.getFileList(fileType);
+					// 缩略图路径
+					value = "/upload/" + fileList + "/" + fileName;
+					// 缩略图Id
+					long sltId = Long.parseLong(obj[0].toString());
+					sbf.append("\"").append("sltId").append("\"").append(":").append("\"").append(sltId).append("\"")
+					.append(",");
+				} 
+				sbf.append("\"").append(filed).append("\"").append(":").append("\"").append(value).append("\"")
+						.append(",");
+			}
+			if(!flag) {//不存在slt数据
+				sbf.append("\"").append("sltId").append("\"").append(":").append("\"").append("-1").append("\"")
+				.append(",");
+			}
+			String temp = sbf.substring(0, sbf.lastIndexOf(","));
+			sbf.setLength(0);
+			sbf.append(temp);
+			sbf.append("}}");
+			return sbf.toString();
+		} else {
+			return "{success:true,data:{}}";
+		}
 	}
 
 }

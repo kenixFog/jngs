@@ -107,5 +107,5 @@ public interface EquipmentFieldService extends BaseService<EquipmentField> {
 	* @date 2018年6月5日 上午11:54:19 
 	* @version V1.0   
 	*/
-	void insertField(String code, String name, int length, String fileType, long typeId);
+	void insertField(String code, String name, int length, String fileType, long typeId,short allowBlank);
 }

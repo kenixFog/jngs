@@ -62,7 +62,7 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
 		}, {
 			name : 'equipmentType.id',
 			type : 'long'
-		},  'fieldName', 'fieldCode','fieldType','fieldLength','fieldContent');
+		},  'fieldName', 'fieldCode','fieldType','fieldLength','fieldContent','allowBlank');
 		
 		
 		cols.push({ 
@@ -118,6 +118,21 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
 	    	editor:new Ext.form.TextField({  
                 allowBlank:true  
             })
+	    },{ 
+	    	text: '是否可为空', 
+	    	dataIndex: 'allowBlank', 
+	    	width:120,
+	    	editor: new Ext.form.ComboBox({  
+                editable : false,
+                valueField : "value",
+        		displayField : "name",
+    			store : dfwdsj.materialManage.category.yesOrNoArray,
+    			allowBlank : false,
+    			
+            }),
+            renderer : function(value, p, r) {
+				return whjn.getNameByCode(value, dfwdsj.materialManage.category.yesOrNoArray);
+			}
 	    });
 		
 		
