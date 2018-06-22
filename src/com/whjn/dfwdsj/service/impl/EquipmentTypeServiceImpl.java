@@ -115,6 +115,35 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 		// TODO Auto-generated method stub
 		equipmentTypeDao.insertType(id,name,code,isLeaf, nodeId,user);
 	}
+
+
+	/* (非 Javadoc) 
+	* @Title: getSkqlx
+	* @Description:
+	* @param @param parentId
+	* @param @return 
+	* @see com.whjn.dfwdsj.service.EquipmentTypeService#getSkqlx(long) 
+	*/
+	@Override
+	public List<EquipmentType> getSkqlx(long parentId, String code) {
+		List<EquipmentType> TypeList = equipmentTypeDao.getLx(parentId,code);
+		List resultList = new ArrayList();
+		for (int i = 0; i < TypeList.size(); i++) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("id", TypeList.get(i).getId());
+			jsonObject.put("code", TypeList.get(i).getTypeCode());
+			jsonObject.put("text", TypeList.get(i).getTypeName());
+			jsonObject.put("parentId", TypeList.get(i).getParentId());
+			jsonObject.put("leaf", TypeList.get(i).getIsLeaf());
+			if(TypeList.get(i).getIsLeaf()==1) {
+				jsonObject.put("checked", false);
+			}
+			jsonObject.put("createTime", TypeList.get(i).getCreateTime());
+			jsonObject.put("lastEditTime", TypeList.get(i).getLastEditTime());
+			resultList.add(jsonObject);
+		}
+		return resultList;
+	}
 	
 
 }

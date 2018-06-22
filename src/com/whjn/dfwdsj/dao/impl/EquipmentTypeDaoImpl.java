@@ -129,4 +129,30 @@ public class EquipmentTypeDaoImpl extends BaseDaoImpl<EquipmentType> implements 
 		query.executeUpdate();
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getSkqlx
+	* @Description:
+	* @param @param parentId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentTypeDao#getSkqlx(long) 
+	*/
+	@Override
+	public List<EquipmentType> getLx(long parentId, String code) {
+		StringBuffer sb = new StringBuffer();
+		if(parentId==-1) {
+			sb.append("SELECT c.* FROM dfwdsj_equipmenttype c WHERE c.parentid = ?  and c.CODE = ? ");
+		} else {
+			sb.append("SELECT c.* FROM dfwdsj_equipmenttype c WHERE c.parentid = ? ");
+		}
+		SQLQuery query = getSession()
+				.createSQLQuery(sb.toString());
+		query.setParameter(0, parentId);
+		if(parentId==-1) {
+			query.setParameter(1, code);
+		}
+		
+		query.addEntity(EquipmentType.class);
+		return query.list();
+	}
+
 }

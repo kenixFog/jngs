@@ -17,3 +17,10 @@
 .whjn-tbar{
    background-color:#D0DFEF  /*B9D9F0*/
 }
+
+.x-form-btn-trigger{
+    background: url(../../img/form/trigger_btn.png);
+    cursor:pointer;
+    height: 22px;
+    width: 22px;
+}

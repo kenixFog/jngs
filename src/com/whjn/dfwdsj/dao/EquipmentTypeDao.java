@@ -56,4 +56,17 @@ public interface EquipmentTypeDao extends BaseDao<EquipmentType> {
 	*/
 	void insertType(long id, String name, String code, short isLeaf, long nodeId, SysUser user);
 
+	/** 
+	* @Title: getLx 
+	* @Description: 
+	* @param @param parentId
+	* @param @return  
+	* @return List<EquipmentType>    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月15日 下午3:27:40 
+	* @version V1.0   
+	*/
+	List<EquipmentType> getLx(long parentId, String code);
+
 }

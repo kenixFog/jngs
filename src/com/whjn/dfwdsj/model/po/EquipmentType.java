@@ -76,9 +76,8 @@ public class EquipmentType extends BaseParameter {
 		super();
 	}
 
-	public EquipmentType(long id, String typeName, String typeCode, short isLeaf, long parentId, SysOrg sysOrg, SysUser cUser,
-			SysUser eUser, Date createTime,
-			Date lastEditTime) {
+	public EquipmentType(long id, String typeName, String typeCode, short isLeaf, long parentId, SysOrg sysOrg,
+			SysUser cUser, SysUser eUser, Date createTime, Date lastEditTime) {
 		super();
 		this.id = id;
 		this.typeName = typeName;
@@ -186,6 +185,14 @@ public class EquipmentType extends BaseParameter {
 
 	public void setLastEditUser(SysUser lastEditUser) {
 		this.lastEditUser = lastEditUser;
+	}
+
+	@Override
+	public String toString() {
+		return "\"id\":\"" + id + "\", \"typeName\":\"" + typeName + "\", \"typeCode\":\"" + typeCode
+				+ "\", \"isLeaf\":\"" + isLeaf + "\", \"parentId\":\"" + parentId + "\", \"createTime\":\"" + createTime
+				+ "\", \"lastEditTime\":\"" + lastEditTime + "\", \"sysOrg\":{" + sysOrg + "}, \"createUser\":{"
+				+ createUser + "}, \"lastEditUser\":{" + lastEditUser + "}";
 	}
 
 }

@@ -140,4 +140,31 @@ public interface EquipmentDao extends BaseDao<Equipment> {
 	*/
 	QueryResult<Equipment> getEquipmentList(String[] fields, long qcId);
 
+	/** 
+	* @Title: getEquipmentByValueFieldAndId 
+	* @Description: 
+	* @param @param field
+	* @param @param id
+	* @param @return  
+	* @return List<Equipment>    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月14日 下午8:29:01 
+	* @version V1.0   
+	*/
+	List<Equipment> getEquipmentByValueFieldAndId(String field, long id);
+
+	/** 
+	* @Title: getSkdLx 
+	* @Description: 
+	* @param @param parentId
+	* @param @return  
+	* @return List    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月19日 下午4:47:24 
+	* @version V1.0   
+	*/
+	List getSkdLx(long parentId);
+
 }

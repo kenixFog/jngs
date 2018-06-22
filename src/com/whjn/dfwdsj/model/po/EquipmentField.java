@@ -48,11 +48,11 @@ public class EquipmentField extends BaseParameter {
 	@Column(name = "FIELDLENGTH")
 	private int fieldLength;
 	// 字段内容（下拉框）
-	@Column(name = "FIELDCONTENT",length = 50)
-	private String fieldContent;
+	@Column(name = "FIELDCONTENT", columnDefinition="varchar() default ''",length = 50)
+	private String fieldContent="";
 	// 是否允许为空
 	@Column(name = "allowBlank",length = 50)
-	private short allowBlank;
+	private String allowBlank;
 	
 	
 	
@@ -139,11 +139,11 @@ public class EquipmentField extends BaseParameter {
 		this.fieldContent = fieldContent;
 	}
 
-	public short getAllowBlank() {
+	public String getAllowBlank() {
 		return allowBlank;
 	}
 
-	public void setAllowBlank(short allowBlank) {
+	public void setAllowBlank(String allowBlank) {
 		this.allowBlank = allowBlank;
 	}
 	

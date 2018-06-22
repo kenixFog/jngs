@@ -126,5 +126,32 @@ public interface EquipmentService extends BaseService<Equipment>{
 	*/
 	QueryResult<Equipment> getEquipmentList(String[] fields, long qcId);
 
+	/** 
+	* @Title: getEquipmentByValueFieldAndId 
+	* @Description: 
+	* @param @param string
+	* @param @param id
+	* @param @return  
+	* @return long    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月14日 下午8:26:55 
+	* @version V1.0   
+	*/
+	long getEquipmentByValueFieldAndId(String string, long id);
+
+	/** 
+	* @Title: getSkd 
+	* @Description: 
+	* @param @param parentId
+	* @param @return  
+	* @return List    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月15日 下午4:52:20 
+	* @version V1.0   
+	*/
+	List getSkd(long parentId,String code);
+
 
 }

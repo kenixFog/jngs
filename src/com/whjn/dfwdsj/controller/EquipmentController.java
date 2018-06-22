@@ -1,6 +1,7 @@
 package com.whjn.dfwdsj.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,9 @@ import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentFieldService;
 import com.whjn.dfwdsj.service.EquipmentService;
 import com.whjn.dfwdsj.service.EquipmentTypeService;
+import com.whjn.sysManage.model.po.SysMenu;
+import com.whjn.sysManage.model.po.SysOrg;
+import com.whjn.sysManage.model.po.SysRoleType;
 import com.whjn.sysManage.model.po.SysUser;
 
 import net.sf.json.JSONArray;
@@ -241,10 +245,10 @@ public class EquipmentController extends BaseController {
 					equipmentTypeService.insertType(id, name, code, isLeaf, nodeId, user);
 
 					if (isLeaf == 1) {// 根节点，默认增加三个字段
-						equipmentFieldService.insertField("ID", "ID", 50, "textfield", id, (short) 1);
-						equipmentFieldService.insertField("name", "名称", 150, "textfield", id, (short) 0);
-						equipmentFieldService.insertField("code", "编码", 150, "textfield", id, (short) 0);
-						equipmentFieldService.insertField("slt", "缩略图", 100, "box", id, (short) 1);
+						equipmentFieldService.insertField("ID", "ID", 50, "textfield", id, "是");
+						equipmentFieldService.insertField("name", "名称", 150, "textfield", id, "否");
+						equipmentFieldService.insertField("code", "编码", 150, "textfield", id, "否");
+						equipmentFieldService.insertField("slt", "缩略图", 100, "box", id, "否");
 					}
 					// EquipmentType equipmentType = new
 					// EquipmentType(paramObj.get("typeName").toString(),
@@ -267,7 +271,7 @@ public class EquipmentController extends BaseController {
 			} else {// 更新
 				System.out.println(paramObj.get("id").getClass().getTypeName());
 				// 根据ID获取原数据
-				EquipmentType oldObj = equipmentTypeService.getByProerties("id", paramObj.get("id"));
+				EquipmentType oldObj = equipmentTypeService.getByProerties("id", Long.parseLong(request.getParameter("nodeId")));
 				// 当前节点，当前code的字段
 				String[] typeCode = { "parentId", "typeCode" };
 				// 当前节点和当前code的值
@@ -341,7 +345,7 @@ public class EquipmentController extends BaseController {
 							paramObj.get("fieldName").toString(),
 							Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
 							paramObj.get("fieldType").toString(), nodeId,
-							Short.valueOf(paramObj.get("allowBlank").toString()).shortValue());
+							paramObj.get("allowBlank").toString());
 					// EquipmentField equipmentField = new EquipmentField(equipmentType,
 					// paramObj.get("fieldName").toString(), paramObj.get("fieldCode").toString(),
 					// paramObj.get("fieldType").toString(),
@@ -362,7 +366,7 @@ public class EquipmentController extends BaseController {
 			} else {// 更新
 				// 根据ID获取原数据
 				System.out.println(paramObj.get("id").getClass().getTypeName());
-				Integer id = Integer.parseInt(paramObj.get("id").toString());
+				long id = Long.parseLong(paramObj.get("id").toString());
 				EquipmentField oldObj = equipmentFieldService.getByProerties("id", id);
 				// 根据新修改的编码去数据库查询数据
 				EquipmentField checkCode = equipmentFieldService.getByProerties("fieldCode", paramObj.get("fieldCode"),
@@ -703,5 +707,47 @@ public class EquipmentController extends BaseController {
 			return "{success:true,data:{}}";
 		}
 	}
+	
+	
+	/**
+	 * 
+	* @Title: getSkqlx 
+	* @Description: 获取射孔枪类型树
+	* @param @param request
+	* @param @param response
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月15日 下午3:20:57 
+	* @version V1.0
+	 */
+	@RequestMapping("/getSkqlx")
+	public void getSkqlx(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		long parentId = Long.parseLong(request.getParameter("parentId"));
+		List<EquipmentType> resultList = equipmentTypeService.getSkqlx(parentId, "SKQ");
+		writeJSON(response, resultList);
+	}
 
+	
+	/**
+	 * 
+	* @Title: getSkd 
+	* @Description: 获取射孔枪树
+	* @param @param request
+	* @param @param response
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月19日 上午10:03:09 
+	* @version V1.0
+	 */
+	@RequestMapping("/getSkd")
+	public void getSkd(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		long parentId = Long.parseLong(request.getParameter("parentId"));
+		List resultList = equipmentService.getSkd(parentId,"SKD");
+		writeJSON(response, resultList);
+	}
+	
 }

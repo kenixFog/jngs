@@ -144,7 +144,7 @@ sysManage.orgManage.user.entry.initInfoArea = function() {
 			name : 'email',
 			fieldLabel : '邮箱',
 			style: 'margin-top:10px',
-			allowBlank : false,
+//			allowBlank : false,
 			maxLength : 50,
 			maxLengthText : "最大长度不超过50个字符"
 		},{
@@ -152,7 +152,7 @@ sysManage.orgManage.user.entry.initInfoArea = function() {
 			name : 'tel',
 			fieldLabel : '电话',
 			style: 'margin-top:10px',
-			allowBlank : false,
+//			allowBlank : false,
 			maxLength : 50,
 			maxLengthText : "最大长度不超过50个字符"
 		},{

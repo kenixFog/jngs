@@ -21,19 +21,17 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import com.whjn.common.base.BaseParameter;
 import com.whjn.common.util.DateTimeSerializer;
 
-
-
 /**
  * @系统用户实体类
  */
 @Entity
 @Table(name = "T_SYS_USER")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class SysUser extends BaseParameter{
+public class SysUser extends BaseParameter {
 
-	/** 
-	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
-	*/ 
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
 	private static final long serialVersionUID = 752468491608017649L;
 	@Id
 	@GeneratedValue
@@ -41,19 +39,19 @@ public class SysUser extends BaseParameter{
 	private long id; // ID
 	@Column(name = "USERNAME", length = 30, nullable = false, unique = true)
 	private String userName; // 用户名
-	@Column(name = "PASSWORD", length = 32, columnDefinition="varchar(32) default '015212c7a321358ef41b6c7dc7fff356'")
+	@Column(name = "PASSWORD", length = 32, columnDefinition = "varchar(32) default '015212c7a321358ef41b6c7dc7fff356'")
 	private String password; // 密码
 	@Column(name = "REALNAME", length = 30, nullable = true)
 	private String realName; // 姓名
-	
-	@ManyToOne(cascade =  {CascadeType.REFRESH})// 指定多对一关系
-	@JoinColumn(name="ORGID")                       
-	private SysOrg org ;//上级组织结构
-	
-	@ManyToOne(cascade =  {CascadeType.REFRESH})// 指定多对一关系
-	@JoinColumn(name="BASEORGID")                       
-	private SysOrg baseOrg ;//根组织机构
-	
+
+	@ManyToOne(cascade = { CascadeType.REFRESH }) // 指定多对一关系
+	@JoinColumn(name = "ORGID")
+	private SysOrg org;// 上级组织结构
+
+	@ManyToOne(cascade = { CascadeType.REFRESH }) // 指定多对一关系
+	@JoinColumn(name = "BASEORGID")
+	private SysOrg baseOrg;// 根组织机构
+
 	@Column(name = "TEL", length = 15, nullable = true)
 	private String tel; // 手机号
 	@Column(name = "EMAIL", length = 30, nullable = true)
@@ -66,7 +64,7 @@ public class SysUser extends BaseParameter{
 	private Date lastLoginTime; // 最后一次登录时间
 	@Column(name = "STATUE")
 	private short statue = 1; // 状态
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -75,7 +73,6 @@ public class SysUser extends BaseParameter{
 		this.id = id;
 	}
 
-	
 	public String getUserName() {
 		return userName;
 	}
@@ -107,9 +104,7 @@ public class SysUser extends BaseParameter{
 	public void setOrg(SysOrg org) {
 		this.org = org;
 	}
-	
-	
-	
+
 	public SysOrg getBaseOrg() {
 		return baseOrg;
 	}
@@ -142,7 +137,7 @@ public class SysUser extends BaseParameter{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
 	@JsonSerialize(using = DateTimeSerializer.class)
 	public Date getLastLoginTime() {
 		return lastLoginTime;
@@ -159,4 +154,13 @@ public class SysUser extends BaseParameter{
 	public void setStatue(short statue) {
 		this.statue = statue;
 	}
+
+	@Override
+	public String toString() {
+		return "\"id\":\"" + id + "\",\"userName\":\"" + userName + "\",\"password\":\"" + password
+				+ "\",\"realName\":\"" + realName + "\",\"org\":{" + org + "},\"baseOrg\":{" + baseOrg
+				+ "},\"tel\":\"" + tel + "\",\"email\":\"" + email + "\",\"createTime\":\"" + createTime
+				+ "\",\"lastLoginTime\":\"" + lastLoginTime + "\",\"statue\":\"" + statue + "\"";
+	}
+
 }

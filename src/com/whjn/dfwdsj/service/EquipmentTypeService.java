@@ -71,5 +71,18 @@ public interface EquipmentTypeService extends BaseService<EquipmentType> {
 	*/
 	void insertType(long id, String name, String code, short isLeaf, long nodeId, SysUser user);
 
+	/** 
+	* @Title: getSkqlx 
+	* @Description: 
+	* @param @param parentId
+	* @param @return  
+	* @return List<EquipmentType>    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月15日 下午3:22:16 
+	* @version V1.0   
+	*/
+	List<EquipmentType> getSkqlx(long parentId,String code);
+
 
 }

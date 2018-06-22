@@ -37,6 +37,7 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 
 	@Resource
 	private DataBaseService dataBaseService;
+	
 	@Resource
 	public void setEquipmentFieldDao(EquipmentFieldDao equipmentFieldDao) {
 		this.equipmentFieldDao = equipmentFieldDao;
@@ -152,7 +153,7 @@ public class EquipmentFieldServiceImpl extends BaseServiceImpl<EquipmentField> i
 	*/
 	@Transactional
 	@Override
-	public void insertField(String code, String name, int length, String fieldType, long typeId,short allowBlank) {
+	public void insertField(String code, String name, int length, String fieldType, long typeId,String allowBlank) {
 		//获取当前要插入的字段ID
 		long Id = dataBaseService.getId();
 		equipmentFieldDao.insertField(Id,code,name,length,fieldType,typeId,allowBlank);

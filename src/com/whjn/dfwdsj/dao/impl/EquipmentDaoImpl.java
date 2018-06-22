@@ -1,6 +1,5 @@
 package com.whjn.dfwdsj.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
@@ -10,8 +9,6 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.dfwdsj.dao.EquipmentDao;
 import com.whjn.dfwdsj.model.po.Equipment;
-import com.whjn.dfwdsj.model.po.EquipmentField;
-import com.whjn.dfwdsj.model.po.EquipmentType;
 
 @Repository
 public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements EquipmentDao {
@@ -268,6 +265,45 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 		List<Equipment> equipmentList = query.list();
 		qr.setResultList(equipmentList);
 		return qr;
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getEquipmentByValueFieldAndId
+	* @Description:
+	* @param @param field
+	* @param @param id
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentDao#getEquipmentByValueFieldAndId(java.lang.String, long) 
+	*/
+	@Override
+	public List<Equipment> getEquipmentByValueFieldAndId(String field, long id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT id, propertyField, propertyValue, qcId, typeId ");
+		sql.append("From dfwdsj_equipment WHERE propertyField = ? and qcId = ? ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, field);
+		query.setParameter(1, id);
+		query.addEntity(Equipment.class);
+		return query.list();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getSkdLx
+	* @Description:
+	* @param @param parentId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentDao#getSkdLx(long) 
+	*/
+	@Override
+	public List getSkdLx(long parentId) {
+		StringBuffer sql = new StringBuffer();
+		 sql.append("SELECT  MAX(CASE de.propertyField WHEN 'ID' THEN de.propertyValue ELSE '' END ) ID , ");
+		 sql.append(" MAX(CASE de.propertyField WHEN 'code' THEN de.propertyValue ELSE '' END ) code ,");
+		 sql.append(" MAX(CASE de.propertyField WHEN 'name' THEN de.propertyValue ELSE '' END ) name  ");
+		 sql.append(" FROM  dfwdsj_equipment de WHERE de.typeId = ? AND de.qcId is not null GROUP BY de.qcId ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, parentId);
+		return query.list();
 	}
 
 }

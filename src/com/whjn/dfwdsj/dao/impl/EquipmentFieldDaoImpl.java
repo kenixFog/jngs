@@ -188,7 +188,7 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 	 * java.lang.String, int, java.lang.String, int)
 	 */
 	@Override
-	public void insertField(long id, String code, String name, int length, String fieldType, long typeId, short allowBlank) {
+	public void insertField(long id, String code, String name, int length, String fieldType, long typeId, String allowBlank) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("insert into dfwdsj_equipmentfield(id,fieldcode,fieldname,fieldlength,fieldtype,typeId,allowBlank) values(?,?,?,?,?,?,?)");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());

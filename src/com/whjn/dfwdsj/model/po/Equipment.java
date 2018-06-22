@@ -1,6 +1,5 @@
 package com.whjn.dfwdsj.model.po;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,16 +45,21 @@ public class Equipment extends BaseParameter {
 		super();
 	}
 
-	/**  
-	* @Description:  
-	* @param @param id
-	* @param @param field
-	* @param @param fieldValue
-	* @param @param qcId
-	* @param @param typeId    
-	*/
+	/**
+	 * @Description:
+	 * @param @param
+	 *            id
+	 * @param @param
+	 *            field
+	 * @param @param
+	 *            fieldValue
+	 * @param @param
+	 *            qcId
+	 * @param @param
+	 *            typeId
+	 */
 	public Equipment(long id, String field, String fieldValue, long qcId, long typeId) {
-		this.id= id;
+		this.id = id;
 		this.propertyField = field;
 		this.propertyValue = fieldValue;
 		this.qcId = qcId;
@@ -101,6 +105,11 @@ public class Equipment extends BaseParameter {
 	public void setTypeId(long typeId) {
 		this.typeId = typeId;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "\"id\":\"" + id + "\", \"propertyField\":\"" + propertyField + "\", \"propertyValue\":\""
+				+ propertyValue + "\", \"qcId\":\"" + qcId + "\", \"typeId\":\"" + typeId + "\"";
+	}
 
 }

@@ -1,10 +1,6 @@
 package com.whjn.dfwdsj.service.impl;
 
-
-
-
-
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +14,12 @@ import com.whjn.common.dao.DataBaseDao;
 import com.whjn.common.service.DataBaseService;
 import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.dfwdsj.dao.EquipmentDao;
+import com.whjn.dfwdsj.dao.EquipmentTypeDao;
 import com.whjn.dfwdsj.model.po.Equipment;
 import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentService;
+
+import net.sf.json.JSONObject;
 
 
 
@@ -34,6 +33,10 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment> implements 
 
 	@Resource
 	private DataBaseService dataBaseService;
+	
+	@Resource
+	private EquipmentTypeDao equipmentTypeDao;
+	
 	@Resource
 	public void setEquipmentDao(EquipmentDao equipmentDao) {
 		this.equipmentDao = equipmentDao;
@@ -178,4 +181,57 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment> implements 
 		return equipmentList;
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getEquipmentByValueFieldAndId
+	* @Description:
+	* @param @param string
+	* @param @param id
+	* @param @return 
+	* @see com.whjn.dfwdsj.service.EquipmentService#getEquipmentByValueFieldAndId(java.lang.String, long) 
+	*/
+	@Override
+	public long getEquipmentByValueFieldAndId(String field, long id) {
+		List<Equipment> list = equipmentDao.getEquipmentByValueFieldAndId(field,id);
+		return list.get(0).getId();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getSkd
+	* @Description:
+	* @param @param parentId
+	* @param @return 
+	* @see com.whjn.dfwdsj.service.EquipmentService#getSkd(long) 
+	*/
+	@Override
+	public List getSkd(long parentId, String code) {
+		List<EquipmentType> typeList = equipmentTypeDao.getLx(parentId, code);
+		List resultList = new ArrayList();
+		for(int i=0;i<typeList.size();i++) {
+			JSONObject equipmentTypeJsonObject = new JSONObject();
+			equipmentTypeJsonObject.put("id", typeList.get(i).getId());
+			equipmentTypeJsonObject.put("code", typeList.get(i).getTypeCode());
+			equipmentTypeJsonObject.put("text", typeList.get(i).getTypeName());
+			equipmentTypeJsonObject.put("leaf", 0);
+			equipmentTypeJsonObject.put("parentId", typeList.get(i).getParentId());
+			resultList.add(equipmentTypeJsonObject);
+		}
+		List equipmentList = equipmentDao.getSkdLx(parentId);
+		for(int i=0;i< equipmentList.size();i++) {
+			Object[] obj = (Object[]) equipmentList.get(i);
+			JSONObject equipmentJsonObject = new JSONObject();
+			equipmentJsonObject.put("id", obj[0]);
+			equipmentJsonObject.put("code", obj[1]);
+			equipmentJsonObject.put("text", obj[2]);
+			equipmentJsonObject.put("checked", false);
+			equipmentJsonObject.put("leaf", 1);
+			equipmentJsonObject.put("parentId", parentId);
+			resultList.add(equipmentJsonObject);
+		}
+		
+		return resultList;
+	}
+
+
+	
+	
 }

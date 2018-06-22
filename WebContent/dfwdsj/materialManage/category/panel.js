@@ -126,12 +126,12 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
                 editable : false,
                 valueField : "value",
         		displayField : "name",
-    			store : dfwdsj.materialManage.category.yesOrNoArray,
+    			store : dfwdsj.materialManage.category.SFWK,
     			allowBlank : false,
     			
             }),
             renderer : function(value, p, r) {
-				return whjn.getNameByCode(value, dfwdsj.materialManage.category.yesOrNoArray);
+				return whjn.getNameByCode(value, dfwdsj.materialManage.category.SFWK);
 			}
 	    });
 		
