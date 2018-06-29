@@ -179,4 +179,16 @@ public class SysRoleTypeServiceImpl extends BaseServiceImpl<SysRoleType> impleme
 		result.put("success", flag);
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getUserRoleType
+	* @Description:
+	* @param @param id
+	* @param @return 
+	* @see com.whjn.sysManage.service.SysRoleTypeService#getUserRoleType(java.lang.Long) 
+	*/
+	@Override
+	public List getUserRoleType(Long id) {
+		return sysRoleTypeDao.getUserRoleType(id);
+	}
+
 }

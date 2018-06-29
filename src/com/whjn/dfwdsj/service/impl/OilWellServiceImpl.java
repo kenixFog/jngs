@@ -11,7 +11,6 @@ import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.dfwdsj.dao.OilWellDao;
 import com.whjn.dfwdsj.model.po.OilWell;
 import com.whjn.dfwdsj.service.OilWellService;
-import com.whjn.sysManage.model.po.SysComCode;
 
 @Service
 public class OilWellServiceImpl extends BaseServiceImpl<OilWell> implements OilWellService {

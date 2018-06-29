@@ -17,11 +17,18 @@ dfwdsj.jkxx.jbxxwh.main.initMainPanel = function(){
 				text:'编辑',
 				iconCls : 'fa fa-pencil fa-lg',
 	  			handler : dfwdsj.jkxx.jbxxwh.main.edit
-			}, {
-				bizCode : "DELE",
-				text:'删除',
-				iconCls : 'fa fa-trash-o fa-lg', 
-				handler : dfwdsj.jkxx.jbxxwh.main.del
+			}, 
+//			{
+//				bizCode : "DELE",
+//				text:'删除',
+//				iconCls : 'fa fa-trash-o fa-lg', 
+//				handler : dfwdsj.jkxx.jbxxwh.main.del
+//			},
+			{
+				bizCode : "EDITDETAIL",
+				text:'维护小层信息',
+				iconCls : 'fa fa-pencil fa-lg',
+	  			handler : dfwdsj.jkxx.jbxxwh.main.editDetail
 			}]
 		},
 		items:[             								//用来存放主面板中包含子面板的 数组，
@@ -63,15 +70,40 @@ dfwdsj.jkxx.jbxxwh.main.edit = function(){
 	}
 }
 
+
+/**
+ * 维护小层信息
+ */
+dfwdsj.jkxx.jbxxwh.main.editDetail = function(){
+	//菜单面板
+	var gridPnl = dfwdsj.jkxx.jbxxwh.panel.gridPnl;
+	//定义命名空间
+	var className = dfwdsj.jkxx.jbxxwh.entry;
+	// 判断选择的记录条数
+	var rec = dfwdsj.jkxx.jbxxwh.main.getSelected(gridPnl);
+	if (rec) {
+		if(rec[0].data.isEdit==0){//为0，不可编辑
+			Ext.MessageBox.alert('提示', "该记录不可编辑");
+		} else {
+			//获取菜单Id
+			className.currObjId = rec[0].data.id;
+			dfwdsj.jkxx.jbxxwh.oilDetailWin.showWin(className.currObjId);
+		}
+	}
+}
+
+/**
+ * 删除油井信息
+ */
 dfwdsj.jkxx.jbxxwh.main.del = function(){
 	var className = dfwdsj.jkxx.jbxxwh.panel;
-	var sm = className.menuGridPnl.getSelectionModel();
+	var sm = className.gridPnl.getSelectionModel();
 	if (sm.getCount() == 0) {//如果没有选中
 		whjn.dlg.infoTip("请选择需要删除的记录!");
 		return false;
 	} else {
-		var delURL = webContextRoot + '/sys/org/delOrgByIds';
-		Ext.MessageBox.confirm('确认', '您确定要删除选择的这些菜单吗？',
+		var delURL = webContextRoot + '/dfwdsj/oilWell/delOilWellByIds';
+		Ext.MessageBox.confirm('确认', '您确定要删除选择信息吗？',
 			function(btn) {
 				//根据选择不同按钮进行操作
 				if (btn == 'yes') {//点击确定

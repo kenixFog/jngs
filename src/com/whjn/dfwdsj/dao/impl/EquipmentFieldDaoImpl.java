@@ -188,9 +188,9 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 	 * java.lang.String, int, java.lang.String, int)
 	 */
 	@Override
-	public void insertField(long id, String code, String name, int length, String fieldType, long typeId, String allowBlank) {
+	public void insertField(long id, String code, String name, int length, String fieldType, long typeId, String allowBlank,String fieldContent) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("insert into dfwdsj_equipmentfield(id,fieldcode,fieldname,fieldlength,fieldtype,typeId,allowBlank) values(?,?,?,?,?,?,?)");
+		sb.append("insert into dfwdsj_equipmentfield(id,fieldcode,fieldname,fieldlength,fieldtype,typeId,allowBlank,fieldcontent) values(?,?,?,?,?,?,?,?)");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setParameter(0, id);
 		query.setParameter(1, code);
@@ -199,6 +199,7 @@ public class EquipmentFieldDaoImpl extends BaseDaoImpl<EquipmentField> implement
 		query.setParameter(4, fieldType);
 		query.setParameter(5, typeId);
 		query.setParameter(6, allowBlank);
+		query.setParameter(7, fieldContent);
 		query.executeUpdate();
 	}
 }

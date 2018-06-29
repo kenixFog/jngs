@@ -1,6 +1,8 @@
 package com.whjn.dfwdsj.dao;
 
 
+import java.util.List;
+
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.BaseDao;
 import com.whjn.dfwdsj.model.po.OilWellDetail;
@@ -20,6 +22,19 @@ public interface OilWellDetailDao extends BaseDao<OilWellDetail> {
 	 * @param oilWellDetail 
 	*/
 	QueryResult<OilWellDetail> getOilWellDetailList(OilWellDetail oilWellDetail, long oilWellId);
+
+	/** 
+	* @Title: getOilWellDetailInfo 
+	* @Description: 
+	* @param @param oilWellDetaiId
+	* @param @return  
+	* @return List<OilWellDetail>    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月25日 上午11:39:26 
+	* @version V1.0   
+	*/
+	List<OilWellDetail> getOilWellDetailInfo(long oilWellDetaiId);
 
 
 }

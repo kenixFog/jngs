@@ -94,6 +94,9 @@ whjn.enableFuncBtn=function(toolbar,userId,muneId,btnCtrlMode,hasObjNoOp,funcObj
 		alert("工具栏不存在");
 	}
 	var fnTmp=function(cntrObj,objCodeArr){
+		if(toolbar.length==0){
+			return;
+		}
 		var btns=toolbar[0].items;
 		for (var i=0;i<btns.getCount();i++){
 			var btnTmp=btns.get(i);

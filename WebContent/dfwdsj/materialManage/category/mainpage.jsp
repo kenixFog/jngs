@@ -17,9 +17,9 @@
 		var mdlCfg = {
 				getCodeCfg : {
 					//
-					groupCode : [ "ZDLX","GLOBAL_YES_NO","SFWK"],
+					groupCode : [ "ZDLX","GLOBAL_YES_NO_CN","SFWK"],
 					codeVar : ["dfwdsj.materialManage.category.ZDLX",
-							   "dfwdsj.materialManage.category.yesOrNoArray",
+							   "dfwdsj.materialManage.category.SFYJD",
 							   "dfwdsj.materialManage.category.SFWK"]
 				},
 				//按钮的隐藏方式，disable（禁用，变灰），hide（禁用，隐藏）

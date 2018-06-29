@@ -47,7 +47,14 @@ dfwdsj.jkxx.jbxxwh.entry.createWin = function(titleText) {
 				iconCls : 'fa fa-floppy-o fa-lg',
 				bizCode : 'save',
 				handler : dfwdsj.jkxx.jbxxwh.entry.saveHandler
-			}, {
+			},
+//			{
+//				text : whjn.constant.editDetaiBtnText,
+//				iconCls : 'fa fa-times-circle fa-lg',
+//				bizCode : 'close',
+//				handler : dfwdsj.jkxx.jbxxwh.entry.editDetaiHandler
+//			},
+			{
 				text : whjn.constant.closeBtnText,
 				iconCls : 'fa fa-times-circle fa-lg',
 				bizCode : 'close',

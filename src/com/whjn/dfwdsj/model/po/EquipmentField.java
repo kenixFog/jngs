@@ -72,7 +72,7 @@ public class EquipmentField extends BaseParameter {
 	}
 
 	public EquipmentField(long id, EquipmentType equipmentType, String fieldName, String fieldCode, String fieldType,
-			int fieldLength, String fieldContent) {
+			int fieldLength, String fieldContent, String allowBlank) {
 		super();
 		this.id = id;
 		this.equipmentType = equipmentType;
@@ -81,6 +81,7 @@ public class EquipmentField extends BaseParameter {
 		this.fieldType = fieldType;
 		this.fieldLength = fieldLength;
 		this.fieldContent = fieldContent;
+		this.allowBlank = allowBlank;
 	}
 
 	public long getId() {

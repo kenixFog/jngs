@@ -4,7 +4,7 @@ dfwdsj.jkxx.jbxxwh.panel.initPanel = function() {
 		region : 'center',
 		layout : 'border',
 		items:[
-			dfwdsj.jkxx.jbxxwh.panel.initQryPnl(), //查询面板
+//			dfwdsj.jkxx.jbxxwh.panel.initQryPnl(), //查询面板
 			dfwdsj.jkxx.jbxxwh.panel.initGridPnl()
 		]
 	});
@@ -390,6 +390,9 @@ dfwdsj.jkxx.jbxxwh.panel.initGridPnl = function() {
 	return gridPnl;
 }
 
+/**
+ * 加载数据
+ */
 dfwdsj.jkxx.jbxxwh.panel.loadRecord = function(){
 	var className = dfwdsj.jkxx.jbxxwh.panel;
 	var store = className.gridPnl.getStore();

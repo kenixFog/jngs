@@ -240,15 +240,15 @@ public class EquipmentController extends BaseController {
 
 					String code = paramObj.get("typeCode").toString();
 
-					short isLeaf = Short.valueOf(paramObj.get("isLeaf").toString()).shortValue();
+					String isLeaf = paramObj.get("isLeaf").toString();
 
 					equipmentTypeService.insertType(id, name, code, isLeaf, nodeId, user);
 
-					if (isLeaf == 1) {// 根节点，默认增加三个字段
-						equipmentFieldService.insertField("ID", "ID", 50, "textfield", id, "是");
-						equipmentFieldService.insertField("name", "名称", 150, "textfield", id, "否");
-						equipmentFieldService.insertField("code", "编码", 150, "textfield", id, "否");
-						equipmentFieldService.insertField("slt", "缩略图", 100, "box", id, "否");
+					if (isLeaf.equals("是")) {// 根节点，默认增加三个字段
+						equipmentFieldService.insertField("ID", "ID", 50, "textfield", id, "是","");
+						equipmentFieldService.insertField("name", "名称", 150, "textfield", id, "否","");
+						equipmentFieldService.insertField("code", "编码", 150, "textfield", id, "否","");
+						equipmentFieldService.insertField("slt", "缩略图", 100, "box", id, "否","");
 					}
 					// EquipmentType equipmentType = new
 					// EquipmentType(paramObj.get("typeName").toString(),
@@ -271,7 +271,7 @@ public class EquipmentController extends BaseController {
 			} else {// 更新
 				System.out.println(paramObj.get("id").getClass().getTypeName());
 				// 根据ID获取原数据
-				EquipmentType oldObj = equipmentTypeService.getByProerties("id", Long.parseLong(request.getParameter("nodeId")));
+				EquipmentType oldObj = equipmentTypeService.getByProerties("id", Long.parseLong(paramObj.get("id").toString()));
 				// 当前节点，当前code的字段
 				String[] typeCode = { "parentId", "typeCode" };
 				// 当前节点和当前code的值
@@ -295,7 +295,7 @@ public class EquipmentController extends BaseController {
 					SysUser user = WebUtil.getCurrUserInfo(request);
 					EquipmentType equipmentType = new EquipmentType(oldObj.getId(), paramObj.get("typeName").toString(),
 							paramObj.get("typeCode").toString(),
-							Short.valueOf(paramObj.get("isLeaf").toString()).shortValue(), nodeId, oldObj.getSysOrg(),
+							paramObj.get("isLeaf").toString(), nodeId, oldObj.getSysOrg(),
 							oldObj.getCreateUser(), user, oldObj.getCreateTime(), new Date());
 					equipmentTypeService.merge(equipmentType);
 					result.put("success", true);
@@ -345,7 +345,8 @@ public class EquipmentController extends BaseController {
 							paramObj.get("fieldName").toString(),
 							Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
 							paramObj.get("fieldType").toString(), nodeId,
-							paramObj.get("allowBlank").toString());
+							paramObj.get("allowBlank").toString(),
+							paramObj.get("fieldContent").toString());
 					// EquipmentField equipmentField = new EquipmentField(equipmentType,
 					// paramObj.get("fieldName").toString(), paramObj.get("fieldCode").toString(),
 					// paramObj.get("fieldType").toString(),
@@ -390,7 +391,8 @@ public class EquipmentController extends BaseController {
 							paramObj.get("fieldName").toString(), paramObj.get("fieldCode").toString(),
 							paramObj.get("fieldType").toString(),
 							Integer.valueOf(paramObj.get("fieldLength").toString()).intValue(),
-							paramObj.get("fieldContent").toString());
+							paramObj.get("fieldContent").toString(),
+							paramObj.get("allowBlank").toString());
 					equipmentFieldService.merge(equipmentField);
 					// 旧编码
 					String oldFileCode = oldObj.getFieldCode();

@@ -111,7 +111,7 @@ public class EquipmentTypeDaoImpl extends BaseDaoImpl<EquipmentType> implements 
 	 * com.whjn.sysManage.model.po.SysUser)
 	 */
 	@Override
-	public void insertType(long id, String name, String code, short isLeaf, long nodeId, SysUser user) {
+	public void insertType(long id, String name, String code, String isLeaf, long nodeId, SysUser user) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("insert into dfwdsj_equipmenttype(id,name,code,isleaf,parentId,orgId,cuser,euser,");
 		sb.append(" createtime,lastedittime) values(?,?,?,?,?,?,?,?,?,?)");

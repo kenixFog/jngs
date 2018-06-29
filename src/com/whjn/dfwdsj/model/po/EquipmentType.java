@@ -47,7 +47,7 @@ public class EquipmentType extends BaseParameter {
 	private String typeCode;
 	// 是否叶节点
 	@Column(name = "ISLEAF", nullable = false)
-	private short isLeaf;
+	private String isLeaf;
 	// 父节点ID
 	@Column(name = "PARENTID")
 	private long parentId;
@@ -76,7 +76,7 @@ public class EquipmentType extends BaseParameter {
 		super();
 	}
 
-	public EquipmentType(long id, String typeName, String typeCode, short isLeaf, long parentId, SysOrg sysOrg,
+	public EquipmentType(long id, String typeName, String typeCode, String isLeaf, long parentId, SysOrg sysOrg,
 			SysUser cUser, SysUser eUser, Date createTime, Date lastEditTime) {
 		super();
 		this.id = id;
@@ -91,7 +91,7 @@ public class EquipmentType extends BaseParameter {
 		this.lastEditTime = lastEditTime;
 	}
 
-	public EquipmentType(String typeName, String typeCode, short isLeaf, int parentId, SysOrg sysOrg, SysUser cUser,
+	public EquipmentType(String typeName, String typeCode, String isLeaf, int parentId, SysOrg sysOrg, SysUser cUser,
 			SysUser eUser, Date createTime, Date lastEditTime) {
 		super();
 		this.typeName = typeName;
@@ -137,11 +137,11 @@ public class EquipmentType extends BaseParameter {
 		this.parentId = parentId;
 	}
 
-	public short getIsLeaf() {
+	public String getIsLeaf() {
 		return isLeaf;
 	}
 
-	public void setIsLeaf(short isLeaf) {
+	public void setIsLeaf(String isLeaf) {
 		this.isLeaf = isLeaf;
 	}
 

@@ -59,6 +59,14 @@ public class OilWellDetail extends BaseParameter {
 	@Column(name = "xs")
 	private String xs;
 	
+	//层段起始
+	@Column(name = "cdqs")
+	private String cdqs;
+	
+	//层段截止
+	@Column(name = "cdjz")
+	private String cdjz;
+	
 	//射开厚度
 	@Column(name = "skhd")
 	private String skhd;
@@ -83,4 +91,135 @@ public class OilWellDetail extends BaseParameter {
 	@Column(name = "kxd")
 	private String kxd;
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public OilWell getOilWell() {
+		return oilWell;
+	}
+
+	public void setOilWell(OilWell oilWell) {
+		this.oilWell = oilWell;
+	}
+
+	public String getCw() {
+		return cw;
+	}
+
+	public void setCw(String cw) {
+		this.cw = cw;
+	}
+
+	public String getXcbh() {
+		return xcbh;
+	}
+
+	public void setXcbh(String xcbh) {
+		this.xcbh = xcbh;
+	}
+
+	public String getYcqj() {
+		return ycqj;
+	}
+
+	public void setYcqj(String ycqj) {
+		this.ycqj = ycqj;
+	}
+
+	public String getKs() {
+		return ks;
+	}
+
+	public void setKs(String ks) {
+		this.ks = ks;
+	}
+
+	public String getYl() {
+		return yl;
+	}
+
+	public void setYl(String yl) {
+		this.yl = yl;
+	}
+
+	public String getXs() {
+		return xs;
+	}
+
+	public void setXs(String xs) {
+		this.xs = xs;
+	}
+
+	
+	public String getCdqs() {
+		return cdqs;
+	}
+
+	public void setCdqs(String cdqs) {
+		this.cdqs = cdqs;
+	}
+
+	public String getCdjz() {
+		return cdjz;
+	}
+
+	public void setCdjz(String cdjz) {
+		this.cdjz = cdjz;
+	}
+
+	public String getSkhd() {
+		return skhd;
+	}
+
+	public void setSkhd(String skhd) {
+		this.skhd = skhd;
+	}
+
+	public String getYxhd() {
+		return yxhd;
+	}
+
+	public void setYxhd(String yxhd) {
+		this.yxhd = yxhd;
+	}
+
+	public String getDyxd() {
+		return dyxd;
+	}
+
+	public void setDyxd(String dyxd) {
+		this.dyxd = dyxd;
+	}
+
+	public String getJchd() {
+		return jchd;
+	}
+
+	public void setJchd(String jchd) {
+		this.jchd = jchd;
+	}
+
+	public String getYxstl() {
+		return yxstl;
+	}
+
+	public void setYxstl(String yxstl) {
+		this.yxstl = yxstl;
+	}
+
+	public String getKxd() {
+		return kxd;
+	}
+
+	public void setKxd(String kxd) {
+		this.kxd = kxd;
+	}
+
+	
+	
 }

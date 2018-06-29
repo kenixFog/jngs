@@ -157,13 +157,13 @@ dfwdsj.materialManage.category.main.del=function(){
 					var sel = sm.getSelection();
 					for (var i = 0, r; r = sel[i]; i++) {
 						if(node.raw.leaf=='1'){
-							if(r.get("fieldCode")=="ID"||r.get("fieldCode")=="name"||
-									r.get("fieldCode")=="code"){
-								whjn.dlg.errTip("ID,name,code,slt不允许删除！");
-								return;
-							}else{
+//							if(r.get("fieldCode")=="ID"||r.get("fieldCode")=="name"||
+//									r.get("fieldCode")=="code"){
+//								whjn.dlg.errTip("ID,name,code,slt不允许删除！");
+//								return;
+//							}else{
 								data.push(r.get("fieldCode"));
-							}
+//							}
 						} else {
 							data.push(r.get("id"));
 						}

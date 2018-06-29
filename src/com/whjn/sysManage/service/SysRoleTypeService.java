@@ -70,6 +70,20 @@ public interface SysRoleTypeService extends BaseService<SysRoleType> {
 	*/
 	void delRoleTypeByIds(Map<String, Object> result, Long[] ids);
 
+
+	/** 
+	* @Title: getUserRoleType 
+	* @Description: 
+	* @param @param id
+	* @param @return  
+	* @return List    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月29日 上午11:43:57 
+	* @version V1.0   
+	*/
+	List getUserRoleType(Long id);
+
 	
 
 	

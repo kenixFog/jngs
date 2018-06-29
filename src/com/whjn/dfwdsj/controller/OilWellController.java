@@ -16,6 +16,7 @@ import com.whjn.common.base.ListView;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.controller.BaseController;
 import com.whjn.common.framework.web.WebUtil;
+import com.whjn.common.util.JsonUtil;
 import com.whjn.common.util.RequestUtils;
 import com.whjn.dfwdsj.model.po.Equipment;
 import com.whjn.dfwdsj.model.po.EquipmentType;
@@ -26,9 +27,12 @@ import com.whjn.dfwdsj.service.EquipmentTypeService;
 import com.whjn.dfwdsj.service.OilWellAnalyseService;
 import com.whjn.dfwdsj.service.OilWellDetailService;
 import com.whjn.dfwdsj.service.OilWellService;
+import com.whjn.sysManage.model.po.SysComCode;
 import com.whjn.sysManage.model.po.SysMenu;
 import com.whjn.sysManage.model.po.SysUser;
 import com.whjn.sysManage.service.SysOrgService;
+
+import net.sf.json.JSONException;
 
 
 @Controller
@@ -221,6 +225,58 @@ public class OilWellController extends BaseController {
 		oilWellDetailListView.setData(queryResult.getResultList());
 		oilWellDetailListView.setTotalRecord(queryResult.getTotalCount());
 		writeJSON(response, oilWellDetailListView);
+	}
+	
+	
+	/**
+	 * 
+	* @Title: getOilWellDetailInfo 
+	* @Description: 获取小层信息
+	* @param @param request
+	* @param @param response
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月25日 上午11:46:26 
+	* @version V1.0
+	 */
+	@RequestMapping("/getOilWellDetailInfo")
+	public void getOilWellDetailInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// 小层ID
+		long oilWellDetaiId = RequestUtils.getLongParameter(request, "id");
+		List<OilWellDetail> resultList = oilWellDetailService.getOilWellDetailInfo(oilWellDetaiId);
+		//层位，小层编号，层段起始，层段截至，油层倾角，孔数，小层压力
+		//地层系数，射开厚度，有效厚度，对应斜度，夹层厚度，有效渗透率，孔隙度
+		String[] col = { "id", "cw", "xcbh", "cdqs", "cdjz", "ycqj", "ks", "yl", 
+				"xs", "skhd", "yxhd", "dyxd", "jchd", "yxstl", "kxd"};
+		String result = JsonUtil.fillListJsonString(col, resultList);
+		writeJSON(response, result);
+	}
+
+	/**
+	 * 
+	* @Title: saveOilWellDetailInfo 
+	* @Description: 保存小层信息
+	* @param @param entity
+	* @param @param request
+	* @param @param response
+	* @param @throws IOException  
+	* @return void    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年6月25日 上午11:46:39 
+	* @version V1.0
+	 */
+	@RequestMapping(value = "/saveOilWellDetailInfo", method = { RequestMethod.POST, RequestMethod.GET })
+	public void saveOilWellDetailInfo(OilWellDetail entity, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		long oilWellId = RequestUtils.getLongParameter(request, "oilWellId");
+		OilWell oilWell = oilWellService.get(oilWellId);
+		entity.setOilWell(oilWell);
+		oilWellDetailService.merge(entity);
+		entity.setSuccess(true);
+		writeJSON(response, entity);
 	}
 	
 }

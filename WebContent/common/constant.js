@@ -134,6 +134,12 @@ whjn.constant.saveBtnText = "保存";
 whjn.constant.saveBtnTip = "保存当前信息";
 
 /**
+ * 维护小层信息
+ */
+whjn.constant.editDetaiBtnText = "维护小层信息";
+whjn.constant.editDetaiBtnTip = "维护小层信息";
+
+/**
  * 导出按钮文本和提示
  * 
  * @type {String}

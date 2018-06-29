@@ -87,5 +87,25 @@ public class SysRoleTypeDaoImpl extends BaseDaoImpl<SysRoleType> implements SysR
 		return query.list();
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getUserRoleType
+	* @Description: 判断当前用户是否拥有查看统计分析报表的权限
+	* @param @param id
+	* @param @return 
+	* @see com.whjn.sysManage.dao.SysRoleTypeDao#getUserRoleType(java.lang.Long) 
+	*/
+	@Override
+	public List getUserRoleType(Long id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT  rt.rolecode, r.roleCode FROM t_sys_roletype rt ");
+		sql.append("LEFT JOIN t_sys_role  r ON  rt.id = r.ROLETYPEID ");
+		sql.append("LEFT JOIN t_sys_role_user ru ON ru.ROLEID=r.ID");
+		sql.append("LEFT JOIN t_sys_org o ON o.id=rt.ORGID ");
+		sql.append("WHERE ru.userId = ?");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, id);
+		return query.list();
+	}
+
 
 }

@@ -36,6 +36,7 @@ portal.tree.createTreePanel = function(){
 		margins : '2 0 0 0',
 		collapsible : true,
 		animCollapse : true,
+		useArrows: true,
 		xtype : 'treepanel',
 		rootVisible : false,
 		store : menuTreeStore,

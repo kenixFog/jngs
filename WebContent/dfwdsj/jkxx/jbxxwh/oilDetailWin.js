@@ -2,6 +2,8 @@ Ext.ns("dfwdsj.jkxx.jbxxwh.oilDetailWin");
 
 dfwdsj.jkxx.jbxxwh.oilDetailWin.objId = null;
 
+dfwdsj.jkxx.jbxxwh.oilDetailWin.detailCount = 0;
+
 dfwdsj.jkxx.jbxxwh.oilDetailWin.showWin = function(oilWellId){
 	dfwdsj.jkxx.jbxxwh.oilDetailWin.objId = oilWellId;
 	var winCfg = {
@@ -16,11 +18,23 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.showWin = function(oilWellId){
 			tbar :{
 				cls:'whjn-tbar',
 				items:[ {
-					text : whjn.constant.saveBtnText,
-					iconCls : 'fa fa-floppy-o fa-lg',
+					text : whjn.constant.addBtnText,
+					iconCls : 'fa fa-plus fa-lg',
 					bizCode : 'save',
-					handler : dfwdsj.jkxx.jbxxwh.oilDetailWin.saveHandler
+					handler : dfwdsj.jkxx.jbxxwh.oilDetailWin.addHandler
 				}, {
+					text : whjn.constant.editBtnText,
+					iconCls : 'fa fa-pencil fa-lg',
+					bizCode : 'edit',
+					handler : dfwdsj.jkxx.jbxxwh.oilDetailWin.editHandler
+				}, 
+//				{
+//					text : whjn.constant.delBtnText,
+//					iconCls : 'fa fa-trash-o fa-lg',
+//					bizCode : 'del',
+//					handler : dfwdsj.jkxx.jbxxwh.oilDetailWin.delHandler
+//				}, 
+				{
 					text : whjn.constant.closeBtnText,
 					iconCls : 'fa fa-times-circle fa-lg',
 					bizCode : 'close',
@@ -36,7 +50,6 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.showWin = function(oilWellId){
 
 
 dfwdsj.jkxx.jbxxwh.oilDetailWin.initPanel = function() {
-	
 	var className = dfwdsj.jkxx.jbxxwh.oilDetailWin;
 	var cols = className.getCols();
 	var store = className.getStore();
@@ -49,11 +62,6 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.initPanel = function() {
 	});
 	className.gridBbar = gridBbar;
 	
-	var editPlugin = Ext.create('Ext.grid.plugin.CellEditing', {
-        clicksToEdit: 1
-    });
-	className.editPlugin = editPlugin;
-	
 	var gridPnl = Ext.create("Ext.grid.Panel", {
 	    region : 'center',
 	    border : false,
@@ -62,7 +70,6 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.initPanel = function() {
 	    selType: "checkboxmodel",
 	    columns : cols,
 		store : store,
-		plugins: editPlugin,
 	    bbar:gridBbar
 	});
 	
@@ -76,6 +83,7 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.getCols = function(){
 	cols.push({ 
 	   	xtype: 'rownumberer',
 	   	text: '序号',
+	   	dataIndex: 'xh',
 	   	width:40
     },{ 
     	text: 'ID', 
@@ -83,108 +91,70 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.getCols = function(){
     	dataIndex: 'id', 
     	width:60, 
     	align : 'right'
-    },{ 
-        text: '油井ID', 
-        dataIndex: 'oilWell.id', 
-        width:60, 
-        hidden :true,
-        align : 'right'
-    },{ 
+    },
+//    { 
+//        text: '油井ID', 
+//        dataIndex: 'oilWell.id', 
+//        width:60, 
+//        hidden :true,
+//        align : 'right'
+//    },
+    { 
     	text: '层位', 
     	dataIndex: 'cw' , 
-    	width:80,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:80
     },{ 
     	text: '小层编号', 
     	dataIndex: 'xcbh', 
-    	width:80,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:80
     },{ 
     	text: '层段起始(m)', 
     	dataIndex: 'cdqs', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:100
     },{ 
     	text: '层段截至(m)', 
     	dataIndex: 'cdjz', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:100
     },{ 
     	text: '油层倾角(°)', 
     	dataIndex: 'ycqj', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:100
     },{ 
     	text: '孔数(个)', 
     	dataIndex: 'ks', 
-    	width:70,
-    	editor:new Ext.form.NumberField()
+    	width:70
     },{ 
     	text: '小层压力(Pa)', 
     	dataIndex: 'yl', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:true  
-        })
+    	width:100
     },{ 
     	text: '地层系数', 
     	dataIndex: 'xs', 
-    	width:80,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:80
     },{ 
     	text: '射开厚度(m)', 
     	dataIndex: 'skhd', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:true  
-        })
+    	width:100
     },{ 
     	text: '有效厚度(m)', 
     	dataIndex: 'yxhd', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:100
     },{ 
     	text: '对应斜度(°)', 
     	dataIndex: 'dyxd', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:true  
-        })
+    	width:100
     },{ 
     	text: '夹层厚度(m)', 
     	dataIndex: 'jchd', 
-    	width:100,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:100
     },{ 
     	text: '有效渗透率(μm2)', 
     	dataIndex: 'yxstl', 
-    	width:130,
-    	editor:new Ext.form.TextField({  
-            allowBlank:true  
-        })
+    	width:130
     },{ 
     	text: '孔隙度', 
     	dataIndex: 'kxd', 
-    	width:80,
-    	editor:new Ext.form.TextField({  
-            allowBlank:false  
-        })
+    	width:80
     });
 	return cols;
 }
@@ -197,10 +167,12 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.getStore = function(){
 		fields : [ {
 			name : 'id',
 			type : 'long'
-		}, {
-			name : 'oilWell.id',
-			type : 'long'
-		},  
+		}, 
+		'xh',
+//		{
+//			name : 'oilWell.id',
+//			type : 'long'
+//		},  
 		'cw', //层位
 		'xcbh',//小层编号
 		'cdqs',//层段起始
@@ -246,13 +218,118 @@ dfwdsj.jkxx.jbxxwh.oilDetailWin.getStore = function(){
 	return store;
 }
 
+/**
+ * 新增
+ */
+dfwdsj.jkxx.jbxxwh.oilDetailWin.addHandler = function(){
+	dfwdsj.jkxx.jbxxwh.oilDetailEntry.currObjId = -1;
+	dfwdsj.jkxx.jbxxwh.oilDetailEntry.showWin("新增");
+}
 
+/**
+ * 编辑
+ */
+dfwdsj.jkxx.jbxxwh.oilDetailWin.editHandler = function(){
+	//菜单面板
+	var gridPnl = dfwdsj.jkxx.jbxxwh.oilDetailWin.panel;
+	//定义命名空间
+	var className = dfwdsj.jkxx.jbxxwh.oilDetailEntry;
+	// 判断选择的记录条数
+	var rec = dfwdsj.jkxx.jbxxwh.oilDetailWin.getSelected(gridPnl);
+	if (rec) {
+		if(rec[0].data.isEdit==0){//为0，不可编辑
+			Ext.MessageBox.alert('提示', "该记录不可编辑");
+		} else {
+			//获取菜单Id
+			className.currObjId = rec[0].data.id;
+			//调用编辑二级页面
+			dfwdsj.jkxx.jbxxwh.oilDetailEntry.showWin("编辑");
+		}
+	}
+}
 
-dfwdsj.jkxx.jbxxwh.oilDetailWin.saveHandler = function(btn){
-	
+/**
+ * 删除
+ */
+dfwdsj.jkxx.jbxxwh.oilDetailWin.delHandler =function(){
+	var className = dfwdsj.jkxx.jbxxwh.oilDetailWin;
+	var sm = className.panel.getSelectionModel();
+	if (sm.getCount() == 0) {//如果没有选中
+		whjn.dlg.infoTip("请选择需要删除的记录!");
+		return false;
+	} else {
+		var delURL = webContextRoot + '/dfwdsj/oilWell/delOilWellDetailByIds';
+		Ext.MessageBox.confirm('确认', '您确定要删除选择信息吗？',
+			function(btn) {
+				//根据选择不同按钮进行操作
+				if (btn == 'yes') {//点击确定
+					//用来保存需要删除数据的ID
+					var ids = [];
+					var sel = sm.getSelection();
+					for (var i = 0, r; r = sel[i]; i++) {
+						ids.push(r.get("id"));
+					}
+					Ext.Ajax.request({
+						url : delURL,
+						params : {
+							ids : ids.join(',')
+						},
+						success : function(response) {
+							if (response.responseText != '') {
+								var res = Ext.JSON.decode(response.responseText);
+								if (res.success) {
+									whjn.dlg.showMomentDlg("删除成功!");
+									//获取数据列表窗口
+									var className = dfwdsj.jkxx.jbxxwh.panel;
+									//重新加载列表数据
+									className.loadRecord();
+								} else {
+									whjn.dlg.errTip(res.message);
+								}
+							}
+						}
+					});
+				}
+		});
+	}
 }
 
 
+/**
+ * 关闭
+ */
 dfwdsj.jkxx.jbxxwh.oilDetailWin.closeHandler= function(){
 	dfwdsj.jkxx.jbxxwh.oilDetailWin.win.close();
+}
+
+
+/**
+ * 判断选择的信息是否单选
+ * @returns {记录(rec)}
+ */
+dfwdsj.jkxx.jbxxwh.oilDetailWin.getSelected = function(grid){
+	//选择条数大于一
+	if (grid.getSelectionModel().getCount() > 1) {
+		Ext.MessageBox.alert("提示", "一次只能选择一条记录!");
+		return null;
+	}
+	// 没有选择
+	if (grid.getSelectionModel().getCount() < 1) {
+		Ext.MessageBox.alert("提示", "请选择一条记录!");
+		return null;
+	} else {//只选择一条
+		//获取这条记录
+		var rec = grid.getSelectionModel().getSelection();
+		return rec;
+	}
+}
+
+
+/**
+ * 加载数据
+ */
+dfwdsj.jkxx.jbxxwh.oilDetailWin.loadRecord = function(){
+	var className = dfwdsj.jkxx.jbxxwh.oilDetailWin;
+	var store = className.panel.getStore();
+	store.load();
 }

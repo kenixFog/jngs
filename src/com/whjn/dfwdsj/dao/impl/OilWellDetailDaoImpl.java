@@ -47,6 +47,23 @@ public class OilWellDetailDaoImpl extends BaseDaoImpl<OilWellDetail> implements 
 		return qr;
 	}
 
+	/* (非 Javadoc) 
+	* @Title: getOilWellDetailInfo
+	* @Description:
+	* @param @param oilWellDetaiId
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.OilWellDetailDao#getOilWellDetailInfo(long) 
+	*/
+	@Override
+	public List<OilWellDetail> getOilWellDetailInfo(long oilWellDetaiId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT id, cw, xcbh, cdqs, cdjz, ycqj, ks, yl, xs, skhd, ");
+		sql.append(" yxhd, dyxd, jchd, yxstl, kxd FROM dfwdsj_oilwelldetail  WHERE id=? ");
+		SQLQuery query = getSession().createSQLQuery(sql.toString());
+		query.setParameter(0, oilWellDetaiId);
+		return query.list();
+	}
+
 
 	
 }

@@ -53,7 +53,11 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 			jsonObject.put("code", TypeList.get(i).getTypeCode());
 			jsonObject.put("text", TypeList.get(i).getTypeName());
 			jsonObject.put("parentId", TypeList.get(i).getParentId());
-			jsonObject.put("leaf", TypeList.get(i).getIsLeaf());
+			if(TypeList.get(i).getIsLeaf().equals("是")) {
+				jsonObject.put("leaf", 1);
+			} else {
+				jsonObject.put("leaf", 0);
+			}
 			jsonObject.put("createTime", TypeList.get(i).getCreateTime());
 			jsonObject.put("lastEditTime", TypeList.get(i).getLastEditTime());
 			resultList.add(jsonObject);
@@ -111,7 +115,7 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 	*/
 	@Transactional
 	@Override
-	public void insertType(long id, String name, String code, short isLeaf, long nodeId, SysUser user) {
+	public void insertType(long id, String name, String code, String isLeaf, long nodeId, SysUser user) {
 		// TODO Auto-generated method stub
 		equipmentTypeDao.insertType(id,name,code,isLeaf, nodeId,user);
 	}
@@ -135,7 +139,7 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 			jsonObject.put("text", TypeList.get(i).getTypeName());
 			jsonObject.put("parentId", TypeList.get(i).getParentId());
 			jsonObject.put("leaf", TypeList.get(i).getIsLeaf());
-			if(TypeList.get(i).getIsLeaf()==1) {
+			if(TypeList.get(i).getIsLeaf().equals("是")) {
 				jsonObject.put("checked", false);
 			}
 			jsonObject.put("createTime", TypeList.get(i).getCreateTime());

@@ -14,6 +14,7 @@
 <script type="text/javascript" src="skdTree.js"></script>
 <script type="text/javascript" src="skqTree.js"></script>
 <script type="text/javascript" src="oilDetailWin.js"></script>
+<script type="text/javascript" src="oilDetailEntry.js"></script>
 <style type="text/css">
 a:link {
 	color: blue;
@@ -37,7 +38,7 @@ a:hover {
 		var mdlCfg = {
 				getCodeCfg : {
 					//完井方式、传输方式、投产方式、定向方式、完井液类型、布孔方式、相位、孔密
-					groupCode : ["JK_WJFS","JK_CSFS","JK_TCFS","JK_DXFS","JK_WJYLX","JK_BKFS","JK_XW","JK_KM" ],
+					groupCode : ["JK_WJFS","JK_CSFS","JK_TCFS","JK_DXFS","JK_WJYLX","JK_BKFS","JK_XW","SKQ_KM" ],
 					codeVar : [
 						"dfwdsj.jkxx.jbxxwh.WJFS",
 						"dfwdsj.jkxx.jbxxwh.CSFS",

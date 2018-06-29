@@ -193,12 +193,9 @@ dfwdsj.materialManage.category.panel.reCreatePnl = function(record){
                 editable : false,
                 valueField : "name",
         		displayField : "value",
-    			store : dfwdsj.materialManage.category.yesOrNoArray,
+    			store : dfwdsj.materialManage.category.SFYJD,
     			allowBlank : false
-            }),
-            renderer : function(value, p, r) {
-				return whjn.getNameByCode(value,dfwdsj.materialManage.category.yesOrNoArray);
-			}
+            })
 	    },{ 
 	    	text: '创建人', 
 	    	dataIndex: 'createUser.realName' , 
