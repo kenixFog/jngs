@@ -1,5 +1,6 @@
 package com.whjn.dfwdsj.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
@@ -9,6 +10,7 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.dfwdsj.dao.EquipmentDao;
 import com.whjn.dfwdsj.model.po.Equipment;
+import com.whjn.sysManage.model.po.SysComCode;
 
 @Repository
 public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements EquipmentDao {
@@ -43,7 +45,8 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 	 * java.lang.Integer, java.lang.Integer, java.lang.String[])
 	 */
 	@Override
-	public List getEquipments(Integer firstResult, Integer pageSize, long nodeId, String[] fields) {
+	public QueryResult getEquipments(Integer firstResult, Integer pageSize, long nodeId, String[] fields) {
+		QueryResult qr = new QueryResult();
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT ");
 		for (int i = 0; i < fields.length; i++) {
@@ -76,11 +79,15 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment> implements Equipmen
 		SQLQuery query = getSession().createSQLQuery(sql.toString());
 		query.setParameter(0, nodeId);
 		List equipmentList = query.list();
-		if (equipmentList.size() > 0) {
+		qr.setTotalCount((long) equipmentList.size());
+		if (qr.getTotalCount() > 0) {
 			query.setMaxResults(pageSize);
 			query.setFirstResult(firstResult);
+			qr.setResultList(query.list());
+		} else {
+			qr.setResultList(new ArrayList());
 		}
-		return equipmentList;
+		return qr;
 	}
 
 	/*

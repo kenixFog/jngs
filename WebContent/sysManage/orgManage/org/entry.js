@@ -174,8 +174,10 @@ sysManage.orgManage.org.entry.setwinForm = function(titleText) {
 				className.win.close();
 			},
 			success : function(form, action) {
-				Ext.getCmp("ID").setValue(action.result.data.ID);
-				Ext.getCmp("parentId").setValue(action.result.data.parentId);
+				formPnl.getForm().findField("ID").setValue(action.result.data.ID);
+				formPnl.getForm().findField("parentId").setValue(action.result.data.ID);
+//				Ext.getCmp("ID").setValue(action.result.data.ID);
+//				Ext.getCmp("parentId").setValue(action.result.data.parentId);
 			}
 		});
 	} else { //新增

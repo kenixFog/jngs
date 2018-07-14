@@ -63,15 +63,15 @@ dfwdsj.jkxx.jbxxwh.skdTree.initTree = function() {
 	            	var item = this.getNodeById(node.raw.id);
 	            	//选中当前菜单
 	            	dfwdsj.jkxx.jbxxwh.skdTree.tree.getSelectionModel().select(item);
-	            	if(dfwdsj.jkxx.jbxxwh.entry.skdId !=-1){
+//	            	if(dfwdsj.jkxx.jbxxwh.entry.skdId !=-1){
 	            		var cNodes = node.childNodes;
 	            		for(var i=0;i < cNodes.length;i++){
 		                      var n = cNodes[i];
-		                      if(n.get("id") == dfwdsj.jkxx.jbxxwh.entry.skdId){
+		                      if(n.get("name") == dfwdsj.jkxx.jbxxwh.entry.skd){
 		                          n.set("checked" , true);
 		                      }
 		               }
-	            	}
+//	            	}
 				}
 	        }  
 	    });
@@ -80,7 +80,6 @@ dfwdsj.jkxx.jbxxwh.skdTree.initTree = function() {
 			region : 'center',
 			split : true,
 			width : 300,
-			xtype : 'check-tree',
 			rootVisible : false,
 			useArrows: true,
 			store : skqlxStore,
@@ -89,7 +88,7 @@ dfwdsj.jkxx.jbxxwh.skdTree.initTree = function() {
 	            	var checkedNodes = this.getChecked();
 	            	for(var i=0;i < checkedNodes.length;i++){
 	                      var n = checkedNodes[i];
-	                      if(node.get("id") != n.get("id")){
+	                      if(node.get("name") != n.get("name")){
 	                          n.set("checked" , false);
 	                      }
 	               }
@@ -104,7 +103,7 @@ dfwdsj.jkxx.jbxxwh.skdTree.initTree = function() {
 dfwdsj.jkxx.jbxxwh.skdTree.setValue = function(btn){
 	var checkedNode = dfwdsj.jkxx.jbxxwh.skdTree.tree.getChecked();
 	if(checkedNode.length > 0){
-		dfwdsj.jkxx.jbxxwh.entry.skdId = checkedNode[0].data.id;
+//		dfwdsj.jkxx.jbxxwh.entry.skdId = checkedNode[0].data.id;
 		btn.setValue( checkedNode[0].data.text);
 		whjn.dlg.showMomentDlg("确认成功！");
 		dfwdsj.jkxx.jbxxwh.skdTree.closeHandler();

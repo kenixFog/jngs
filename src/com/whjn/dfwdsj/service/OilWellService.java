@@ -6,6 +6,7 @@ import java.util.List;
 import com.whjn.common.base.QueryResult;
 import com.whjn.common.service.BaseService;
 import com.whjn.dfwdsj.model.po.OilWell;
+import com.whjn.sysManage.model.po.SysUser;
 
 
 public interface OilWellService extends BaseService<OilWell> {
@@ -21,7 +22,7 @@ public interface OilWellService extends BaseService<OilWell> {
 	* @date 2018年6月14日 下午8:11:36 
 	* @version V1.0   
 	*/
-	QueryResult<OilWell> getJkjcsjList(OilWell oilWell);
+	QueryResult<OilWell> getJkjcsjList(OilWell oilWell,SysUser cUser);
 
 	/** 
 	* @Title: getOilWellInfo 

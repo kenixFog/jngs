@@ -15,8 +15,11 @@ public interface OilWellAnalyseService {
 	* @throws
 	* @date 2018年6月28日 上午11:24:09 
 	* @version V1.0   
+	 * @param km 
 	 * @param user 
+	 * @param qryNames 
+	 * @param value 
 	*/
-	QueryResult getTotalList(String[] km, SysUser user);
+	QueryResult getTotalList(String[] col, String[] km, SysUser user, String[] value, String[] qryNames);
 
 }

@@ -22,7 +22,7 @@ public interface EquipmentDao extends BaseDao<Equipment> {
 	* @date 2018年3月28日 下午3:10:17 
 	* @version V1.0   
 	*/
-	List getEquipments(Integer firstResult, Integer pageSize, long nodeId, String[] fields);
+	QueryResult getEquipments(Integer firstResult, Integer pageSize, long nodeId, String[] fields);
 
 	/** 
 	* @Title: delEquipment 

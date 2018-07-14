@@ -47,6 +47,7 @@ dfwdsj.materialManage.equipment.panel.reCreatePnl = function(record,data){
 			cols.push({
 				text: fieldsInfo[i][1], 
 	        	dataIndex: fieldsInfo[i][0], 
+	        	hidden : fieldsInfo[i][0]=='ID'?true:false,
 	        	width:Number(fieldsInfo[i][3])
 			});
 		}

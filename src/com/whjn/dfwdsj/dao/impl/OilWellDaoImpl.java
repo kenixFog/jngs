@@ -11,7 +11,7 @@ import com.whjn.common.base.QueryResult;
 import com.whjn.common.dao.impl.BaseDaoImpl;
 import com.whjn.dfwdsj.dao.OilWellDao;
 import com.whjn.dfwdsj.model.po.OilWell;
-import com.whjn.sysManage.model.po.SysComCode;
+import com.whjn.sysManage.model.po.SysUser;
 
 @Repository
 public class OilWellDaoImpl extends BaseDaoImpl<OilWell> implements OilWellDao {
@@ -32,11 +32,17 @@ public class OilWellDaoImpl extends BaseDaoImpl<OilWell> implements OilWellDao {
 	* @see com.whjn.dfwdsj.dao.OilWellDao#getJkjcsjList(com.whjn.dfwdsj.model.po.OilWell) 
 	*/
 	@Override
-	public QueryResult<OilWell> getJkjcsjList(OilWell oilWell) {
+	public QueryResult<OilWell> getJkjcsjList(OilWell oilWell,SysUser cUser) {
 		QueryResult<OilWell> qr = new QueryResult<OilWell>();
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM dfwdsj_oilwell ");
+		if(!"WHJN".equals(cUser.getBaseOrg().getOrgCode())) {
+			sb.append(" WHERE userId = ?");
+		}
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		if(!"WHJN".equals(cUser.getBaseOrg().getOrgCode())) {
+			query.setParameter(0, cUser.getId());
+		}
 		query.addEntity(OilWell.class);
 		List<OilWell> oilWellList =  query.list();
 		qr.setTotalCount((long) oilWellList.size());
@@ -62,8 +68,8 @@ public class OilWellDaoImpl extends BaseDaoImpl<OilWell> implements OilWellDao {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ID, bkfs, cjrq, csfs, dxfs, fpl, gjsj, gjzl, jm, jxfwj, km, ph, qk, ");
 		sql.append("sj, sjco, sjcy, skds, skfw, skqxw, snfs, state, sysj, syyl, tcfs, tgcx, tggg,");
-		sql.append("tggj, wjfs, wjylx, wjymd, ycco, yccy, yggg, yl, ypcs, yt, zdjx, SKDID, ");
-		sql.append("USERID, SKQLXID FROM  dfwdsj_oilwell where id = ? ");
+		sql.append("tggj, wjfs, wjylx, wjymd, ycco, yccy, yggg, yl, ypcs, yt, zdjx, SKD, ");
+		sql.append("USERID, SKQLX FROM  dfwdsj_oilwell where id = ? ");
 		SQLQuery query = getSession().createSQLQuery(sql.toString());
 		query.setParameter(0, id);
 		query.addEntity(OilWell.class);

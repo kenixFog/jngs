@@ -54,7 +54,7 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment> implements 
 	* @see com.whjn.dfwdsj.service.EquipmentFieldService#getEquipmentFieldList(java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.String[]) 
 	*/
 	@Override
-	public List getEquipments(Integer firstResult, Integer pageSize, long nodeId, String[] fields) {
+	public QueryResult getEquipments(Integer firstResult, Integer pageSize, long nodeId, String[] fields) {
 		return equipmentDao.getEquipments(firstResult, pageSize, nodeId, fields);
 	}
 
@@ -204,15 +204,19 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment> implements 
 	*/
 	@Override
 	public List getSkd(long parentId, String code) {
-		List<EquipmentType> typeList = equipmentTypeDao.getLx(parentId, code);
+		//获取射孔弹对应的Id
+		List list = equipmentTypeDao.getId(code);
+		String objId = list.get(0).toString();
+		List typeList = equipmentTypeDao.getLx(parentId, code, Long.parseLong(objId));
 		List resultList = new ArrayList();
-		for(int i=0;i<typeList.size();i++) {
+		for(int i=0;i<typeList.size();i++) {//id,code,text,parentid
+			Object[] obj = (Object[]) typeList.get(i);
 			JSONObject equipmentTypeJsonObject = new JSONObject();
-			equipmentTypeJsonObject.put("id", typeList.get(i).getId());
-			equipmentTypeJsonObject.put("code", typeList.get(i).getTypeCode());
-			equipmentTypeJsonObject.put("text", typeList.get(i).getTypeName());
+			equipmentTypeJsonObject.put("id", obj[0]);
+			equipmentTypeJsonObject.put("code", obj[1]);
+			equipmentTypeJsonObject.put("text", obj[2]);
 			equipmentTypeJsonObject.put("leaf", 0);
-			equipmentTypeJsonObject.put("parentId", typeList.get(i).getParentId());
+			equipmentTypeJsonObject.put("parentId", obj[3]);
 			resultList.add(equipmentTypeJsonObject);
 		}
 		List equipmentList = equipmentDao.getSkdLx(parentId);

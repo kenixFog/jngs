@@ -12,6 +12,12 @@
 <script type="text/javascript" src="tablePanel.js"></script>
 <script type="text/javascript" src="totalPanel.js"></script>
 <script type="text/javascript" src="totalChart.js"></script>
+<style type="text/css">
+.whjn-div{
+		width:100%;
+		height:100%;
+	}
+</style>
 
 </head>
 <body>
@@ -20,7 +26,7 @@
 		var mdlCfg = {
 				getCodeCfg : {
 					//完井方式、传输方式、投产方式、定向方式、完井液类型、布孔方式、相位、孔密
-					groupCode : ["SKQ_KM" ],
+					groupCode : ["JK_KM" ],
 					codeVar : ["dfwdsj.tjfx.jkxxtj.KM"]
 				},
 				btnCtrlMode : 'hide'

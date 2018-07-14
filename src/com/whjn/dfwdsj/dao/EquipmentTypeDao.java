@@ -66,7 +66,21 @@ public interface EquipmentTypeDao extends BaseDao<EquipmentType> {
 	* @throws
 	* @date 2018年6月15日 下午3:27:40 
 	* @version V1.0   
+	 * @param skqId 
 	*/
-	List<EquipmentType> getLx(long parentId, String code);
+	List getLx(long parentId, String code, long skqId);
+
+	/** 
+	* @Title: getId 
+	* @Description: 
+	* @param @param code
+	* @param @return  
+	* @return long    
+	* @author Chen Cai
+	* @throws
+	* @date 2018年7月4日 下午4:22:50 
+	* @version V1.0   
+	*/
+	List getId(String code);
 
 }

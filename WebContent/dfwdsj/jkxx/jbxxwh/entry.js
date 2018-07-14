@@ -4,10 +4,10 @@
 dfwdsj.jkxx.jbxxwh.entry.win = null;
 //标识是新增还是(编辑和查看）
 dfwdsj.jkxx.jbxxwh.entry.currObjId = -1;
-//射孔枪Id
-dfwdsj.jkxx.jbxxwh.entry.skqLxId = -1;
-//射孔弹Id
-dfwdsj.jkxx.jbxxwh.entry.skdId = -1;
+//射孔枪
+dfwdsj.jkxx.jbxxwh.entry.skqLx = '';
+//射孔弹
+dfwdsj.jkxx.jbxxwh.entry.skd = '';
 /**
  * 对菜单窗口的显示方式进行控制
  */
@@ -407,7 +407,7 @@ dfwdsj.jkxx.jbxxwh.entry.initInfoArea = function() {
                 	columnWidth : 0.25, 
                 	xtype : "btntextfield",
                     fieldLabel:'射孔枪', 
-                    name:'skqlx.id',
+                    name:'skqlx',
                     editable : false,
                     style: 'margin:7px 0 8px 0px',
                     allowBlank:false,
@@ -422,7 +422,7 @@ dfwdsj.jkxx.jbxxwh.entry.initInfoArea = function() {
                     fieldLabel:'射孔弹', 
                     style: 'margin:7px 0 8px 0px',
                     editable : false,
-                    name:'skd.propertyValue', 
+                    name:'skd', 
                     allowBlank:false,
                     listeners : {
     					btnclick : function() {
@@ -532,11 +532,11 @@ dfwdsj.jkxx.jbxxwh.entry.setwinForm = function(titleText) {
 				formPnl.getForm().findField("cjrq").setValue(cjrq);
 				formPnl.getForm().findField("gjsj").setValue(gjsj);
 				//枪类型ID
-				dfwdsj.jkxx.jbxxwh.entry.skqLxId = data.skqlx.id;
-				formPnl.getForm().findField("skqlx.id").setValue(data.skqlx.typeName);
+				dfwdsj.jkxx.jbxxwh.entry.skqLx = data.skqlx;
+				formPnl.getForm().findField("skqlx").setValue(data.skqlx);
 				//弹ID
-				dfwdsj.jkxx.jbxxwh.entry.skdId = data.skd.qcId;
-				formPnl.getForm().findField("skd.propertyValue").setValue(data.skd.propertyValue);
+				dfwdsj.jkxx.jbxxwh.entry.skd = data.skd;
+				formPnl.getForm().findField("skd").setValue(data.skd);
 			}
 		});
 	} else { //新增
@@ -590,8 +590,8 @@ dfwdsj.jkxx.jbxxwh.entry.saveHandler = function() {
 			'skqxw',
 			'km',
 			'sj',
-			'skqlx.id',
-			'skd.propertyValue',
+			'skqlx',
+			'skd',
 			'yccy',
 			'ycco',
 			'sjcy',
@@ -608,8 +608,8 @@ dfwdsj.jkxx.jbxxwh.entry.saveHandler = function() {
 				}
 			}
 		}
-		params['skqlx.id'] = dfwdsj.jkxx.jbxxwh.entry.skqLxId;
-		params['skd.propertyValue'] = dfwdsj.jkxx.jbxxwh.entry.skdId;
+//		params['skqlx'] = dfwdsj.jkxx.jbxxwh.entry.skqLxId;
+//		params['skd'] = dfwdsj.jkxx.jbxxwh.entry.skdId;
 		Ext.Ajax.request({
 			url : webContextRoot + '/dfwdsj/oilWell/saveOilWellInfo',
 			params : params,

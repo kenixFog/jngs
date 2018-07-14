@@ -19,7 +19,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.whjn.common.base.BaseParameter;
 import com.whjn.common.util.DateTimeSerializer;
-import com.whjn.sysManage.model.po.SysOrg;
 import com.whjn.sysManage.model.po.SysUser;
 
 /**
@@ -136,11 +135,6 @@ public class OilWell extends BaseParameter {
 	@ManyToOne(cascade = { CascadeType.REFRESH }) // 指定多对一关系
 	private SysUser user;
 	
-//	// 所属组织机构
-//	@JoinColumn(name = "ORGID")
-//	@ManyToOne(cascade = { CascadeType.REFRESH }) // 指定多对一关系
-//	private SysOrg org;
-	
 	// 状态
 	@Column(name = "state", length = 100)
 	private short state;
@@ -194,14 +188,12 @@ public class OilWell extends BaseParameter {
 	private String sj;
 	
 	// 射孔枪
-	@JoinColumn(name = "SKQLXID")
-	@ManyToOne(cascade = { CascadeType.REFRESH }) // 指定多对一关系
-	private EquipmentType skqlx;
+	@JoinColumn(name = "SKQLX")
+	private String skqlx;
 	
 	// 射孔弹
-	@JoinColumn(name = "SKDID")
-	@ManyToOne(cascade = { CascadeType.REFRESH }) // 指定多对一关系
-	private Equipment skd;
+	@JoinColumn(name = "SKD")
+	private String skd;
 
 	public long getId() {
 		return id;
@@ -509,19 +501,19 @@ public class OilWell extends BaseParameter {
 		this.sj = sj;
 	}
 
-	public EquipmentType getSkqlx() {
+	public String getSkqlx() {
 		return skqlx;
 	}
 
-	public void setSkqlx(EquipmentType skqlx) {
+	public void setSkqlx(String skqlx) {
 		this.skqlx = skqlx;
 	}
 
-	public Equipment getSkd() {
+	public String getSkd() {
 		return skd;
 	}
 
-	public void setSkd(Equipment skd) {
+	public void setSkd(String skd) {
 		this.skd = skd;
 	}
 
@@ -531,9 +523,10 @@ public class OilWell extends BaseParameter {
 				+"\", \"tggg\":\""+ tggg +"\", \"wjfs\":\""+ wjfs +"\", \"csfs\":\""+ csfs +"\", \"yggg\":\""+ yggg +"\", \"syyl\":\""+ syyl
 				+"\", \"tcfs\":\""+ tcfs +"\", \"ypcs\":\""+ ypcs +"\", \"gjsj\":\""+ gjsj +"\", \"snfs\":\""+ snfs +"\", \"gjzl\":\""+ gjzl
 				+"\", \"sysj\":\""+ sysj +"\", \"tgcx\":\""+ tgcx +"\", \"bkfs\":\""+ bkfs +"\", \"jxfwj\":\""+ jxfwj +"\", \"skfw\":\""+ skfw
-				+"\", \"dxfs\":\""+ dxfs +"\", \"skds\":\""+ skds +"\", \"cjrq\":\""+ cjrq +"\", \"user\":{"+ user +"},\"state\":\""+ state +"\", \"yccy\":\""+ yccy +"\", \"ycco\":\""+ ycco +"\", \"sjcy\":\""+ sjcy +"\", \"sjco\":\""+ sjco
+				+"\", \"dxfs\":\""+ dxfs +"\", \"skds\":\""+ skds +"\", \"cjrq\":\""+ cjrq +"\", \"user\":{"+ user +"},\"state\":\""+ state 
+				+"\", \"yccy\":\""+ yccy +"\", \"ycco\":\""+ ycco +"\", \"sjcy\":\""+ sjcy +"\", \"sjco\":\""+ sjco
 				+"\", \"wjylx\":\""+ wjylx +"\", \"wjymd\":\""+ wjymd +"\", \"fpl\":\""+ fpl +"\", \"yl\":\""+ yl +"\", \"ph\":\""+ ph +"\", \"skqxw\":\""
-				+ skqxw +"\", \"km\":\""+ km +"\", \"sj\":\""+ sj +"\", \"skqlx\":{"+ skqlx +"}, \"skd\":{"+ skd +"}";
+				+ skqxw +"\", \"km\":\""+ km +"\", \"sj\":\""+ sj +"\", \"skqlx\":\""+ skqlx +"\", \"skd\":\""+ skd + "\"";
 	}
 	
 	

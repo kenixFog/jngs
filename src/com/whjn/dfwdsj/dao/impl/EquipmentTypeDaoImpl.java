@@ -137,21 +137,46 @@ public class EquipmentTypeDaoImpl extends BaseDaoImpl<EquipmentType> implements 
 	* @see com.whjn.dfwdsj.dao.EquipmentTypeDao#getSkqlx(long) 
 	*/
 	@Override
-	public List<EquipmentType> getLx(long parentId, String code) {
+	public List<EquipmentType> getLx(long parentId, String code,long objId) {
 		StringBuffer sb = new StringBuffer();
-		if(parentId==-1) {
-			sb.append("SELECT c.* FROM dfwdsj_equipmenttype c WHERE c.parentid = ?  and c.CODE = ? ");
-		} else {
-			sb.append("SELECT c.* FROM dfwdsj_equipmenttype c WHERE c.parentid = ? ");
+		if(code.equals("SKD")) {
+			if(parentId==-1) {
+				sb.append("SELECT c.id,c.code,c.name,c.parentid FROM dfwdsj_equipmenttype c WHERE c.parentid = ?  and c.CODE = ? ");
+			} else {
+				sb.append("SELECT c.id,c.code,c.name,c.parentid FROM dfwdsj_equipmenttype c WHERE c.parentid = ? ");
+			}
+		} else if(code.equals("SKQ")) {
+			sb.append(" SELECT DISTINCT  propertyValue TYPE, count(typeId) FROM dfwdsj_equipment ");
+			sb.append(" WHERE propertyField='WJ' AND FIND_IN_SET(typeid, getTypeId(?));");
 		}
 		SQLQuery query = getSession()
 				.createSQLQuery(sb.toString());
-		query.setParameter(0, parentId);
-		if(parentId==-1) {
-			query.setParameter(1, code);
+		if(code.equals("SKD")) {
+			if(parentId==-1) {
+				query.setParameter(0, parentId);
+				query.setParameter(1, code);
+			} else {
+				query.setParameter(0, parentId);;
+			}
+		} else if(code.equals("SKQ")) {
+			query.setParameter(0, objId);;
 		}
-		
-		query.addEntity(EquipmentType.class);
+		return query.list();
+	}
+
+	/* (非 Javadoc) 
+	* @Title: getId
+	* @Description:
+	* @param @param code
+	* @param @return 
+	* @see com.whjn.dfwdsj.dao.EquipmentTypeDao#getId(java.lang.String) 
+	*/
+	@Override
+	public List getId(String code) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select id from dfwdsj_equipmenttype where code = ? ");
+		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		query.setParameter(0, code);
 		return query.list();
 	}
 

@@ -31,6 +31,7 @@ import com.whjn.dfwdsj.model.po.EquipmentType;
 import com.whjn.dfwdsj.service.EquipmentFieldService;
 import com.whjn.dfwdsj.service.EquipmentService;
 import com.whjn.dfwdsj.service.EquipmentTypeService;
+import com.whjn.sysManage.model.po.SysComCode;
 import com.whjn.sysManage.model.po.SysMenu;
 import com.whjn.sysManage.model.po.SysOrg;
 import com.whjn.sysManage.model.po.SysRoleType;
@@ -180,10 +181,10 @@ public class EquipmentController extends BaseController {
 		long nodeId = RequestUtils.getLongParameter(request, "nodeId");
 		// 字段
 		String[] fields = RequestUtils.getStringParameters(request, "fields");
-		ListView typeListView = new ListView();
 		if (fields.length > 0) {
-			List list = equipmentService.getEquipments(firstResult, pageSize, nodeId, fields);
-			result = JsonUtil.fillGridList(fields, list);
+			QueryResult queryResult = equipmentService.getEquipments(firstResult, pageSize, nodeId, fields);
+			System.out.println(queryResult.getTotalCount());
+			result = JsonUtil.fillGridList(fields, queryResult);
 		}
 		writeJSON(response, result);
 	}
@@ -579,11 +580,13 @@ public class EquipmentController extends BaseController {
 			// 获取旧编码
 			Equipment oldCode = equipmentService.getOldDate("code", qcId, typeId);
 			// 获取旧名称
-			Equipment oldName = equipmentService.getOldDate("code", qcId, typeId);
+			Equipment oldName = equipmentService.getOldDate("name", qcId, typeId);
 			// 根据新修改编码查询数据库是否已经存在编码
 			Equipment checkCode = equipmentService.getByProerties("code", paramMap.get("code"), typeId);
 			// 根据新修改名称查询数据库是否已经存在名称
 			Equipment checkName = equipmentService.getByProerties("name", paramMap.get("name"), typeId);
+			
+			
 			if (!(oldCode.getPropertyValue().equals(paramMap.get("code"))) && null != checkCode) {// 新修改的编码已存在
 				entity.setSuccess(false);
 				entity.setMessage("保存失败，编码已存在，请重新输入！");
@@ -625,7 +628,8 @@ public class EquipmentController extends BaseController {
 					b = true;
 				sbf.append("['").append(de.getFieldCode()).append("','").append(de.getFieldName()).append("','")
 						.append(de.getFieldType()).append("','").append(de.getFieldLength()).append("','")
-						.append(de.getFieldContent()).append("']");
+						.append(de.getFieldContent()).append("','")
+						.append(de.getAllowBlank()).append("']");
 			}
 		}
 	}

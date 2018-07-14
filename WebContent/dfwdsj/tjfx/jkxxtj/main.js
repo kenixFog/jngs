@@ -12,12 +12,8 @@ dfwdsj.tjfx.jkxxtj.main.initMainPanel = function(){
 				dfwdsj.tjfx.jkxxtj.totalPanel.initTotalPanel()       //数据面板   
 			]
 	    }]
-		
-		
-//		items:[             								
-//			dfwdsj.tjfx.jkxxtj.totalPanel.initTotalPanel()       //数据面板   
-//		]
 	});
+	dfwdsj.tjfx.jkxxtj.main.tpnl = mainPanel;
 	return mainPanel;
 }	
 

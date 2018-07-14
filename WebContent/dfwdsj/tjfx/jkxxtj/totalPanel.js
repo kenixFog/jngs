@@ -44,7 +44,7 @@ dfwdsj.tjfx.jkxxtj.totalPanel.initQryPnl = function(){
 			xtype: 'button',  
 	        text: '查询',  
 	        handler: function() {  
-	        	dfwdsj.jkxx.jbxxwh.totalPanel.loadRecord();
+	        	dfwdsj.tjfx.jkxxtj.totalPanel.loadRecord();
 	        }  
 		}]
 	});
@@ -94,9 +94,6 @@ dfwdsj.tjfx.jkxxtj.totalPanel.getStore = function(){
 	            destroy: 'POST'  
 	        },
 	        url: webContextRoot + '/dfwdsj/oilWellAnalyse/getTotalList',
-	        params : {
-				km : km
-			},
 	        reader: {
 	        	type : 'json',
 				root : 'data',
@@ -104,6 +101,8 @@ dfwdsj.tjfx.jkxxtj.totalPanel.getStore = function(){
 	        }
 	    }
 	});
+	dfwdsj.tjfx.jkxxtj.totalPanel.km=km;
+	dfwdsj.tjfx.jkxxtj.totalPanel.store = store;
 	return store;
 }
 
@@ -242,8 +241,22 @@ dfwdsj.tjfx.jkxxtj.totalPanel.initGridPnl = function() {
 dfwdsj.tjfx.jkxxtj.totalPanel.loadRecord = function(){
 	var className = dfwdsj.tjfx.jkxxtj.totalPanel;
 	var store = className.gridPnl.getStore();
-	store.proxy.extraParams.startDate = Ext.getCmp("startDate").getValue();
-	store.proxy.extraParams.endDate = Ext.getCmp("endDate").getValue();
+	var params = {};
+	var qryNames = [ "startDate", "endDate"];
+	//循环遍历，获取表单信息
+	for ( var i = 0; i < qryNames.length; i++) {
+		var objTmp = className.qryPnl.getForm().findField(qryNames[i]);
+		if (objTmp) {
+			if (objTmp.getXType() == 'datefield') {//如果是时间空间，直接获取时间格式的数据类型
+				params[qryNames[i]] = objTmp.getRawValue();
+			} else {
+				params[qryNames[i]] = objTmp.getValue();
+			}
+		}
+	}
+	store.proxy.extraParams.km = dfwdsj.tjfx.jkxxtj.totalPanel.km;
+	store.proxy.extraParams.params = params;
+	store.proxy.extraParams.qryNames = qryNames;
 	store.load();
+	dfwdsj.tjfx.jkxxtj.totalChart.openTab();
 }
-

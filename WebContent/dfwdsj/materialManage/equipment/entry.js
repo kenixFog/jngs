@@ -77,7 +77,7 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
 	    autoScroll:true,
 		fieldDefaults : {
 			labelAlign : 'left',
-			labelWidth : 50
+			labelWidth : 70
 		},
 		items: [{  
 	        xtype: 'container',  
@@ -111,13 +111,16 @@ dfwdsj.materialManage.equipment.entry.initInfoArea = function() {
 	for(var i = 0;i< fieldsInfo.length;i++){//编码,名称,类型,长度,默认值,是否必填
 		var field;
 		var readOnly = false;
+		var hide = false;
 		if(fieldsInfo[i][0]=='ID'){
 			readOnly = true;
+			hide = true;
 		}
 		if(fieldsInfo[i][2]=='textfield'){//文本框
 			field = {
 				xtype : 'textfield', 
 				name: fieldsInfo[i][0],
+				hidden : hide,
 				id: fieldsInfo[i][0],
 				allowBlank : fieldsInfo[i][5]=='否'? false :true,
 				readOnly:readOnly,
@@ -270,7 +273,7 @@ dfwdsj.materialManage.equipment.entry.setwinForm = function() {
 				//图片路径
 				var url = dfwdsj.materialManage.equipment.entry.img;
 				if(data.sltId == -1){
-					url = dfwdsj.materialManage.equipment.entry.img;
+//					url = dfwdsj.materialManage.equipment.entry.img;
 				} else {
 					url = data.slt;
 					sltId = data.sltId;

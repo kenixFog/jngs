@@ -130,20 +130,19 @@ public class EquipmentTypeServiceImpl extends BaseServiceImpl<EquipmentType> imp
 	*/
 	@Override
 	public List<EquipmentType> getSkqlx(long parentId, String code) {
-		List<EquipmentType> TypeList = equipmentTypeDao.getLx(parentId,code);
+		
+		//获取射孔枪对应的Id
+		List list = equipmentTypeDao.getId(code);
+		String objId = list.get(0).toString();
+		List TypeList = equipmentTypeDao.getLx(parentId,code,Long.parseLong(objId));
 		List resultList = new ArrayList();
 		for (int i = 0; i < TypeList.size(); i++) {
+			Object[] object = (Object[]) TypeList.get(i);
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("id", TypeList.get(i).getId());
-			jsonObject.put("code", TypeList.get(i).getTypeCode());
-			jsonObject.put("text", TypeList.get(i).getTypeName());
-			jsonObject.put("parentId", TypeList.get(i).getParentId());
-			jsonObject.put("leaf", TypeList.get(i).getIsLeaf());
-			if(TypeList.get(i).getIsLeaf().equals("是")) {
-				jsonObject.put("checked", false);
-			}
-			jsonObject.put("createTime", TypeList.get(i).getCreateTime());
-			jsonObject.put("lastEditTime", TypeList.get(i).getLastEditTime());
+			jsonObject.put("code", object[0]+"型");
+			jsonObject.put("text", object[0]+"型");
+			jsonObject.put("leaf", true);
+			jsonObject.put("checked", false);
 			resultList.add(jsonObject);
 		}
 		return resultList;

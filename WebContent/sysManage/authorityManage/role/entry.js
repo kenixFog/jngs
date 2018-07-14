@@ -212,7 +212,7 @@ sysManage.authorityManage.role.entry.saveHandler = function() {
 							//点前选中的树节点
 							var node = sysManage.authorityManage.role.tree.node;
 							//设置需要加载的树节点Id
-							treePnl.getStore().proxy.extraParams.parentId = nnode.data.id;
+							treePnl.getStore().proxy.extraParams.parentId = node.data.id;
 							//刷新当前的树节点
 							whjn.refreshTreePnl(treePnl, node.data.id);
 						}

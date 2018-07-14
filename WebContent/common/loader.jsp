@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/constant.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/comdlg.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/common/ext/ux/echart/echarts.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/ext/ux/form/btnTextField.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/common/font-awesome/css/font-awesome.css">

@@ -2,6 +2,8 @@ package com.whjn.common.util;
 
 import java.util.List;
 
+import com.whjn.common.base.QueryResult;
+
 
 
 
@@ -83,7 +85,8 @@ public class JsonUtil {
 	 *            json
 	 * @throws JSONException
 	 */
-	public static String fillGridList(String[] column, List list) {
+	public static String fillGridList(String[] column, QueryResult queryResult) {
+		List list = queryResult.getResultList();
 		int length = 0;
 		if(list.size()==1) {
 			Object[] obj = (Object[]) list.get(0);
@@ -93,7 +96,7 @@ public class JsonUtil {
 		}
 		if (length > 0 || list.size() > 1) {
 			StringBuffer sbf = new StringBuffer();
-			sbf.append("{\"totalRecord\":").append(list.size()).append(",\"data\":[");
+			sbf.append("{\"totalRecord\":").append(queryResult.getTotalCount()).append(",\"data\":[");
 			for(int j = 0;j<list.size();j++) {
 				sbf.append("{");
 				Object[] obj = (Object[]) list.get(j);

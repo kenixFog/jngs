@@ -14,8 +14,11 @@ public interface OilWellAnalyseDao {
 	* @throws
 	* @date 2018年6月28日 下午3:18:07 
 	* @version V1.0   
+	 * @param orgCode 
+	 * @param qryNames 
+	 * @param value 
 	*/
-	QueryResult getTotalList(String[] km);
+	QueryResult getTotalList(String[] km, String orgCode, String[] value, String[] qryNames);
 
 
 }

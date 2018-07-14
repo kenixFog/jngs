@@ -60,15 +60,16 @@ public class SysLoginController extends BaseController{
 			result.put("result", "密码错误");
 			System.out.println(3);
 			writeJSON(response, result);
+		} else {
+			//设置最后一次登录时间
+			sysUser.setLastLoginTime(new Date());
+			//更新用户登录时间
+			sysUserService.update(sysUser);
+			//设置session
+			WebUtil.setUserSessionInfo(sysUser,request);
+			result.put("result", "ok");
+			writeJSON(response, result);
 		}
-		//设置最后一次登录时间
-		sysUser.setLastLoginTime(new Date());
-		//更新用户登录时间
-		sysUserService.update(sysUser);
-		//设置session
-		WebUtil.setUserSessionInfo(sysUser,request);
-		result.put("result", "ok");
-		writeJSON(response, result);
 	}
 
 	@RequestMapping("/home")

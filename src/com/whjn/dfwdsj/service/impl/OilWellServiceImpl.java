@@ -7,10 +7,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.whjn.common.base.QueryResult;
+import com.whjn.common.framework.web.WebUtil;
 import com.whjn.common.service.impl.BaseServiceImpl;
 import com.whjn.dfwdsj.dao.OilWellDao;
 import com.whjn.dfwdsj.model.po.OilWell;
 import com.whjn.dfwdsj.service.OilWellService;
+import com.whjn.sysManage.model.po.SysUser;
 
 @Service
 public class OilWellServiceImpl extends BaseServiceImpl<OilWell> implements OilWellService {
@@ -32,8 +34,8 @@ public class OilWellServiceImpl extends BaseServiceImpl<OilWell> implements OilW
 	* @see com.whjn.dfwdsj.service.OilWellService#getJkjcsjList(com.whjn.dfwdsj.model.po.OilWell) 
 	*/
 	@Override
-	public QueryResult<OilWell> getJkjcsjList(OilWell oilWell) {
-		QueryResult<OilWell> oilWellList = oilWellDao.getJkjcsjList(oilWell);
+	public QueryResult<OilWell> getJkjcsjList(OilWell oilWell, SysUser cUser) {
+		QueryResult<OilWell> oilWellList = oilWellDao.getJkjcsjList(oilWell,cUser);
 		return oilWellList;
 	}
 

@@ -81,9 +81,11 @@ public class OilWellController extends BaseController {
 		Integer pageSize = Integer.valueOf(request.getParameter("limit"));
 		// 节点Id
 		OilWell oilWell = new OilWell();
+		// 获取当前用户信息
+		SysUser user = WebUtil.getCurrUserInfo(request);
 		oilWell.setFirstResult(firstResult);
 		oilWell.setPageSize(pageSize);
-		QueryResult<OilWell> queryResult = oilWellService.getJkjcsjList(oilWell);
+		QueryResult<OilWell> queryResult = oilWellService.getJkjcsjList(oilWell,user);
 		ListView<OilWell> oilWellListView = new ListView<OilWell>();
 		oilWellListView.setData(queryResult.getResultList());
 		oilWellListView.setTotalRecord(queryResult.getTotalCount());
@@ -112,20 +114,6 @@ public class OilWellController extends BaseController {
 			//检查井名是否存在
 			OilWell checkJm = oilWellService.getByProerties("jm", entity.getJm());
 			if (null == checkJm) {// 井名不存在
-				//射孔枪类型编码
-				long sqkId = entity.getSkqlx().getId();
-				//射孔枪类型
-				EquipmentType skqlx = equipmentTypeService.getByProerties("id", sqkId);
-				//射孔弹编码
-				long skdId = Long.parseLong(entity.getSkd().getPropertyValue());
-				//根据射孔弹name获取对应名称的ID记录
-				long id = equipmentService.getEquipmentByValueFieldAndId("name", skdId);
-				//射孔弹
-				Equipment skd = equipmentService.getByProerties("id", id);
-				//关联射孔枪类型
-				entity.setSkqlx(skqlx);
-				//关联射孔弹
-				entity.setSkd(skd);
 				//创建日期
 				entity.setCjrq(new Date());
 				//创建人
@@ -141,25 +129,10 @@ public class OilWellController extends BaseController {
 		} else {// 修改
 			//根据ID获取原数据
 			OilWell oldObj = oilWellService.getByProerties("id", entity.getId());
-			//射孔枪类型编码
-			long sqkId = entity.getSkqlx().getId();
-			//射孔枪类型
-			EquipmentType skqlx = equipmentTypeService.getByProerties("id", sqkId);
-			//射孔弹编码
-			long skdId = Long.parseLong(entity.getSkd().getPropertyValue());
-			//根据射孔弹name获取对应名称的ID记录
-			long id = equipmentService.getEquipmentByValueFieldAndId("name", skdId);
-			//射孔弹
-			Equipment skd = equipmentService.getByProerties("id", id);
-			//关联射孔枪类型
-			entity.setSkqlx(skqlx);
-			//关联射孔弹
-			entity.setSkd(skd);
 			//关联创建人
 			entity.setUser(oldObj.getUser());
 			oilWellService.merge(entity);
 			entity.setSuccess(true);
-//			}
 		}
 		writeJSON(response, entity);
 	}
@@ -182,9 +155,9 @@ public class OilWellController extends BaseController {
 		// 菜单Id
 		long id = RequestUtils.getIntParameter(request, "id");
 		List<OilWell> resultList = oilWellService.getOilWellInfo(id);
-		String[] col = { "id","jm","yt","qk","skds","zdjx","tggj","tggg","wjfs","csfs","yggg","syyl","tcfs",
-				"ypcs","gjsj","snfs","gjzl","sysj","tgcx","jxfwj","skfw","dxfs","cjrq","user","state",
-				"wjylx","wjymd","fpl","yl","ph","bkfs","skqxw","km","sj","skqlx","skd","yccy","ycco","sjcy","sjco"};
+//		String[] col = { "id","jm","yt","qk","skds","zdjx","tggj","tggg","wjfs","csfs","yggg","syyl","tcfs",
+//				"ypcs","gjsj","snfs","gjzl","sysj","tgcx","jxfwj","skfw","dxfs","cjrq","user","state",
+//				"wjylx","wjymd","fpl","yl","ph","bkfs","skqxw","km","sj","skqlx","skd","yccy","ycco","sjcy","sjco"};
 		StringBuffer sbf = new StringBuffer();
 		sbf.append("{success:true,data:{");
 		if(resultList.size()>0) {
